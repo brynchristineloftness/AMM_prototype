@@ -570,6 +570,184 @@ def setmetrics_combo(myfile):
     pack15 = index_list_methods 
     return pack15
 
+def intersectwithasserts(name):
+    setcountertest = 0
+    setcountertest2 = 0
+    for test in range(testlen):
+        for item in set((myfile[name][test])):
+                setcountertest += 1
+        for test2 in range(testlen):
+            for item in set((myfile[name][test2])):
+                setcountertest2 += 1
+            intersection = set((myfile[name][test])).intersection(set((myfile[name][test2])))
+            intersection = len(intersection)
+            minimum = min(setcountertest,setcountertest2)
+            if minimum != 0:
+                metric = intersection/minimum
+            else:
+                metric = 0
+            if 'assertNotNull' in myfile[name][test] and 'assertEquals' in myfile[name][test2]:
+                metric += 1
+            #print(setcountertest,setcountertest2,test,test2,intersection,metric)
+            intersectiongrid[test][test2] = metric
+            if (test == test2):
+                intersectiongrid[test][test2] = 0
+            setcountertest2 = 0
+            intersection = 0
+        setcountertest = 0
+    return intersectiongrid
+
+def intersect_withassertsadditive_results(myfile):
+    assertgrid = defaultgrid
+    assertgrid = intersectwithasserts('Asserts')
+    officiallist, listsorted = createsortedlist(assertgrid)
+    for item in listsorted:
+        if [item[1],item[0],item[2]] in listsorted:
+            listsorted.remove(item)  
+    listsorted = sorted(listsorted, key=lambda x: x[0])
+    listsorted = list(set(tuple(x) for x in listsorted))
+    officiallist, listsorted = compute(officiallist, listsorted, .99)
+    setintersectionresults, index_list = printresults(officiallist,'Full Results for Asserts')
+    results = TPFPoutput(setintersectionresults,oracle,mpmoracle)
+    pack21 =setintersectionresults 
+    return pack21
+
+def computelower(officiallist, sortedlist, breakpoint):
+    valuelist = []
+    print('breakpoint: ', breakpoint)
+    for group in sortedlist:
+        if(group[2] < breakpoint):
+            if (group[0]!=officiallist[-1][1] and group[1] != officiallist[-1][0]):
+                officiallist.append(group)
+    officiallist.remove(officiallist[0])
+    return officiallist,sortedlist
+
+def scenarioskipgram(scenariocorpus,myfile,testlen):
+    scenariomodel_skipgram = Word2Vec(scenariocorpus,window=5,min_count=1,iter = 15,alpha=.2,sg=1,size = 75,seed = 0)
+    scenariomodelskipgram_grid = defaultgrid
+    for test in range(testlen):
+        for test2 in range(testlen):
+            num = scenariomodel_skipgram.wv.n_similarity(myfile['Scenario'][test],myfile['Scenario'][test2])
+            scenariomodelskipgram_grid[test][test2] = num
+    minimum = 1.0
+    for i,row in enumerate(scenariomodelskipgram_grid):
+        for j, cell in enumerate(row):
+            if (cell < minimum):
+                minimum = scenariomodelskipgram_grid[i][j] 
+    official_list_skipgram, mainlistsorted = createsortedlist(scenariomodelskipgram_grid)
+    mainlistsorted = sorted(mainlistsorted, key=lambda x: x[0])
+    mainlistsorted = list(set(tuple(x) for x in mainlistsorted))
+    official_list_skipgram, mainlistsorted = computelower(official_list_skipgram, mainlistsorted,.82)
+    skipgramresults, index_list = printresults(official_list_skipgram,'Full Results for Skipgram')
+    results = TPFPoutput(skipgramresults,oracle,mpmoracle)
+    prune1 = skipgramresults
+    return prune1
+
+def tfidfcorptogrid(entries,testlen,tfidfgrid,IR):
+    entries = [[ele for ele in sub if not ele.isdigit()] for sub in entries] 
+    dict_for_tfidf = Dictionary(entries)
+    corp = [dict_for_tfidf.doc2bow(line) for line in entries]
+    tfidfmodel = TfidfModel(corp,smartirs = IR)   
+    corp_tfidf = tfidfmodel[corp]
+    index_tfidf = similarities.MatrixSimilarity(corp_tfidf)
+    sims= index_tfidf[corp_tfidf]
+    for i,s in enumerate(sims):
+        for counter in range(testlen):
+            tfidfgrid[i][counter] = s[counter]
+            if (i == counter):
+                tfidfgrid[i][counter] = 0
+    return tfidfgrid
+
+def tfidf_nfc(scenariocorpus,testlen,myfile):
+    tfidfgrid = defaultgrid
+    tfidfgrid = tfidfcorptogrid(scenariocorpus,testlen,tfidfgrid,'nfc') 
+    official_list_tfidf, mainlistsorted = createsortedlist(tfidfgrid)
+    for item in mainlistsorted:
+        if [item[1],item[0],item[2]] in mainlistsorted:
+            mainlistsorted.remove(item)
+    mainlistsorted = sorted(mainlistsorted, key=lambda x: x[0])
+    mainlistsorted = list(set(tuple(x) for x in mainlistsorted))
+    official_list_tfidf, mainlistsorted = compute(official_list_tfidf, mainlistsorted,.5)
+    tfidfresults, index_list = printresults(official_list_tfidf,'Full Results for TFIDF')
+    results = TPFPoutput(tfidfresults,oracle,mpmoracle)
+    pack23 = tfidfresults
+    return pack23
+
+def tfidf_bnn(scenariocorpus,testlen,myfile):
+    tfidfgrid = tfidfcorptogrid(scenariocorpus,testlen,tfidfgrid,'bnn')
+    official_list_tfidf, mainlistsorted = createsortedlist(tfidfgrid)
+    mainlistsorted = sorted(mainlistsorted, key=lambda x: x[0])
+    mainlistsorted = list(set(tuple(x) for x in mainlistsorted))
+    official_list_tfidf, mainlistsorted = compute(official_list_tfidf, mainlistsorted,.85)
+    tfidfresults, index_list = printresults(official_list_tfidf,'Full Results for TFIDF')
+    results = TPFPoutput(tfidfresults,oracle,mpmoracle)
+    pack24 = tfidfresults
+    return pack24
+
+def LSI(myfile):
+    entries = myfile['Scenario'].tolist()
+    entries = [[ele for ele in sub if not ele.isdigit()] for sub in entries] 
+    dict_for_lsi = Dictionary(entries)
+    corp = [dict_for_lsi.doc2bow(line) for line in entries]
+    lsi = models.LsiModel(corp,num_topics = 3)
+    corp_lsi = lsi[corp]
+    index_lsi = similarities.MatrixSimilarity(corp_lsi) 
+    sims= index_lsi[corp_lsi]
+    lsi_grid = defaultgrid
+    for i,s in enumerate(sims):
+        for counter in range(testlen):
+            lsi_grid[i][counter] = s[counter]
+            if (i == counter):
+                lsi_grid[i][counter] = 0     
+    official_lsi_list, lsi_listsorted = createsortedlist(lsi_grid)
+    listsorted = sorted(listsorted, key=lambda x: x[0])
+    listsorted = list(set(tuple(x) for x in listsorted))
+    official_lsi_list, lsi_listsorted = computelower(official_lsi_list, lsi_listsorted,.70)
+    lsiresults, index_list = printresults(official_lsi_list,'Full Results for LSI')
+    results = TPFPoutput(lsiresults,oracle,mpmoracle)
+    prune4 = lsiresults 
+    return prune4
+
+def create_check_lists(myfile):
+    manuallist = []
+    autolist = []
+    for item in range(len(myfile['Type'])):
+        if myfile['Type'][item] == "Manual":
+            manuallist.append(myfile['TestName'][item])
+        else:
+            autolist.append(myfile['TestName'][item])
+    return manuallist, autolist
+
+
+def round1_computation(autolist,manuallist,pack24):
+    round1 = []
+    round1 = pack24
+    round1 = sortstuff(round1)
+    for item in round1:
+        if item[0] in manuallist and item[1] in autolist:
+            round1.remove(item)
+        elif item[0] in autolist and item[1] in manuallist:
+            round1.remove(item)
+    print('round1',len(round1)) 
+    return round1 
+
+def round2_computation(autolist,manuallist,pack3):
+    round2 = []
+    round2 = pack3
+    round2 = [x for x in round2 if x not in round1]
+    round2 = sortstuff(round2)
+    for item in round2:
+        if item[0] in manuallist and item[1] in manuallist:
+            round2.remove(item)
+        elif item[0] in autolist and item[1] in autolist:
+            round2.remove(item)
+    print('round2',len(round2),2)
+    return round2
+
+def prototype(myfile,pack24,pack23,prune1,pack21,pack15,pack9,pack10,pack3,pack2):
+    round1 = round1_computation(autolist,manuallist,pack24)
+    round2 = round2_computation(autolist,manuallist,myfile)
+
 def main():
     myfile = pd.read_csv(r"OptionBuilder.csv",header = 0)
     oracle, mpmoracle, oraclecluster, mpmoraclecluster = defineoracle_optionbuilder
@@ -582,5 +760,11 @@ def main():
     pack3 = one2one_asserts_results(myfile,testlen)
     pack9, pack10 = longestcommonsubsequence(myfile,testlen)
     pack15 = setmetrics_combo(myfile)
+    pack21 = intersect_withassertsadditive_results(myfile)
+    prune1 = scenarioskipgram(scenariocorpus,myfile,testlen)
+    pack23 = tfidf_nfc(scenariocorpus,testlen,myfile)
+    pack24 = tfidf_bnn(scenariocorpus,testlen,myfile)
+    prune4 = LSI(myfile)
+    manuallist,autolist = create_check_lists(myfile)
 
 main
