@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<unit xmlns="http://www.srcML.org/srcML/src" revision="1.0.0" language="Java" filename="clean_OptionBuilderTest.java"><package>package <name><name>org</name><operator>.</operator><name>apache</name><operator>.</operator><name>commons</name><operator>.</operator><name>cli</name></name>;</package>
+
+<import>import static <name><name>org</name><operator>.</operator><name>junit</name><operator>.</operator><name>Assert</name><operator>.</operator><name>assertEquals</name></name>;</import>
+<import>import static <name><name>org</name><operator>.</operator><name>junit</name><operator>.</operator><name>Assert</name><operator>.</operator><name>assertNull</name></name>;</import>
+<import>import static <name><name>org</name><operator>.</operator><name>junit</name><operator>.</operator><name>Assert</name><operator>.</operator><name>assertTrue</name></name>;</import>
+<import>import static <name><name>org</name><operator>.</operator><name>junit</name><operator>.</operator><name>Assert</name><operator>.</operator><name>fail</name></name>;</import>
+
+<import>import <name><name>org</name><operator>.</operator><name>junit</name><operator>.</operator><name>Test</name></name>;</import>
+
+<class><annotation>@<name>SuppressWarnings</name><argument_list>(<argument><expr><literal type="string">"deprecation"</literal></expr></argument>)</argument_list></annotation> <comment type="line">// OptionBuilder is marked deprecated</comment>
+<specifier>public</specifier> class <name>OptionBuilderTest</name>
+<block>{   
+    <comment type="block" format="javadoc">/**
+     *  1. Creates a new Option using OptionBuilder and checks its opt, long opt,
+     *     description, type, arg, if its required and its args.
+     */</comment>
+    <function><annotation>@<name>Test</name></annotation>
+    <type><specifier>public</specifier> <name>void</name></type> <name>testCompleteOption</name><parameter_list>( )</parameter_list> <block>{<block_content>
+        <decl_stmt><decl><type><name>Option</name></type> <name>simple</name> <init>= <expr><call><name><name>OptionBuilder</name><operator>.</operator><name>withLongOpt</name></name><argument_list>( <argument><expr><literal type="string">"simple option"</literal></expr></argument>)</argument_list></call>
+                                     <operator>.</operator><call><name>hasArg</name><argument_list>( )</argument_list></call>
+                                     <operator>.</operator><call><name>isRequired</name><argument_list>( )</argument_list></call>
+                                     <operator>.</operator><call><name>hasArgs</name><argument_list>( )</argument_list></call>
+                                     <operator>.</operator><call><name>withType</name><argument_list>( <argument><expr><name><name>Float</name><operator>.</operator><name>class</name></name></expr></argument> )</argument_list></call>
+                                     <operator>.</operator><call><name>withDescription</name><argument_list>( <argument><expr><literal type="string">"this is a simple option"</literal></expr></argument> )</argument_list></call>
+                                     <operator>.</operator><call><name>create</name><argument_list>( <argument><expr><literal type="char">'s'</literal></expr></argument> )</argument_list></call></expr></init></decl>;</decl_stmt>
+
+        <expr_stmt><expr><call><name>assertEquals</name><argument_list>( <argument><expr><literal type="string">"s"</literal></expr></argument>, <argument><expr><call><name><name>simple</name><operator>.</operator><name>getOpt</name></name><argument_list>()</argument_list></call></expr></argument> )</argument_list></call></expr>;</expr_stmt>
+        <expr_stmt><expr><call><name>assertEquals</name><argument_list>( <argument><expr><literal type="string">"simple option"</literal></expr></argument>, <argument><expr><call><name><name>simple</name><operator>.</operator><name>getLongOpt</name></name><argument_list>()</argument_list></call></expr></argument> )</argument_list></call></expr>;</expr_stmt>
+        <expr_stmt><expr><call><name>assertEquals</name><argument_list>( <argument><expr><literal type="string">"this is a simple option"</literal></expr></argument>, <argument><expr><call><name><name>simple</name><operator>.</operator><name>getDescription</name></name><argument_list>()</argument_list></call></expr></argument> )</argument_list></call></expr>;</expr_stmt>
+        <expr_stmt><expr><call><name>assertEquals</name><argument_list>( <argument><expr><call><name><name>simple</name><operator>.</operator><name>getType</name></name><argument_list>()</argument_list></call></expr></argument>, <argument><expr><name><name>Float</name><operator>.</operator><name>class</name></name></expr></argument> )</argument_list></call></expr>;</expr_stmt>
+        <expr_stmt><expr><call><name>assertTrue</name><argument_list>( <argument><expr><call><name><name>simple</name><operator>.</operator><name>hasArg</name></name><argument_list>()</argument_list></call></expr></argument> )</argument_list></call></expr>;</expr_stmt>
+        <expr_stmt><expr><call><name>assertTrue</name><argument_list>( <argument><expr><call><name><name>simple</name><operator>.</operator><name>isRequired</name></name><argument_list>()</argument_list></call></expr></argument> )</argument_list></call></expr>;</expr_stmt>
+        <expr_stmt><expr><call><name>assertTrue</name><argument_list>( <argument><expr><call><name><name>simple</name><operator>.</operator><name>hasArgs</name></name><argument_list>()</argument_list></call></expr></argument> )</argument_list></call></expr>;</expr_stmt>
+    </block_content>}</block></function>
+
+    <comment type="block" format="javadoc">/**
+     * 1. Creates a new Option "simple" using OptionBuilder and checks its
+     *    opt, long opt, description, type, arg, if it is required and its args.
+     * 2. Creates a new Option using OptionBuilder and assigns it to "simple", and
+     *    checks its opt, long opt, description, type, arg, if it is required and
+     *     its args.
+     */</comment>
+    <function><annotation>@<name>Test</name></annotation>
+    <type><specifier>public</specifier> <name>void</name></type> <name>testTwoCompleteOptions</name><parameter_list>( )</parameter_list> <block>{<block_content>
+        <decl_stmt><decl><type><name>Option</name></type> <name>simple</name> <init>= <expr><call><name><name>OptionBuilder</name><operator>.</operator><name>withLongOpt</name></name><argument_list>( <argument><expr><literal type="string">"simple option"</literal></expr></argument>)</argument_list></call>
+                                     <operator>.</operator><call><name>hasArg</name><argument_list>( )</argument_list></call>
+                                     <operator>.</operator><call><name>isRequired</name><argument_list>( )</argument_list></call>
+                                     <operator>.</operator><call><name>hasArgs</name><argument_list>( )</argument_list></call>
+                                     <operator>.</operator><call><name>withType</name><argument_list>( <argument><expr><name><name>Float</name><operator>.</operator><name>class</name></name></expr></argument> )</argument_list></call>
+                                     <operator>.</operator><call><name>withDescription</name><argument_list>( <argument><expr><literal type="string">"this is a simple option"</literal></expr></argument> )</argument_list></call>
+                                     <operator>.</operator><call><name>create</name><argument_list>( <argument><expr><literal type="char">'s'</literal></expr></argument> )</argument_list></call></expr></init></decl>;</decl_stmt>
+
+        <expr_stmt><expr><call><name>assertEquals</name><argument_list>( <argument><expr><literal type="string">"s"</literal></expr></argument>, <argument><expr><call><name><name>simple</name><operator>.</operator><name>getOpt</name></name><argument_list>()</argument_list></call></expr></argument> )</argument_list></call></expr>;</expr_stmt>
+        <expr_stmt><expr><call><name>assertEquals</name><argument_list>( <argument><expr><literal type="string">"simple option"</literal></expr></argument>, <argument><expr><call><name><name>simple</name><operator>.</operator><name>getLongOpt</name></name><argument_list>()</argument_list></call></expr></argument> )</argument_list></call></expr>;</expr_stmt>
+        <expr_stmt><expr><call><name>assertEquals</name><argument_list>( <argument><expr><literal type="string">"this is a simple option"</literal></expr></argument>, <argument><expr><call><name><name>simple</name><operator>.</operator><name>getDescription</name></name><argument_list>()</argument_list></call></expr></argument> )</argument_list></call></expr>;</expr_stmt>
+        <expr_stmt><expr><call><name>assertEquals</name><argument_list>( <argument><expr><call><name><name>simple</name><operator>.</operator><name>getType</name></name><argument_list>()</argument_list></call></expr></argument>, <argument><expr><name><name>Float</name><operator>.</operator><name>class</name></name></expr></argument> )</argument_list></call></expr>;</expr_stmt>
+        <expr_stmt><expr><call><name>assertTrue</name><argument_list>( <argument><expr><call><name><name>simple</name><operator>.</operator><name>hasArg</name></name><argument_list>()</argument_list></call></expr></argument> )</argument_list></call></expr>;</expr_stmt>
+        <expr_stmt><expr><call><name>assertTrue</name><argument_list>( <argument><expr><call><name><name>simple</name><operator>.</operator><name>isRequired</name></name><argument_list>()</argument_list></call></expr></argument> )</argument_list></call></expr>;</expr_stmt>
+        <expr_stmt><expr><call><name>assertTrue</name><argument_list>( <argument><expr><call><name><name>simple</name><operator>.</operator><name>hasArgs</name></name><argument_list>()</argument_list></call></expr></argument> )</argument_list></call></expr>;</expr_stmt>
+
+        <expr_stmt><expr><name>simple</name> <operator>=</operator> <call><name><name>OptionBuilder</name><operator>.</operator><name>withLongOpt</name></name><argument_list>( <argument><expr><literal type="string">"dimple option"</literal></expr></argument>)</argument_list></call>
+                              <operator>.</operator><call><name>hasArg</name><argument_list>( )</argument_list></call>
+                              <operator>.</operator><call><name>withDescription</name><argument_list>( <argument><expr><literal type="string">"this is a dimple option"</literal></expr></argument> )</argument_list></call>
+                              <operator>.</operator><call><name>create</name><argument_list>( <argument><expr><literal type="char">'d'</literal></expr></argument> )</argument_list></call></expr>;</expr_stmt>
+
+        <expr_stmt><expr><call><name>assertEquals</name><argument_list>( <argument><expr><literal type="string">"d"</literal></expr></argument>, <argument><expr><call><name><name>simple</name><operator>.</operator><name>getOpt</name></name><argument_list>()</argument_list></call></expr></argument> )</argument_list></call></expr>;</expr_stmt>
+        <expr_stmt><expr><call><name>assertEquals</name><argument_list>( <argument><expr><literal type="string">"dimple option"</literal></expr></argument>, <argument><expr><call><name><name>simple</name><operator>.</operator><name>getLongOpt</name></name><argument_list>()</argument_list></call></expr></argument> )</argument_list></call></expr>;</expr_stmt>
+        <expr_stmt><expr><call><name>assertEquals</name><argument_list>( <argument><expr><literal type="string">"this is a dimple option"</literal></expr></argument>, <argument><expr><call><name><name>simple</name><operator>.</operator><name>getDescription</name></name><argument_list>()</argument_list></call></expr></argument> )</argument_list></call></expr>;</expr_stmt>
+        <expr_stmt><expr><call><name>assertEquals</name><argument_list>( <argument><expr><name><name>String</name><operator>.</operator><name>class</name></name></expr></argument>, <argument><expr><call><name><name>simple</name><operator>.</operator><name>getType</name></name><argument_list>()</argument_list></call></expr></argument> )</argument_list></call></expr>;</expr_stmt>
+        <expr_stmt><expr><call><name>assertTrue</name><argument_list>( <argument><expr><call><name><name>simple</name><operator>.</operator><name>hasArg</name></name><argument_list>()</argument_list></call></expr></argument> )</argument_list></call></expr>;</expr_stmt>
+        <expr_stmt><expr><call><name>assertTrue</name><argument_list>( <argument><expr><operator>!</operator><call><name><name>simple</name><operator>.</operator><name>isRequired</name></name><argument_list>()</argument_list></call></expr></argument> )</argument_list></call></expr>;</expr_stmt>
+        <expr_stmt><expr><call><name>assertTrue</name><argument_list>( <argument><expr><operator>!</operator><call><name><name>simple</name><operator>.</operator><name>hasArgs</name></name><argument_list>()</argument_list></call></expr></argument> )</argument_list></call></expr>;</expr_stmt>
+    </block_content>}</block></function>
+
+    <comment type="block" format="javadoc">/**
+     * 1. Creates a new Option using OptionBuiilder and checks its opt, description and if it
+     *    has arg.
+     */</comment>
+    <function><annotation>@<name>Test</name></annotation>
+    <type><specifier>public</specifier> <name>void</name></type> <name>testBaseOptionCharOpt</name><parameter_list>()</parameter_list> <block>{<block_content>
+        <decl_stmt><decl><type><name>Option</name></type> <name>base</name> <init>= <expr><call><name><name>OptionBuilder</name><operator>.</operator><name>withDescription</name></name><argument_list>( <argument><expr><literal type="string">"option description"</literal></expr></argument>)</argument_list></call>
+                                   <operator>.</operator><call><name>create</name><argument_list>( <argument><expr><literal type="char">'o'</literal></expr></argument> )</argument_list></call></expr></init></decl>;</decl_stmt>
+
+        <expr_stmt><expr><call><name>assertEquals</name><argument_list>( <argument><expr><literal type="string">"o"</literal></expr></argument>, <argument><expr><call><name><name>base</name><operator>.</operator><name>getOpt</name></name><argument_list>()</argument_list></call></expr></argument> )</argument_list></call></expr>;</expr_stmt>
+        <expr_stmt><expr><call><name>assertEquals</name><argument_list>( <argument><expr><literal type="string">"option description"</literal></expr></argument>, <argument><expr><call><name><name>base</name><operator>.</operator><name>getDescription</name></name><argument_list>()</argument_list></call></expr></argument> )</argument_list></call></expr>;</expr_stmt>
+        <expr_stmt><expr><call><name>assertTrue</name><argument_list>( <argument><expr><operator>!</operator><call><name><name>base</name><operator>.</operator><name>hasArg</name></name><argument_list>()</argument_list></call></expr></argument> )</argument_list></call></expr>;</expr_stmt>
+    </block_content>}</block></function>
+
+    <comment type="block" format="javadoc">/**
+     * 1. Creates a new Option using OptionBuiilder and checks its opt, description and if it
+     *    has arg.
+     */</comment>
+    <function><annotation>@<name>Test</name></annotation>
+    <type><specifier>public</specifier> <name>void</name></type> <name>testBaseOptionStringOpt</name><parameter_list>()</parameter_list> <block>{<block_content>
+        <decl_stmt><decl><type><name>Option</name></type> <name>base</name> <init>= <expr><call><name><name>OptionBuilder</name><operator>.</operator><name>withDescription</name></name><argument_list>( <argument><expr><literal type="string">"option description"</literal></expr></argument>)</argument_list></call>
+                                   <operator>.</operator><call><name>create</name><argument_list>( <argument><expr><literal type="string">"o"</literal></expr></argument> )</argument_list></call></expr></init></decl>;</decl_stmt>
+
+        <expr_stmt><expr><call><name>assertEquals</name><argument_list>( <argument><expr><literal type="string">"o"</literal></expr></argument>, <argument><expr><call><name><name>base</name><operator>.</operator><name>getOpt</name></name><argument_list>()</argument_list></call></expr></argument> )</argument_list></call></expr>;</expr_stmt>
+        <expr_stmt><expr><call><name>assertEquals</name><argument_list>( <argument><expr><literal type="string">"option description"</literal></expr></argument>, <argument><expr><call><name><name>base</name><operator>.</operator><name>getDescription</name></name><argument_list>()</argument_list></call></expr></argument> )</argument_list></call></expr>;</expr_stmt>
+        <expr_stmt><expr><call><name>assertTrue</name><argument_list>( <argument><expr><operator>!</operator><call><name><name>base</name><operator>.</operator><name>hasArg</name></name><argument_list>()</argument_list></call></expr></argument> )</argument_list></call></expr>;</expr_stmt>
+    </block_content>}</block></function>
+
+    <comment type="block" format="javadoc">/**
+     * 1. Creates two Options using OptionBuilder and checks their opt.
+     * 2. Expects an IllegalArgumentException when calling method create of OptionBuilder
+     *    with argument " ".
+     */</comment>
+    <function><annotation>@<name>Test</name></annotation>
+    <type><specifier>public</specifier> <name>void</name></type> <name>testSpecialOptChars</name><parameter_list>()</parameter_list> <throws>throws <argument><expr><name>Exception</name></expr></argument></throws>
+    <block>{<block_content>
+        <comment type="line">// '?'</comment>
+        <decl_stmt><decl><type><name>Option</name></type> <name>opt1</name> <init>= <expr><call><name><name>OptionBuilder</name><operator>.</operator><name>withDescription</name></name><argument_list>(<argument><expr><literal type="string">"help options"</literal></expr></argument>)</argument_list></call><operator>.</operator><call><name>create</name><argument_list>(<argument><expr><literal type="char">'?'</literal></expr></argument>)</argument_list></call></expr></init></decl>;</decl_stmt>
+        <expr_stmt><expr><call><name>assertEquals</name><argument_list>(<argument><expr><literal type="string">"?"</literal></expr></argument>, <argument><expr><call><name><name>opt1</name><operator>.</operator><name>getOpt</name></name><argument_list>()</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+
+        <comment type="line">// '@'</comment>
+        <decl_stmt><decl><type><name>Option</name></type> <name>opt2</name> <init>= <expr><call><name><name>OptionBuilder</name><operator>.</operator><name>withDescription</name></name><argument_list>(<argument><expr><literal type="string">"read from stdin"</literal></expr></argument>)</argument_list></call><operator>.</operator><call><name>create</name><argument_list>(<argument><expr><literal type="char">'@'</literal></expr></argument>)</argument_list></call></expr></init></decl>;</decl_stmt>
+        <expr_stmt><expr><call><name>assertEquals</name><argument_list>(<argument><expr><literal type="string">"@"</literal></expr></argument>, <argument><expr><call><name><name>opt2</name><operator>.</operator><name>getOpt</name></name><argument_list>()</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+        
+        <comment type="line">// ' '</comment>
+        <try>try <block>{<block_content>
+            <expr_stmt><expr><call><name><name>OptionBuilder</name><operator>.</operator><name>create</name></name><argument_list>(<argument><expr><literal type="char">' '</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+            <expr_stmt><expr><call><name>fail</name><argument_list>( <argument><expr><literal type="string">"IllegalArgumentException not caught"</literal></expr></argument> )</argument_list></call></expr>;</expr_stmt>
+        </block_content>}</block> <catch>catch <parameter_list>(<parameter><decl><type><name>IllegalArgumentException</name></type> <name>e</name></decl></parameter>)</parameter_list> <block>{<block_content>
+            <comment type="line">// success</comment>
+        </block_content>}</block></catch></try>
+    </block_content>}</block></function>
+
+    <comment type="block" format="javadoc">/**
+     * 1. Creates a new Option using OptionBuilder and checks if its args equals 2.
+     */</comment>
+    <function><annotation>@<name>Test</name></annotation>
+    <type><specifier>public</specifier> <name>void</name></type> <name>testOptionArgNumbers</name><parameter_list>()</parameter_list>
+    <block>{<block_content>
+        <decl_stmt><decl><type><name>Option</name></type> <name>opt</name> <init>= <expr><call><name><name>OptionBuilder</name><operator>.</operator><name>withDescription</name></name><argument_list>( <argument><expr><literal type="string">"option description"</literal></expr></argument> )</argument_list></call>
+                                  <operator>.</operator><call><name>hasArgs</name><argument_list>( <argument><expr><literal type="number">2</literal></expr></argument> )</argument_list></call>
+                                  <operator>.</operator><call><name>create</name><argument_list>( <argument><expr><literal type="char">'o'</literal></expr></argument> )</argument_list></call></expr></init></decl>;</decl_stmt>
+        <expr_stmt><expr><call><name>assertEquals</name><argument_list>( <argument><expr><literal type="number">2</literal></expr></argument>, <argument><expr><call><name><name>opt</name><operator>.</operator><name>getArgs</name></name><argument_list>()</argument_list></call></expr></argument> )</argument_list></call></expr>;</expr_stmt>
+    </block_content>}</block></function>
+
+    <comment type="block" format="javadoc">/**
+     * 1. Expects an IllegalArgumentException when calling chained methods of OptionBuilder.
+     * 2. Expects an IllegalArgumentException when calling method create of OptionBuilder with
+     *    argument "opt`".
+     * 3. Expects an IllegalArgumentException when calling method create of OptionBuilder with
+     *    argument "opt". 
+     * Note: We need to fix this description it is wrong currently.
+     */</comment>
+    <function><annotation>@<name>Test</name></annotation>
+    <type><specifier>public</specifier> <name>void</name></type> <name>testIllegalOptions</name><parameter_list>()</parameter_list> <block>{<block_content>
+        <comment type="line">// bad single character option</comment>
+        <try>try <block>{<block_content>
+            <expr_stmt><expr><call><name><name>OptionBuilder</name><operator>.</operator><name>withDescription</name></name><argument_list>( <argument><expr><literal type="string">"option description"</literal></expr></argument> )</argument_list></call><operator>.</operator><call><name>create</name><argument_list>( <argument><expr><literal type="char">'"'</literal></expr></argument> )</argument_list></call></expr>;</expr_stmt>
+            <expr_stmt><expr><call><name>fail</name><argument_list>( <argument><expr><literal type="string">"IllegalArgumentException not caught"</literal></expr></argument> )</argument_list></call></expr>;</expr_stmt>
+        </block_content>}</block>
+        <catch>catch<parameter_list>( <parameter><decl><type><name>IllegalArgumentException</name></type> <name>exp</name></decl></parameter> )</parameter_list> <block>{<block_content>
+            <comment type="line">// success</comment>
+        </block_content>}</block></catch></try>
+
+        <comment type="line">// bad character in option string</comment>
+        <try>try <block>{<block_content>
+            <expr_stmt><expr><call><name><name>OptionBuilder</name><operator>.</operator><name>create</name></name><argument_list>( <argument><expr><literal type="string">"opt`"</literal></expr></argument> )</argument_list></call></expr>;</expr_stmt>
+            <expr_stmt><expr><call><name>fail</name><argument_list>( <argument><expr><literal type="string">"IllegalArgumentException not caught"</literal></expr></argument> )</argument_list></call></expr>;</expr_stmt>
+        </block_content>}</block>
+        <catch>catch<parameter_list>( <parameter><decl><type><name>IllegalArgumentException</name></type> <name>exp</name></decl></parameter> )</parameter_list> <block>{<block_content>
+            <comment type="line">// success</comment>
+        </block_content>}</block></catch></try>
+
+        <comment type="line">// valid option </comment>
+        <try>try <block>{<block_content>
+            <expr_stmt><expr><call><name><name>OptionBuilder</name><operator>.</operator><name>create</name></name><argument_list>( <argument><expr><literal type="string">"opt"</literal></expr></argument> )</argument_list></call></expr>;</expr_stmt>
+            <comment type="line">// success</comment>
+        </block_content>}</block>
+        <catch>catch<parameter_list>( <parameter><decl><type><name>IllegalArgumentException</name></type> <name>exp</name></decl></parameter> )</parameter_list> <block>{<block_content>
+            <expr_stmt><expr><call><name>fail</name><argument_list>( <argument><expr><literal type="string">"IllegalArgumentException caught"</literal></expr></argument> )</argument_list></call></expr>;</expr_stmt>
+        </block_content>}</block></catch></try>
+    </block_content>}</block></function>
+
+    <comment type="block" format="javadoc">/**
+     * 1. Expects an IllegalArgumentException when calling chained methods of OptionBuilder.
+     * Note: This is wrong as well.
+     */</comment>
+    <function><annotation>@<name>Test</name></annotation>
+    <type><specifier>public</specifier> <name>void</name></type> <name>testCreateIncompleteOption</name><parameter_list>()</parameter_list> <block>{<block_content>
+        <try>try
+        <block>{<block_content>
+            <expr_stmt><expr><call><name><name>OptionBuilder</name><operator>.</operator><name>hasArg</name></name><argument_list>()</argument_list></call><operator>.</operator><call><name>create</name><argument_list>()</argument_list></call></expr>;</expr_stmt>
+            <expr_stmt><expr><call><name>fail</name><argument_list>(<argument><expr><literal type="string">"Incomplete option should be rejected"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+        </block_content>}</block>
+        <catch>catch <parameter_list>(<parameter><decl><type><name>IllegalArgumentException</name></type> <name>e</name></decl></parameter>)</parameter_list>
+        <block>{<block_content>
+            <comment type="line">// expected</comment>
+            
+            <comment type="line">// implicitly reset the builder</comment>
+            <expr_stmt><expr><call><name><name>OptionBuilder</name><operator>.</operator><name>create</name></name><argument_list>( <argument><expr><literal type="string">"opt"</literal></expr></argument> )</argument_list></call></expr>;</expr_stmt>
+        </block_content>}</block></catch></try>
+    </block_content>}</block></function>
+
+    <comment type="block" format="javadoc">/**
+     * 1. Expects an IllegalArgumentException when calling chained methods of OptionBuilder.
+     * 2. Checks if the result of chained methods of OptionBuilder is not null.
+     * 3. Expects IllegalArgumentException when calling chained methods of OptionBuilder.
+     * 4. Checks if the result of calling chained methds of OptionBuilder is not null.
+     */</comment>
+    <function><annotation>@<name>Test</name></annotation>
+    <type><specifier>public</specifier> <name>void</name></type> <name>testBuilderIsResettedAlways</name><parameter_list>()</parameter_list> <block>{<block_content>
+        <try>try
+        <block>{<block_content>
+            <expr_stmt><expr><call><name><name>OptionBuilder</name><operator>.</operator><name>withDescription</name></name><argument_list>(<argument><expr><literal type="string">"JUnit"</literal></expr></argument>)</argument_list></call><operator>.</operator><call><name>create</name><argument_list>(<argument><expr><literal type="char">'"'</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+            <expr_stmt><expr><call><name>fail</name><argument_list>(<argument><expr><literal type="string">"IllegalArgumentException expected"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+        </block_content>}</block>
+        <catch>catch <parameter_list>(<parameter><decl><type><name>IllegalArgumentException</name></type> <name>e</name></decl></parameter>)</parameter_list>
+        <block>{<block_content>
+            <comment type="line">// expected</comment>
+        </block_content>}</block></catch></try>
+        <expr_stmt><expr><call><name>assertNull</name><argument_list>(<argument><expr><literal type="string">"we inherited a description"</literal></expr></argument>, <argument><expr><call><name><name>OptionBuilder</name><operator>.</operator><name>create</name></name><argument_list>(<argument><expr><literal type="char">'x'</literal></expr></argument>)</argument_list></call><operator>.</operator><call><name>getDescription</name><argument_list>()</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+
+        <try>try
+        <block>{<block_content>
+            <expr_stmt><expr><call><name><name>OptionBuilder</name><operator>.</operator><name>withDescription</name></name><argument_list>(<argument><expr><literal type="string">"JUnit"</literal></expr></argument>)</argument_list></call><operator>.</operator><call><name>create</name><argument_list>()</argument_list></call></expr>;</expr_stmt>
+            <expr_stmt><expr><call><name>fail</name><argument_list>(<argument><expr><literal type="string">"IllegalArgumentException expected"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+        </block_content>}</block>
+        <catch>catch <parameter_list>(<parameter><decl><type><name>IllegalArgumentException</name></type> <name>e</name></decl></parameter>)</parameter_list>
+        <block>{<block_content>
+            <comment type="line">// expected</comment>
+        </block_content>}</block></catch></try>
+        <expr_stmt><expr><call><name>assertNull</name><argument_list>(<argument><expr><literal type="string">"we inherited a description"</literal></expr></argument>, <argument><expr><call><name><name>OptionBuilder</name><operator>.</operator><name>create</name></name><argument_list>(<argument><expr><literal type="char">'x'</literal></expr></argument>)</argument_list></call><operator>.</operator><call><name>getDescription</name><argument_list>()</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+    </block_content>}</block></function>
+}</block></class>
+</unit>

@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<unit xmlns="http://www.srcML.org/srcML/src" revision="1.0.0" language="Java" filename="clean_OptionBuilder_ESTest.java"><package>package <name><name>org</name><operator>.</operator><name>apache</name><operator>.</operator><name>commons</name><operator>.</operator><name>cli</name></name>;</package>
+
+<import>import <name><name>org</name><operator>.</operator><name>junit</name><operator>.</operator><name>Test</name></name>;</import>
+<import>import static <name><name>org</name><operator>.</operator><name>junit</name><operator>.</operator><name>Assert</name><operator>.</operator><name>*</name></name>;</import>
+<import>import static <name><name>org</name><operator>.</operator><name>evosuite</name><operator>.</operator><name>runtime</name><operator>.</operator><name>EvoAssertions</name><operator>.</operator><name>*</name></name>;</import>
+<import>import <name><name>org</name><operator>.</operator><name>apache</name><operator>.</operator><name>commons</name><operator>.</operator><name>cli</name><operator>.</operator><name>Option</name></name>;</import>
+<import>import <name><name>org</name><operator>.</operator><name>apache</name><operator>.</operator><name>commons</name><operator>.</operator><name>cli</name><operator>.</operator><name>OptionBuilder</name></name>;</import>
+<import>import <name><name>org</name><operator>.</operator><name>evosuite</name><operator>.</operator><name>runtime</name><operator>.</operator><name>EvoRunner</name></name>;</import>
+<import>import <name><name>org</name><operator>.</operator><name>evosuite</name><operator>.</operator><name>runtime</name><operator>.</operator><name>EvoRunnerParameters</name></name>;</import>
+<import>import <name><name>org</name><operator>.</operator><name>junit</name><operator>.</operator><name>runner</name><operator>.</operator><name>RunWith</name></name>;</import>
+
+<class><annotation>@<name>RunWith</name><argument_list>(<argument><expr><name><name>EvoRunner</name><operator>.</operator><name>class</name></name></expr></argument>)</argument_list></annotation> <annotation>@<name>EvoRunnerParameters</name><argument_list>(<argument><expr><name>mockJVMNonDeterminism</name> <operator>=</operator> <literal type="boolean">true</literal></expr></argument>, <argument><expr><name>useVFS</name> <operator>=</operator> <literal type="boolean">true</literal></expr></argument>, <argument><expr><name>useVNET</name> <operator>=</operator> <literal type="boolean">true</literal></expr></argument>, <argument><expr><name>resetStaticState</name> <operator>=</operator> <literal type="boolean">true</literal></expr></argument>, <argument><expr><name>separateClassLoader</name> <operator>=</operator> <literal type="boolean">true</literal></expr></argument>, <argument><expr><name>useJEE</name> <operator>=</operator> <literal type="boolean">true</literal></expr></argument>)</argument_list></annotation> 
+<specifier>public</specifier> class <name>OptionBuilder_ESTest</name> <super_list><extends>extends <super><name>OptionBuilder_ESTest_scaffolding</name></super></extends></super_list> <block>{
+  
+  <comment type="block" format="javadoc">/**
+   * 1. Creates a new OptionBuilder using method withType of OptionBuilder
+        and checks if it is not null.
+   */</comment>
+  <function><annotation>@<name>Test</name><argument_list>(<argument><expr><name>timeout</name> <operator>=</operator> <literal type="number">4000</literal></expr></argument>)</argument_list></annotation>
+  <type><specifier>public</specifier> <name>void</name></type> <name>test00</name><parameter_list>()</parameter_list>  <throws>throws <argument><expr><name>Throwable</name></expr></argument></throws>  <block>{<block_content>
+      <decl_stmt><decl><type><name><name>Class</name><argument_list type="generic">&lt;<argument><name>Object</name></argument>&gt;</argument_list></name></type> <name>class0</name> <init>= <expr><name><name>Object</name><operator>.</operator><name>class</name></name></expr></init></decl>;</decl_stmt>
+      <decl_stmt><decl><type><name>OptionBuilder</name></type> <name>optionBuilder0</name> <init>= <expr><call><name><name>OptionBuilder</name><operator>.</operator><name>withType</name></name><argument_list>(<argument><expr><operator>(</operator><name>Object</name><operator>)</operator> <name>class0</name></expr></argument>)</argument_list></call></expr></init></decl>;</decl_stmt>
+      <expr_stmt><expr><call><name>assertNotNull</name><argument_list>(<argument><expr><name>optionBuilder0</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+  </block_content>}</block></function>
+
+  <comment type="block" format="javadoc">/**
+   * 1. Calls method "isRequired" of OptionBuilder.
+   * 2. Creates a new OptionBuilder and checks if it is
+        required and if its args are equal to -1. 
+   */</comment>
+  <function><annotation>@<name>Test</name><argument_list>(<argument><expr><name>timeout</name> <operator>=</operator> <literal type="number">4000</literal></expr></argument>)</argument_list></annotation>
+  <type><specifier>public</specifier> <name>void</name></type> <name>test01</name><parameter_list>()</parameter_list>  <throws>throws <argument><expr><name>Throwable</name></expr></argument></throws>  <block>{<block_content>
+      <expr_stmt><expr><call><name><name>OptionBuilder</name><operator>.</operator><name>isRequired</name></name><argument_list>()</argument_list></call></expr>;</expr_stmt>
+      <decl_stmt><decl><type><name>Option</name></type> <name>option0</name> <init>= <expr><call><name><name>OptionBuilder</name><operator>.</operator><name>create</name></name><argument_list>(<argument><expr><literal type="string">"SQT$h"</literal></expr></argument>)</argument_list></call></expr></init></decl>;</decl_stmt>
+      <expr_stmt><expr><call><name>assertTrue</name><argument_list>(<argument><expr><call><name><name>option0</name><operator>.</operator><name>isRequired</name></name><argument_list>()</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      <expr_stmt><expr><call><name>assertEquals</name><argument_list>(<argument><expr><operator>(</operator><operator>-</operator><literal type="number">1</literal><operator>)</operator></expr></argument>, <argument><expr><call><name><name>option0</name><operator>.</operator><name>getArgs</name></name><argument_list>()</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+  </block_content>}</block></function>
+
+  <comment type="block" format="javadoc">/**
+   * 1. Calls method withLongOpt of OptionBuilder with argument "org.apache.commons.cli.OptionBuilder"
+   * 2. Creates a new OptionBuilder using method create of OptionBuilder and checks if its args equals -1.
+   */</comment>
+  <function><annotation>@<name>Test</name><argument_list>(<argument><expr><name>timeout</name> <operator>=</operator> <literal type="number">4000</literal></expr></argument>)</argument_list></annotation>
+  <type><specifier>public</specifier> <name>void</name></type> <name>test02</name><parameter_list>()</parameter_list>  <throws>throws <argument><expr><name>Throwable</name></expr></argument></throws>  <block>{<block_content>
+      <expr_stmt><expr><call><name><name>OptionBuilder</name><operator>.</operator><name>withLongOpt</name></name><argument_list>(<argument><expr><literal type="string">"org.apache.commons.cli.OptionBuilder"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      <decl_stmt><decl><type><name>Option</name></type> <name>option0</name> <init>= <expr><call><name><name>OptionBuilder</name><operator>.</operator><name>create</name></name><argument_list>(<argument><expr><literal type="string">""</literal></expr></argument>)</argument_list></call></expr></init></decl>;</decl_stmt>
+      <expr_stmt><expr><call><name>assertEquals</name><argument_list>(<argument><expr><operator>(</operator><operator>-</operator><literal type="number">1</literal><operator>)</operator></expr></argument>, <argument><expr><call><name><name>option0</name><operator>.</operator><name>getArgs</name></name><argument_list>()</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+  </block_content>}</block></function>
+
+  <comment type="block" format="javadoc">/**
+   * 1. Calls method withArgName of OptionBuilder with argument "SQT$h"
+   * 2. Creates a new OptionBuilder using method create of OptionBuilder and checks if its args equals -1.
+   */</comment>
+  <function><annotation>@<name>Test</name><argument_list>(<argument><expr><name>timeout</name> <operator>=</operator> <literal type="number">4000</literal></expr></argument>)</argument_list></annotation>
+  <type><specifier>public</specifier> <name>void</name></type> <name>test03</name><parameter_list>()</parameter_list>  <throws>throws <argument><expr><name>Throwable</name></expr></argument></throws>  <block>{<block_content>
+      <expr_stmt><expr><call><name><name>OptionBuilder</name><operator>.</operator><name>withArgName</name></name><argument_list>(<argument><expr><literal type="string">"SQT$h"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      <decl_stmt><decl><type><name>Option</name></type> <name>option0</name> <init>= <expr><call><name><name>OptionBuilder</name><operator>.</operator><name>create</name></name><argument_list>(<argument><expr><literal type="string">"SQT$h"</literal></expr></argument>)</argument_list></call></expr></init></decl>;</decl_stmt>
+      <expr_stmt><expr><call><name>assertEquals</name><argument_list>(<argument><expr><operator>(</operator><operator>-</operator><literal type="number">1</literal><operator>)</operator></expr></argument>, <argument><expr><call><name><name>option0</name><operator>.</operator><name>getArgs</name></name><argument_list>()</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+  </block_content>}</block></function>
+
+  <comment type="block" format="javadoc">/**
+   * 1. Calls method hasOptionalArgs of OptionBuilder with argument 0
+   * 2. Creates a new OptionBuilder using method create of OptionBuilder and checks if it has optional arg
+        and if its args equals 0.
+   */</comment>
+  <function><annotation>@<name>Test</name><argument_list>(<argument><expr><name>timeout</name> <operator>=</operator> <literal type="number">4000</literal></expr></argument>)</argument_list></annotation>
+  <type><specifier>public</specifier> <name>void</name></type> <name>test04</name><parameter_list>()</parameter_list>  <throws>throws <argument><expr><name>Throwable</name></expr></argument></throws>  <block>{<block_content>
+      <expr_stmt><expr><call><name><name>OptionBuilder</name><operator>.</operator><name>hasOptionalArgs</name></name><argument_list>(<argument><expr><literal type="number">0</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      <decl_stmt><decl><type><name>Option</name></type> <name>option0</name> <init>= <expr><call><name><name>OptionBuilder</name><operator>.</operator><name>create</name></name><argument_list>(<argument><expr><literal type="string">""</literal></expr></argument>)</argument_list></call></expr></init></decl>;</decl_stmt>
+      <expr_stmt><expr><call><name>assertTrue</name><argument_list>(<argument><expr><call><name><name>option0</name><operator>.</operator><name>hasOptionalArg</name></name><argument_list>()</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      <expr_stmt><expr><call><name>assertEquals</name><argument_list>(<argument><expr><literal type="number">0</literal></expr></argument>, <argument><expr><call><name><name>option0</name><operator>.</operator><name>getArgs</name></name><argument_list>()</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+  </block_content>}</block></function>
+
+  <comment type="block" format="javadoc">/**
+   * 1. Calls method hasArgs of OptionBuilder with argument 61
+   * 2. Creates a new OptionBuilder using method create of OptionBuilder and checks if its args equals 61.
+   */</comment>
+  <function><annotation>@<name>Test</name><argument_list>(<argument><expr><name>timeout</name> <operator>=</operator> <literal type="number">4000</literal></expr></argument>)</argument_list></annotation>
+  <type><specifier>public</specifier> <name>void</name></type> <name>test05</name><parameter_list>()</parameter_list>  <throws>throws <argument><expr><name>Throwable</name></expr></argument></throws>  <block>{<block_content>
+      <expr_stmt><expr><call><name><name>OptionBuilder</name><operator>.</operator><name>hasArgs</name></name><argument_list>(<argument><expr><literal type="number">61</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      <decl_stmt><decl><type><name>Option</name></type> <name>option0</name> <init>= <expr><call><name><name>OptionBuilder</name><operator>.</operator><name>create</name></name><argument_list>(<argument><expr><literal type="string">""</literal></expr></argument>)</argument_list></call></expr></init></decl>;</decl_stmt>
+      <expr_stmt><expr><call><name>assertEquals</name><argument_list>(<argument><expr><literal type="number">61</literal></expr></argument>, <argument><expr><call><name><name>option0</name><operator>.</operator><name>getArgs</name></name><argument_list>()</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+  </block_content>}</block></function>
+
+  <comment type="block" format="javadoc">/**
+   * 1. Calls method isRequired of OptionBuilder
+   * 2. Creates a new OptionBuilder using method create of OptionBuilder and checks if it is required,
+        its args equals -1 and if its id equals 63.
+   */</comment>
+  <function><annotation>@<name>Test</name><argument_list>(<argument><expr><name>timeout</name> <operator>=</operator> <literal type="number">4000</literal></expr></argument>)</argument_list></annotation>
+  <type><specifier>public</specifier> <name>void</name></type> <name>test06</name><parameter_list>()</parameter_list>  <throws>throws <argument><expr><name>Throwable</name></expr></argument></throws>  <block>{<block_content>
+      <expr_stmt><expr><call><name><name>OptionBuilder</name><operator>.</operator><name>isRequired</name></name><argument_list>()</argument_list></call></expr>;</expr_stmt>
+      <decl_stmt><decl><type><name>Option</name></type> <name>option0</name> <init>= <expr><call><name><name>OptionBuilder</name><operator>.</operator><name>create</name></name><argument_list>(<argument><expr><literal type="char">'?'</literal></expr></argument>)</argument_list></call></expr></init></decl>;</decl_stmt>
+      <expr_stmt><expr><call><name>assertTrue</name><argument_list>(<argument><expr><call><name><name>option0</name><operator>.</operator><name>isRequired</name></name><argument_list>()</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      <expr_stmt><expr><call><name>assertEquals</name><argument_list>(<argument><expr><operator>(</operator><operator>-</operator><literal type="number">1</literal><operator>)</operator></expr></argument>, <argument><expr><call><name><name>option0</name><operator>.</operator><name>getArgs</name></name><argument_list>()</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      <expr_stmt><expr><call><name>assertEquals</name><argument_list>(<argument><expr><literal type="number">63</literal></expr></argument>, <argument><expr><call><name><name>option0</name><operator>.</operator><name>getId</name></name><argument_list>()</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+  </block_content>}</block></function>
+
+  <comment type="block" format="javadoc">/**
+   * 1. Calls method withValueSeparator of OptionBuilder with argument 61
+   * 2. Creates a new OptionBuilder using method create of OptionBuilder and checks if its args equals -1,
+   *    its value separator equals "b" and if its id equals 98.
+   */</comment>
+  <function><annotation>@<name>Test</name><argument_list>(<argument><expr><name>timeout</name> <operator>=</operator> <literal type="number">4000</literal></expr></argument>)</argument_list></annotation>
+  <type><specifier>public</specifier> <name>void</name></type> <name>test07</name><parameter_list>()</parameter_list>  <throws>throws <argument><expr><name>Throwable</name></expr></argument></throws>  <block>{<block_content>
+      <expr_stmt><expr><call><name><name>OptionBuilder</name><operator>.</operator><name>withValueSeparator</name></name><argument_list>(<argument><expr><literal type="char">'b'</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      <decl_stmt><decl><type><name>Option</name></type> <name>option0</name> <init>= <expr><call><name><name>OptionBuilder</name><operator>.</operator><name>create</name></name><argument_list>(<argument><expr><literal type="char">'b'</literal></expr></argument>)</argument_list></call></expr></init></decl>;</decl_stmt>
+      <expr_stmt><expr><call><name>assertEquals</name><argument_list>(<argument><expr><operator>(</operator><operator>-</operator><literal type="number">1</literal><operator>)</operator></expr></argument>, <argument><expr><call><name><name>option0</name><operator>.</operator><name>getArgs</name></name><argument_list>()</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      <expr_stmt><expr><call><name>assertEquals</name><argument_list>(<argument><expr><literal type="char">'b'</literal></expr></argument>, <argument><expr><call><name><name>option0</name><operator>.</operator><name>getValueSeparator</name></name><argument_list>()</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      <expr_stmt><expr><call><name>assertEquals</name><argument_list>(<argument><expr><literal type="number">98</literal></expr></argument>, <argument><expr><call><name><name>option0</name><operator>.</operator><name>getId</name></name><argument_list>()</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+  </block_content>}</block></function>
+
+  <comment type="block" format="javadoc">/**
+   * 1. Calls method withLongOpt of OptionBuilder with argument "n-?Fl'0v"
+   * 2. Creates a new OptionBuilder using method create of OptionBuilder and checks if its opt equals "A"
+   *     and if its args equals -1.
+   */</comment>
+  <function><annotation>@<name>Test</name><argument_list>(<argument><expr><name>timeout</name> <operator>=</operator> <literal type="number">4000</literal></expr></argument>)</argument_list></annotation>
+  <type><specifier>public</specifier> <name>void</name></type> <name>test08</name><parameter_list>()</parameter_list>  <throws>throws <argument><expr><name>Throwable</name></expr></argument></throws>  <block>{<block_content>
+      <expr_stmt><expr><call><name><name>OptionBuilder</name><operator>.</operator><name>withLongOpt</name></name><argument_list>(<argument><expr><literal type="string">"n-?Fl'0v"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      <decl_stmt><decl><type><name>Option</name></type> <name>option0</name> <init>= <expr><call><name><name>OptionBuilder</name><operator>.</operator><name>create</name></name><argument_list>(<argument><expr><literal type="char">'A'</literal></expr></argument>)</argument_list></call></expr></init></decl>;</decl_stmt>
+      <expr_stmt><expr><call><name>assertEquals</name><argument_list>(<argument><expr><literal type="string">"A"</literal></expr></argument>, <argument><expr><call><name><name>option0</name><operator>.</operator><name>getOpt</name></name><argument_list>()</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      <expr_stmt><expr><call><name>assertEquals</name><argument_list>(<argument><expr><operator>(</operator><operator>-</operator><literal type="number">1</literal><operator>)</operator></expr></argument>, <argument><expr><call><name><name>option0</name><operator>.</operator><name>getArgs</name></name><argument_list>()</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+  </block_content>}</block></function>
+
+  <comment type="block" format="javadoc">/**
+   * 1. Creates a new OptionBuilder using method create of OptionBuilder and checks if its args equals -1
+   *    and if its id equals 0.
+   */</comment>
+  <function><annotation>@<name>Test</name><argument_list>(<argument><expr><name>timeout</name> <operator>=</operator> <literal type="number">4000</literal></expr></argument>)</argument_list></annotation>
+  <type><specifier>public</specifier> <name>void</name></type> <name>test09</name><parameter_list>()</parameter_list>  <throws>throws <argument><expr><name>Throwable</name></expr></argument></throws>  <block>{<block_content>
+      <decl_stmt><decl><type><name>Option</name></type> <name>option0</name> <init>= <expr><call><name><name>OptionBuilder</name><operator>.</operator><name>create</name></name><argument_list>(<argument><expr><literal type="char">'\u0000'</literal></expr></argument>)</argument_list></call></expr></init></decl>;</decl_stmt>
+      <expr_stmt><expr><call><name>assertEquals</name><argument_list>(<argument><expr><operator>(</operator><operator>-</operator><literal type="number">1</literal><operator>)</operator></expr></argument>, <argument><expr><call><name><name>option0</name><operator>.</operator><name>getArgs</name></name><argument_list>()</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      <expr_stmt><expr><call><name>assertEquals</name><argument_list>(<argument><expr><literal type="number">0</literal></expr></argument>, <argument><expr><call><name><name>option0</name><operator>.</operator><name>getId</name></name><argument_list>()</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+  </block_content>}</block></function>
+
+  <comment type="block" format="javadoc">/**
+   * 1. Calls method hasOptionalArgs of OptionBuilder with argument 0
+   * 2. Creates a new OptionBuilder using method create of OptionBuilder and checks if its args equals0,
+   *    its id equals 83 and if it has optional arg.
+   */</comment>
+  <function><annotation>@<name>Test</name><argument_list>(<argument><expr><name>timeout</name> <operator>=</operator> <literal type="number">4000</literal></expr></argument>)</argument_list></annotation>
+  <type><specifier>public</specifier> <name>void</name></type> <name>test10</name><parameter_list>()</parameter_list>  <throws>throws <argument><expr><name>Throwable</name></expr></argument></throws>  <block>{<block_content>
+      <expr_stmt><expr><call><name><name>OptionBuilder</name><operator>.</operator><name>hasOptionalArgs</name></name><argument_list>(<argument><expr><literal type="number">0</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      <decl_stmt><decl><type><name>Option</name></type> <name>option0</name> <init>= <expr><call><name><name>OptionBuilder</name><operator>.</operator><name>create</name></name><argument_list>(<argument><expr><literal type="char">'S'</literal></expr></argument>)</argument_list></call></expr></init></decl>;</decl_stmt>
+      <expr_stmt><expr><call><name>assertEquals</name><argument_list>(<argument><expr><literal type="number">0</literal></expr></argument>, <argument><expr><call><name><name>option0</name><operator>.</operator><name>getArgs</name></name><argument_list>()</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      <expr_stmt><expr><call><name>assertEquals</name><argument_list>(<argument><expr><literal type="number">83</literal></expr></argument>, <argument><expr><call><name><name>option0</name><operator>.</operator><name>getId</name></name><argument_list>()</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      <expr_stmt><expr><call><name>assertTrue</name><argument_list>(<argument><expr><call><name><name>option0</name><operator>.</operator><name>hasOptionalArg</name></name><argument_list>()</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+  </block_content>}</block></function>
+
+  <comment type="block" format="javadoc">/**
+   * 1. Calls methods withLongOpt of OptionBuilder with argument "&amp;piHS55Lo" and withValueSeparator of
+   *    OptionBuilder.
+   * 2. Creates a new OptionBuilder using method create of OptionBuilder and checks if its value separator
+   *    equals "=" and if its args equals -1.
+   */</comment>
+  <function><annotation>@<name>Test</name><argument_list>(<argument><expr><name>timeout</name> <operator>=</operator> <literal type="number">4000</literal></expr></argument>)</argument_list></annotation>
+  <type><specifier>public</specifier> <name>void</name></type> <name>test11</name><parameter_list>()</parameter_list>  <throws>throws <argument><expr><name>Throwable</name></expr></argument></throws>  <block>{<block_content>
+      <expr_stmt><expr><call><name><name>OptionBuilder</name><operator>.</operator><name>withLongOpt</name></name><argument_list>(<argument><expr><literal type="string">"&amp;piHS55Lo"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      <expr_stmt><expr><call><name><name>OptionBuilder</name><operator>.</operator><name>withValueSeparator</name></name><argument_list>()</argument_list></call></expr>;</expr_stmt>
+      <decl_stmt><decl><type><name>Option</name></type> <name>option0</name> <init>= <expr><call><name><name>OptionBuilder</name><operator>.</operator><name>create</name></name><argument_list>()</argument_list></call></expr></init></decl>;</decl_stmt>
+      <expr_stmt><expr><call><name>assertEquals</name><argument_list>(<argument><expr><literal type="char">'='</literal></expr></argument>, <argument><expr><call><name><name>option0</name><operator>.</operator><name>getValueSeparator</name></name><argument_list>()</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      <expr_stmt><expr><call><name>assertEquals</name><argument_list>(<argument><expr><operator>(</operator><operator>-</operator><literal type="number">1</literal><operator>)</operator></expr></argument>, <argument><expr><call><name><name>option0</name><operator>.</operator><name>getArgs</name></name><argument_list>()</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+  </block_content>}</block></function>
+
+  <comment type="block" format="javadoc">/**
+   * 1. Calls methods withArgName of OptionBuilder with argument "Nf(" and withLongOpt of OptionBuilder with argument empty string.
+   * 2. Creates a new OptionBuilder using method create of OptionBuilder and checks if its args equals -1.
+   */</comment>
+  <function><annotation>@<name>Test</name><argument_list>(<argument><expr><name>timeout</name> <operator>=</operator> <literal type="number">4000</literal></expr></argument>)</argument_list></annotation>
+  <type><specifier>public</specifier> <name>void</name></type> <name>test12</name><parameter_list>()</parameter_list>  <throws>throws <argument><expr><name>Throwable</name></expr></argument></throws>  <block>{<block_content>
+      <expr_stmt><expr><call><name><name>OptionBuilder</name><operator>.</operator><name>withArgName</name></name><argument_list>(<argument><expr><literal type="string">"Nf("</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      <expr_stmt><expr><call><name><name>OptionBuilder</name><operator>.</operator><name>withLongOpt</name></name><argument_list>(<argument><expr><literal type="string">""</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      <decl_stmt><decl><type><name>Option</name></type> <name>option0</name> <init>= <expr><call><name><name>OptionBuilder</name><operator>.</operator><name>create</name></name><argument_list>()</argument_list></call></expr></init></decl>;</decl_stmt>
+      <expr_stmt><expr><call><name>assertEquals</name><argument_list>(<argument><expr><operator>(</operator><operator>-</operator><literal type="number">1</literal><operator>)</operator></expr></argument>, <argument><expr><call><name><name>option0</name><operator>.</operator><name>getArgs</name></name><argument_list>()</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+  </block_content>}</block></function> 
+
+  <comment type="block" format="javadoc">/**
+   * 1. Calls methods withLongOpt of OptionBuilder with argument "A CloneNotSupportedException was thrown: " and hasOptionalArgs of OptionBuilder with argument ")".
+   * 2. Creates a new OptionBuilder using method create of OptionBuilder and checks if its args equals 41 and if it has optional arg.
+   */</comment>
+  <function><annotation>@<name>Test</name><argument_list>(<argument><expr><name>timeout</name> <operator>=</operator> <literal type="number">4000</literal></expr></argument>)</argument_list></annotation>
+  <type><specifier>public</specifier> <name>void</name></type> <name>test13</name><parameter_list>()</parameter_list>  <throws>throws <argument><expr><name>Throwable</name></expr></argument></throws>  <block>{<block_content>
+      <expr_stmt><expr><call><name><name>OptionBuilder</name><operator>.</operator><name>withLongOpt</name></name><argument_list>(<argument><expr><literal type="string">"A CloneNotSupportedException was thrown: "</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      <expr_stmt><expr><call><name><name>OptionBuilder</name><operator>.</operator><name>hasOptionalArgs</name></name><argument_list>(<argument><expr><operator>(</operator><name>int</name><operator>)</operator> <literal type="char">')'</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      <decl_stmt><decl><type><name>Option</name></type> <name>option0</name> <init>= <expr><call><name><name>OptionBuilder</name><operator>.</operator><name>create</name></name><argument_list>()</argument_list></call></expr></init></decl>;</decl_stmt>
+      <expr_stmt><expr><call><name>assertEquals</name><argument_list>(<argument><expr><literal type="number">41</literal></expr></argument>, <argument><expr><call><name><name>option0</name><operator>.</operator><name>getArgs</name></name><argument_list>()</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      <expr_stmt><expr><call><name>assertTrue</name><argument_list>(<argument><expr><call><name><name>option0</name><operator>.</operator><name>hasOptionalArg</name></name><argument_list>()</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+  </block_content>}</block></function>
+
+  <comment type="block" format="javadoc">/**
+   * 1. Expects an IllegalArgumentException when calling method create of OptionBuilder with argument "%m?gIO1Om}".
+   */</comment>
+  <function><annotation>@<name>Test</name><argument_list>(<argument><expr><name>timeout</name> <operator>=</operator> <literal type="number">4000</literal></expr></argument>)</argument_list></annotation>
+  <type><specifier>public</specifier> <name>void</name></type> <name>test14</name><parameter_list>()</parameter_list>  <throws>throws <argument><expr><name>Throwable</name></expr></argument></throws>  <block>{<block_content>
+      <try>try <block>{<block_content> 
+        <expr_stmt><expr><call><name><name>OptionBuilder</name><operator>.</operator><name>create</name></name><argument_list>(<argument><expr><literal type="string">"%m?gIO1Om}"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+        <expr_stmt><expr><call><name>fail</name><argument_list>(<argument><expr><literal type="string">"Expecting exception: IllegalArgumentException"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      
+      </block_content>}</block> <catch>catch<parameter_list>(<parameter><decl><type><name>IllegalArgumentException</name></type> <name>e</name></decl></parameter>)</parameter_list> <block>{<block_content>
+         <comment type="line">//</comment>
+         <comment type="line">// The option '%m?gIO1Om}' contains an illegal character : '%'</comment>
+         <comment type="line">//</comment>
+         <expr_stmt><expr><call><name>verifyException</name><argument_list>(<argument><expr><literal type="string">"org.apache.commons.cli.OptionValidator"</literal></expr></argument>, <argument><expr><name>e</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      </block_content>}</block></catch></try>
+  </block_content>}</block></function>
+
+  <comment type="block" format="javadoc">/**
+   * 1. Expects an IllegalArgumentException when calling method create of OptionBuilder with argument ".".
+   */</comment>
+  <function><annotation>@<name>Test</name><argument_list>(<argument><expr><name>timeout</name> <operator>=</operator> <literal type="number">4000</literal></expr></argument>)</argument_list></annotation>
+  <type><specifier>public</specifier> <name>void</name></type> <name>test15</name><parameter_list>()</parameter_list>  <throws>throws <argument><expr><name>Throwable</name></expr></argument></throws>  <block>{<block_content>
+      <try>try <block>{<block_content> 
+        <expr_stmt><expr><call><name><name>OptionBuilder</name><operator>.</operator><name>create</name></name><argument_list>(<argument><expr><literal type="char">'.'</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+        <expr_stmt><expr><call><name>fail</name><argument_list>(<argument><expr><literal type="string">"Expecting exception: IllegalArgumentException"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      
+      </block_content>}</block> <catch>catch<parameter_list>(<parameter><decl><type><name>IllegalArgumentException</name></type> <name>e</name></decl></parameter>)</parameter_list> <block>{<block_content>
+         <comment type="line">//</comment>
+         <comment type="line">// Illegal option name '.'</comment>
+         <comment type="line">//</comment>
+         <expr_stmt><expr><call><name>verifyException</name><argument_list>(<argument><expr><literal type="string">"org.apache.commons.cli.OptionValidator"</literal></expr></argument>, <argument><expr><name>e</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      </block_content>}</block></catch></try>
+  </block_content>}</block></function>
+
+  <comment type="block" format="javadoc">/**
+   * 1. Expects an IllegalArgumentException when calling method create of OptionBuilders.
+   */</comment>
+  <function><annotation>@<name>Test</name><argument_list>(<argument><expr><name>timeout</name> <operator>=</operator> <literal type="number">4000</literal></expr></argument>)</argument_list></annotation>
+  <type><specifier>public</specifier> <name>void</name></type> <name>test16</name><parameter_list>()</parameter_list>  <throws>throws <argument><expr><name>Throwable</name></expr></argument></throws>  <block>{<block_content>
+      <try>try <block>{<block_content> 
+        <expr_stmt><expr><call><name><name>OptionBuilder</name><operator>.</operator><name>create</name></name><argument_list>()</argument_list></call></expr>;</expr_stmt>
+        <expr_stmt><expr><call><name>fail</name><argument_list>(<argument><expr><literal type="string">"Expecting exception: IllegalArgumentException"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      
+      </block_content>}</block> <catch>catch<parameter_list>(<parameter><decl><type><name>IllegalArgumentException</name></type> <name>e</name></decl></parameter>)</parameter_list> <block>{<block_content>
+         <comment type="line">//</comment>
+         <comment type="line">// must specify longopt</comment>
+         <comment type="line">//</comment>
+         <expr_stmt><expr><call><name>verifyException</name><argument_list>(<argument><expr><literal type="string">"org.apache.commons.cli.OptionBuilder"</literal></expr></argument>, <argument><expr><name>e</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      </block_content>}</block></catch></try>
+  </block_content>}</block></function>
+
+  <comment type="block" format="javadoc">/**
+   * 1. Creates a new OptionBuilder using hasArg of OptionBuilder with argument true and checks if it is
+        not null.
+   */</comment>
+  <function><annotation>@<name>Test</name><argument_list>(<argument><expr><name>timeout</name> <operator>=</operator> <literal type="number">4000</literal></expr></argument>)</argument_list></annotation>
+  <type><specifier>public</specifier> <name>void</name></type> <name>test17</name><parameter_list>()</parameter_list>  <throws>throws <argument><expr><name>Throwable</name></expr></argument></throws>  <block>{<block_content>
+      <decl_stmt><decl><type><name>OptionBuilder</name></type> <name>optionBuilder0</name> <init>= <expr><call><name><name>OptionBuilder</name><operator>.</operator><name>hasArg</name></name><argument_list>(<argument><expr><literal type="boolean">true</literal></expr></argument>)</argument_list></call></expr></init></decl>;</decl_stmt>
+      <expr_stmt><expr><call><name>assertNotNull</name><argument_list>(<argument><expr><name>optionBuilder0</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+  </block_content>}</block></function>
+
+  <comment type="block" format="javadoc">/**
+   * 1. Creates a new OptionBuilder using hasArg of OptionBuilder with argument false and checks if it is
+        not null.
+   */</comment>
+  <function><annotation>@<name>Test</name><argument_list>(<argument><expr><name>timeout</name> <operator>=</operator> <literal type="number">4000</literal></expr></argument>)</argument_list></annotation>
+  <type><specifier>public</specifier> <name>void</name></type> <name>test18</name><parameter_list>()</parameter_list>  <throws>throws <argument><expr><name>Throwable</name></expr></argument></throws>  <block>{<block_content>
+      <decl_stmt><decl><type><name>OptionBuilder</name></type> <name>optionBuilder0</name> <init>= <expr><call><name><name>OptionBuilder</name><operator>.</operator><name>hasArg</name></name><argument_list>(<argument><expr><literal type="boolean">false</literal></expr></argument>)</argument_list></call></expr></init></decl>;</decl_stmt>
+      <expr_stmt><expr><call><name>assertNotNull</name><argument_list>(<argument><expr><name>optionBuilder0</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+  </block_content>}</block></function>
+
+  <comment type="block" format="javadoc">/**
+   * 1. Creates a new OptionBuilder using withDescription of OptionBuilder with argument "PCFM:tG3'MhR;]Z" and checks if it is
+        not null.
+   */</comment>
+  <function><annotation>@<name>Test</name><argument_list>(<argument><expr><name>timeout</name> <operator>=</operator> <literal type="number">4000</literal></expr></argument>)</argument_list></annotation>
+  <type><specifier>public</specifier> <name>void</name></type> <name>test19</name><parameter_list>()</parameter_list>  <throws>throws <argument><expr><name>Throwable</name></expr></argument></throws>  <block>{<block_content>
+      <decl_stmt><decl><type><name>OptionBuilder</name></type> <name>optionBuilder0</name> <init>= <expr><call><name><name>OptionBuilder</name><operator>.</operator><name>withDescription</name></name><argument_list>(<argument><expr><literal type="string">"PCFM:tG3'MhR;]Z"</literal></expr></argument>)</argument_list></call></expr></init></decl>;</decl_stmt>
+      <expr_stmt><expr><call><name>assertNotNull</name><argument_list>(<argument><expr><name>optionBuilder0</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+  </block_content>}</block></function>
+
+  <comment type="block" format="javadoc">/**
+   * 1. Creates a new OptionBuilder using hasArgs of OptionBuilder and checks if it is
+        not null.
+   */</comment>
+  <function><annotation>@<name>Test</name><argument_list>(<argument><expr><name>timeout</name> <operator>=</operator> <literal type="number">4000</literal></expr></argument>)</argument_list></annotation>
+  <type><specifier>public</specifier> <name>void</name></type> <name>test21</name><parameter_list>()</parameter_list>  <throws>throws <argument><expr><name>Throwable</name></expr></argument></throws>  <block>{<block_content>
+      <decl_stmt><decl><type><name>OptionBuilder</name></type> <name>optionBuilder0</name> <init>= <expr><call><name><name>OptionBuilder</name><operator>.</operator><name>hasArgs</name></name><argument_list>()</argument_list></call></expr></init></decl>;</decl_stmt>
+      <expr_stmt><expr><call><name>assertNotNull</name><argument_list>(<argument><expr><name>optionBuilder0</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+  </block_content>}</block></function>
+
+  <comment type="block" format="javadoc">/**
+   * 1. Creates a new OptionBuilder using withType of OptionBuilder with argument String.class and checks if it is
+        not null.
+   */</comment>
+  <function><annotation>@<name>Test</name><argument_list>(<argument><expr><name>timeout</name> <operator>=</operator> <literal type="number">4000</literal></expr></argument>)</argument_list></annotation>
+  <type><specifier>public</specifier> <name>void</name></type> <name>test22</name><parameter_list>()</parameter_list>  <throws>throws <argument><expr><name>Throwable</name></expr></argument></throws>  <block>{<block_content>
+      <decl_stmt><decl><type><name><name>Class</name><argument_list type="generic">&lt;<argument><name>String</name></argument>&gt;</argument_list></name></type> <name>class0</name> <init>= <expr><name><name>String</name><operator>.</operator><name>class</name></name></expr></init></decl>;</decl_stmt>
+      <decl_stmt><decl><type><name>OptionBuilder</name></type> <name>optionBuilder0</name> <init>= <expr><call><name><name>OptionBuilder</name><operator>.</operator><name>withType</name></name><argument_list>(<argument><expr><name>class0</name></expr></argument>)</argument_list></call></expr></init></decl>;</decl_stmt>
+      <expr_stmt><expr><call><name>assertNotNull</name><argument_list>(<argument><expr><name>optionBuilder0</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+  </block_content>}</block></function>
+
+  <comment type="block" format="javadoc">/**
+   * 1. Creates a new OptionBuilder using hasOptionalArg of OptionBuilder and checks if it is
+        not null.
+   */</comment>
+  <function><annotation>@<name>Test</name><argument_list>(<argument><expr><name>timeout</name> <operator>=</operator> <literal type="number">4000</literal></expr></argument>)</argument_list></annotation>
+  <type><specifier>public</specifier> <name>void</name></type> <name>test23</name><parameter_list>()</parameter_list>  <throws>throws <argument><expr><name>Throwable</name></expr></argument></throws>  <block>{<block_content>
+      <decl_stmt><decl><type><name>OptionBuilder</name></type> <name>optionBuilder0</name> <init>= <expr><call><name><name>OptionBuilder</name><operator>.</operator><name>hasOptionalArg</name></name><argument_list>()</argument_list></call></expr></init></decl>;</decl_stmt>
+      <expr_stmt><expr><call><name>assertNotNull</name><argument_list>(<argument><expr><name>optionBuilder0</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+  </block_content>}</block></function>
+  
+  <comment type="block" format="javadoc">/**
+   * 1. Calls method withValueSeparator of OptionBuilder
+   * 2. Creates a new OptionBuilder using method create of OptionBuilder and checks if its args equals -1 and if its value
+   *    separator equals "=".
+   */</comment>
+  <function><annotation>@<name>Test</name><argument_list>(<argument><expr><name>timeout</name> <operator>=</operator> <literal type="number">4000</literal></expr></argument>)</argument_list></annotation>
+  <type><specifier>public</specifier> <name>void</name></type> <name>test24</name><parameter_list>()</parameter_list>  <throws>throws <argument><expr><name>Throwable</name></expr></argument></throws>  <block>{<block_content>
+      <expr_stmt><expr><call><name><name>OptionBuilder</name><operator>.</operator><name>withValueSeparator</name></name><argument_list>()</argument_list></call></expr>;</expr_stmt>
+      <decl_stmt><decl><type><name>Option</name></type> <name>option0</name> <init>= <expr><call><name><name>OptionBuilder</name><operator>.</operator><name>create</name></name><argument_list>(<argument><expr><literal type="string">"SQT$h"</literal></expr></argument>)</argument_list></call></expr></init></decl>;</decl_stmt>
+      <expr_stmt><expr><call><name>assertEquals</name><argument_list>(<argument><expr><operator>(</operator><operator>-</operator><literal type="number">1</literal><operator>)</operator></expr></argument>, <argument><expr><call><name><name>option0</name><operator>.</operator><name>getArgs</name></name><argument_list>()</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      <expr_stmt><expr><call><name>assertEquals</name><argument_list>(<argument><expr><literal type="char">'='</literal></expr></argument>, <argument><expr><call><name><name>option0</name><operator>.</operator><name>getValueSeparator</name></name><argument_list>()</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+  </block_content>}</block></function>
+
+  <comment type="block" format="javadoc">/**
+   * 1. Calls method withArgName of OptionBuilder with argument "S;/}&gt;!^zq{A^".
+   * 2. Creates a new OptionBuilder using method create of OptionBuilder and checks if its args equals -1 and if its id
+   *    separator equals 97.
+   */</comment>
+  <function><annotation>@<name>Test</name><argument_list>(<argument><expr><name>timeout</name> <operator>=</operator> <literal type="number">4000</literal></expr></argument>)</argument_list></annotation>
+  <type><specifier>public</specifier> <name>void</name></type> <name>test25</name><parameter_list>()</parameter_list>  <throws>throws <argument><expr><name>Throwable</name></expr></argument></throws>  <block>{<block_content>
+      <expr_stmt><expr><call><name><name>OptionBuilder</name><operator>.</operator><name>withArgName</name></name><argument_list>(<argument><expr><literal type="string">"S;/}&gt;!^zq{A^"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      <decl_stmt><decl><type><name>Option</name></type> <name>option0</name> <init>= <expr><call><name><name>OptionBuilder</name><operator>.</operator><name>create</name></name><argument_list>(<argument><expr><literal type="char">'a'</literal></expr></argument>)</argument_list></call></expr></init></decl>;</decl_stmt>
+      <expr_stmt><expr><call><name>assertEquals</name><argument_list>(<argument><expr><operator>(</operator><operator>-</operator><literal type="number">1</literal><operator>)</operator></expr></argument>, <argument><expr><call><name><name>option0</name><operator>.</operator><name>getArgs</name></name><argument_list>()</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      <expr_stmt><expr><call><name>assertEquals</name><argument_list>(<argument><expr><literal type="number">97</literal></expr></argument>, <argument><expr><call><name><name>option0</name><operator>.</operator><name>getId</name></name><argument_list>()</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+  </block_content>}</block></function> 
+
+  <comment type="block" format="javadoc">/**
+   * 1. Creates a new OptionBuilder using method isRequired of OptionBuilder and checks if it is not null.
+   */</comment>
+  <function><annotation>@<name>Test</name><argument_list>(<argument><expr><name>timeout</name> <operator>=</operator> <literal type="number">4000</literal></expr></argument>)</argument_list></annotation>
+  <type><specifier>public</specifier> <name>void</name></type> <name>test26</name><parameter_list>()</parameter_list>  <throws>throws <argument><expr><name>Throwable</name></expr></argument></throws>  <block>{<block_content>
+      <decl_stmt><decl><type><name>OptionBuilder</name></type> <name>optionBuilder0</name> <init>= <expr><call><name><name>OptionBuilder</name><operator>.</operator><name>isRequired</name></name><argument_list>(<argument><expr><literal type="boolean">false</literal></expr></argument>)</argument_list></call></expr></init></decl>;</decl_stmt>
+      <expr_stmt><expr><call><name>assertNotNull</name><argument_list>(<argument><expr><name>optionBuilder0</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+  </block_content>}</block></function>
+
+   <comment type="block" format="javadoc">/**
+   * 1. Calls methods withLongOpt of OptionBuilder with argument "&amp;piHS55Lo" and hasArgs of OptionBuilder with argument 0.
+   * 2. Creates a new OptionBuilder using method create of OptionBuilder and checks if its args equals 0.
+   */</comment>
+  <function><annotation>@<name>Test</name><argument_list>(<argument><expr><name>timeout</name> <operator>=</operator> <literal type="number">4000</literal></expr></argument>)</argument_list></annotation>
+  <type><specifier>public</specifier> <name>void</name></type> <name>test27</name><parameter_list>()</parameter_list>  <throws>throws <argument><expr><name>Throwable</name></expr></argument></throws>  <block>{<block_content>
+      <expr_stmt><expr><call><name><name>OptionBuilder</name><operator>.</operator><name>withLongOpt</name></name><argument_list>(<argument><expr><literal type="string">"&amp;piHS55Lo"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      <expr_stmt><expr><call><name><name>OptionBuilder</name><operator>.</operator><name>hasArgs</name></name><argument_list>(<argument><expr><literal type="number">0</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      <decl_stmt><decl><type><name>Option</name></type> <name>option0</name> <init>= <expr><call><name><name>OptionBuilder</name><operator>.</operator><name>create</name></name><argument_list>()</argument_list></call></expr></init></decl>;</decl_stmt>
+      <expr_stmt><expr><call><name>assertEquals</name><argument_list>(<argument><expr><literal type="number">0</literal></expr></argument>, <argument><expr><call><name><name>option0</name><operator>.</operator><name>getArgs</name></name><argument_list>()</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+  </block_content>}</block></function>
+
+  <comment type="block" format="javadoc">/**
+   * 1. Calls methods hasArg of OptionBuilder.
+   * 2. Creates a new OptionBuilder using method create of OptionBuilder and checks if its args equals 1 and
+   *    if its opt equals "k".
+   */</comment>
+  <function><annotation>@<name>Test</name><argument_list>(<argument><expr><name>timeout</name> <operator>=</operator> <literal type="number">4000</literal></expr></argument>)</argument_list></annotation>
+  <type><specifier>public</specifier> <name>void</name></type> <name>test28</name><parameter_list>()</parameter_list>  <throws>throws <argument><expr><name>Throwable</name></expr></argument></throws>  <block>{<block_content>
+      <expr_stmt><expr><call><name><name>OptionBuilder</name><operator>.</operator><name>hasArg</name></name><argument_list>()</argument_list></call></expr>;</expr_stmt>
+      <decl_stmt><decl><type><name>Option</name></type> <name>option0</name> <init>= <expr><call><name><name>OptionBuilder</name><operator>.</operator><name>create</name></name><argument_list>(<argument><expr><literal type="char">'k'</literal></expr></argument>)</argument_list></call></expr></init></decl>;</decl_stmt>
+      <expr_stmt><expr><call><name>assertEquals</name><argument_list>(<argument><expr><literal type="number">1</literal></expr></argument>, <argument><expr><call><name><name>option0</name><operator>.</operator><name>getArgs</name></name><argument_list>()</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      <expr_stmt><expr><call><name>assertEquals</name><argument_list>(<argument><expr><literal type="string">"k"</literal></expr></argument>, <argument><expr><call><name><name>option0</name><operator>.</operator><name>getOpt</name></name><argument_list>()</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+  </block_content>}</block></function>
+
+  <comment type="block" format="javadoc">/**
+   * 1. Calls methods isRequired of OptionBuilder and withLongOpt of OptionBuilder with argument "A CloneNotSupportedException was thrown: ".
+   * 2. Creates a new OptionBuilder using method create of OptionBuilder and checks if it is required and if its args equals -1.
+   */</comment>
+  <function><annotation>@<name>Test</name><argument_list>(<argument><expr><name>timeout</name> <operator>=</operator> <literal type="number">4000</literal></expr></argument>)</argument_list></annotation>
+  <type><specifier>public</specifier> <name>void</name></type> <name>test29</name><parameter_list>()</parameter_list>  <throws>throws <argument><expr><name>Throwable</name></expr></argument></throws>  <block>{<block_content>
+      <expr_stmt><expr><call><name><name>OptionBuilder</name><operator>.</operator><name>isRequired</name></name><argument_list>()</argument_list></call></expr>;</expr_stmt>
+      <expr_stmt><expr><call><name><name>OptionBuilder</name><operator>.</operator><name>withLongOpt</name></name><argument_list>(<argument><expr><literal type="string">"A CloneNotSupportedException was thrown: "</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      <decl_stmt><decl><type><name>Option</name></type> <name>option0</name> <init>= <expr><call><name><name>OptionBuilder</name><operator>.</operator><name>create</name></name><argument_list>()</argument_list></call></expr></init></decl>;</decl_stmt>
+      <expr_stmt><expr><call><name>assertTrue</name><argument_list>(<argument><expr><call><name><name>option0</name><operator>.</operator><name>isRequired</name></name><argument_list>()</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      <expr_stmt><expr><call><name>assertEquals</name><argument_list>(<argument><expr><operator>(</operator><operator>-</operator><literal type="number">1</literal><operator>)</operator></expr></argument>, <argument><expr><call><name><name>option0</name><operator>.</operator><name>getArgs</name></name><argument_list>()</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+  </block_content>}</block></function>
+
+  <comment type="block" format="javadoc">/**
+   * 1. Expects a ClassCastException when calling method withType of OptionBuilder with argument
+   *    a new Option. 
+   */</comment>
+  <function><annotation>@<name>Test</name><argument_list>(<argument><expr><name>timeout</name> <operator>=</operator> <literal type="number">4000</literal></expr></argument>)</argument_list></annotation>
+  <type><specifier>public</specifier> <name>void</name></type> <name>test30</name><parameter_list>()</parameter_list>  <throws>throws <argument><expr><name>Throwable</name></expr></argument></throws>  <block>{<block_content>
+      <decl_stmt><decl><type><name>Option</name></type> <name>option0</name> <init>= <expr><call><name><name>OptionBuilder</name><operator>.</operator><name>create</name></name><argument_list>(<argument><expr><literal type="char">'X'</literal></expr></argument>)</argument_list></call></expr></init></decl>;</decl_stmt>
+      <comment type="line">// Undeclared exception!</comment>
+      <try>try <block>{<block_content> 
+        <expr_stmt><expr><call><name><name>OptionBuilder</name><operator>.</operator><name>withType</name></name><argument_list>(<argument><expr><operator>(</operator><name>Object</name><operator>)</operator> <name>option0</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+        <expr_stmt><expr><call><name>fail</name><argument_list>(<argument><expr><literal type="string">"Expecting exception: ClassCastException"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      
+      </block_content>}</block> <catch>catch<parameter_list>(<parameter><decl><type><name>ClassCastException</name></type> <name>e</name></decl></parameter>)</parameter_list> <block>{<block_content>
+         <comment type="line">//</comment>
+         <comment type="line">// org.apache.commons.cli.Option cannot be cast to java.lang.Class</comment>
+         <comment type="line">//</comment>
+         <expr_stmt><expr><call><name>verifyException</name><argument_list>(<argument><expr><literal type="string">"org.apache.commons.cli.OptionBuilder"</literal></expr></argument>, <argument><expr><name>e</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+      </block_content>}</block></catch></try>
+  </block_content>}</block></function>
+}</block></class>
+</unit>
