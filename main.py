@@ -744,9 +744,180 @@ def round2_computation(autolist,manuallist,pack3):
     print('round2',len(round2),2)
     return round2
 
-def prototype(myfile,pack24,pack23,prune1,pack21,pack15,pack9,pack10,pack3,pack2):
+def round3_computation(autolist,manuallist,pack9):
+    round3 = []
+    round3 = (pack9)
+    round3 = [x for x in round3 if x not in round1]
+    round3 = [x for x in round3 if x not in round2]
+    round3 = sortstuff(round3)
+    for item in round3:
+        if item[0] in manuallist and item[1] in autolist:
+            round3.remove(item)
+        elif item[0] in autolist and item[1] in autolist:
+            round3.remove(item)
+    print('round3',len(round3),3)
+    return round3
+
+def round4_computation(autolist,manuallist,pack10):
+    round4 = []
+    round4 = pack10
+    round4 = [x for x in round4 if x not in round1]
+    round4 = [x for x in round4 if x not in round2]
+    round4 = [x for x in round4 if x not in round3]
+    round4 = sortstuff(round4)
+    for item in round4:
+        if item[0] in manuallist and item[1] in manuallist:
+            round4.remove(item)
+        elif item[0] in autolist and item[1] in autolist:
+            round4.remove(item)
+    print('round4',len(round4),2)
+    return round4
+
+def round5_computation(autolist,manuallist,pack23):
+    round5 = []
+    round5 = pack23
+    round5 = [x for x in round5 if x not in round1]
+    round5 = [x for x in round5 if x not in round2]
+    round5 = [x for x in round5 if x not in round3]
+    round5 = [x for x in round5 if x not in round4]
+    round5 = sortstuff(round5)
+    for item in round5:
+        if item[0] in manuallist and item[1] in manuallist:
+            round5.remove(item)
+        elif item[0] in autolist and item[1] in autolist:
+            round5.remove(item)
+    print('round5',len(round5),1)
+    return round5
+
+def round6_computation(autolist,manuallist,pack21):
+    round6 = pack21 
+    round6 = [x for x in round6 if x not in round1]
+    round6 = [x for x in round6 if x not in round2]
+    round6 = [x for x in round6 if x not in round3]
+    round6 = [x for x in round6 if x not in round4]
+    round6 = [x for x in round6 if x not in round5]
+    round6 = sortstuff(round6)
+    round6real = []
+    for item in round6:
+        if item[0] in autolist and item[1] in autolist:
+            round6.remove(item)
+        elif item[0] in manuallist and item[1] in manuallist:
+            round6.remove(item)
+        else: round6real.append(item)
+    round6 = round6real
+    print('round6',len(round6),4)
+    return round6
+
+def round7_computation(autolist,manuallist,pack15):
+    round7 = pack15
+    round7 = [x for x in round7 if x not in round1]
+    round7 = [x for x in round7 if x not in round2]
+    round7 = [x for x in round7 if x not in round3]
+    round7 = [x for x in round7 if x not in round4]
+    round7 = [x for x in round7 if x not in round5]
+    round7 = [x for x in round7 if x not in round6]
+    round7 = sortstuff(round7)
+    round7real = []
+    for item in round7:
+        if item[0] in manuallist and item[1] in autolist:
+            round7.remove(item)
+        elif item[0] in autolist and item[1] in manuallist:
+            round7real.append(item)
+    round7 = round7real
+    print('round7',len(round7),6)
+    return round7
+
+def definemissingvalues(finallist,oracle,mpmoracle):
+    print()
+    print('Missing 1 to 1 pairs:') 
+    for pair in oracle:
+        if pair not in finallist:
+            print('MISSING in ORACLE one to one',pair)         
+    for pair in mpmoracle:
+        if pair not in finallist:
+            print('MISSING in mpmORACLE one to one',pair)   
+    print()
+    testcluster = []        
+    for file in finallist:
+            testcluster.append(file[0])
+            testcluster.append(file[1])
+    testcluster = list(dict.fromkeys(testcluster))
+    
+    print('testcluster',testcluster)
+    print()
+    print('oraclecluster',oraclecluster)
+    
+    print('len of oracle cluster list', len(oraclecluster))
+    print('len of mpmoracle cluster list', len(mpmoraclecluster))
+    print('len of test cluster list',len(testcluster))
+    print()
+    print('Missing tests:')
+    for file in oraclecluster:
+        if file not in testcluster:
+            print("MISSINGo", file) 
+        else: print('in_o',file)
+    for file in mpmoraclecluster:
+        if file not in testcluster:
+            print("MISSINGmpm", file)
+        else: print('in_mpm',file)
+
+
+def prototypecheck(oracle,mpmoracle,unit):
+    pack1 = sortstuff(unit)
+    counter = 0
+    counter2 = 0
+    itemlist = []
+    for item in unit:  
+        if item in oracle:
+            itemlist.append(item)
+            counter +=1
+        else: 
+            counter2+=1
+    print("Number of found combos", counter)
+    print('printing items found in matchlist that are in oracle:')
+    for item in sorted(itemlist):
+        print(item) 
+    print()
+    for item in unit:  
+        if item in mpmoracle:
+            itemlist.append(item)
+            counter +=1
+        else: 
+            counter2+=1
+    print("Number of found combos", counter)
+    print('printing items found in matchlist that are in mpmoracle:')
+    for item in sorted(itemlist):
+        print(item) 
+    print()
+    question1 = sorted(unit)[0][0]
+    questionnum =1
+    for item in sorted(unit):
+        print(item)
+        if question1 != item[0]:
+            question1 = item[0]
+            questionnum+=1
+    print('number of questions', questionnum)
+    definemissingvalues(unit,oracle,mpmoracle)
+
+
+def prototype(myfile,pack24,pack23,prune1,pack21,pack15,pack9,pack10,pack3,pack2,prune1,prune4):
     round1 = round1_computation(autolist,manuallist,pack24)
-    round2 = round2_computation(autolist,manuallist,myfile)
+    round2 = round2_computation(autolist,manuallist,pack3)
+    round3 = round3_computation(autolist,manuallist,pack9)
+    round4 = round4_computation(autolist,manuallist,pack10)
+    round5 = round5_computation(autolist,manuallist,pacak23)
+    round6 = round6_computation(autolist,manuallist,pack21)
+    round7 = round7_computation(autolist,manuallist,pack15)
+    epic1 = round1 + round2 + round3 + round4 + round5 + round6 + round7
+    epic1 = [x for x in epic1 if x not in prune1]
+    epic1 = [x for x in epic1 if x not in prune4]
+    epic1 = sortstuff(epic1)
+    print(len(epic1))
+    prototypecheck(oracle,mpmoracle,epic1)
+
+
+
+
 
 def main():
     myfile = pd.read_csv(r"OptionBuilder.csv",header = 0)
