@@ -1,18 +1,18 @@
 #!/usr/bin/python3
 
 #import sys
-#import pandas as pd
-#import string
+import pandas as pd
+import string
 #import gensim
 #from gensim.models import Word2Vec 
 #from gensim.models import Doc2Vec
 #from gensim.models import CoherenceModel
 #from gensim.models import TfidfModel
 #from gensim.corpora import Dictionary
-#import nltk
-#from nltk.tokenize import word_tokenize 
-#import xml.etree.ElementTree as ET
-#import re
+import nltk
+from nltk.tokenize import word_tokenize 
+import xml.etree.ElementTree as ET
+import re
 #import collections
 #from sklearn.decomposition import PCA
 #from matplotlib import pyplot as plt
@@ -128,6 +128,7 @@ def lowercasing_and_backup(myfile):
     myfile['Combo'] = myfile['Scenario'].str.cat(myfile['Test'],sep = " ")
     myfile.columns = ['Type','Scenario','Test','TestName','Combo']
     mybackupfile = myfile.copy()
+    return myfile
 
 def tokenize_and_stopwords(myfile):
     myfile['Scenario'] = myfile.apply(lambda column: nltk.word_tokenize(column['Scenario']),axis = 1)
@@ -137,28 +138,28 @@ def tokenize_and_stopwords(myfile):
     myfile['Combo']= myfile['Combo'].apply(lambda x: [item for item in x if item not in stopwords])
     return myfile
 
-def tolists(myfile):
-    scenariocorpus = myfile['Scenario'].tolist()
+def producelist(myfile):
+    scenariocorp = myfile['Scenario'].tolist()
     testcorpus = myfile['Test'].tolist()
     combinedcorpus = myfile['Combo'].tolist()   
-    return scenariocorpus,testcorpus,combinedcorpus
+    return scenariocorp,testcorpus,combinedcorpus
 
 def textpreprocessing(myfile):
     myfile = cleaning(myfile)
     myfile = definetestnames(myfile)
     myfile = camelcasing(myfile)
     myfile = lowercasing_and_backup(myfile)
-    myfile = tokenize_and_stopwords
-    scenariocorpus,testcorpus,combinedcorpus = tolists(myfile)
+    myfile = tokenize_and_stopwords(myfile)
+    scenariocorpus,testcorpus,combinedcorpus = producelist(myfile)
     testlen = len(myfile['Test'])
     return myfile, testlen,scenariocorpus,testcorpus,combinedcorpus
 
 def build_XML_trees():
     #removed all leading comments before declaration of package in original java files
     #used srcml to produce xml files for new clean java test files
-    cleanautotree = ET.parse(r'C:\Users\brynl\Dropbox\All_Documents\WashingtonStateREU\cleanautotests.xml')
+    cleanautotree = ET.parse(r'cleanautotests.xml')
     cleanautoroot = cleanautotree.getroot()
-    cleanmanualtree = ET.parse(r'C:\Users\brynl\Dropbox\All_Documents\WashingtonStateREU\cleanmanualtests.xml')
+    cleanmanualtree = ET.parse(r'cleanmanualtests.xml')
     cleanmanualroot = cleanmanualtree.getroot() 
     return cleanautotree,cleanautoroot,cleanmanualtree,cleanmanualroot 
 
@@ -214,15 +215,15 @@ def processingXML(cleanautotree,cleanautoroot,cleanmanualtree,cleanmanualroot,my
     myfile.columns = ['Type','Scenario','Test','TestName','Combo','XML','Methods', 'Asserts','Methods_Asserts','Assert_Only']
     myfile['Assert_Only']=listofallfiles
     myfile.columns = ['Type','Scenario','Test','TestName','Combo','XML','Methods', 'Asserts','Methods_Asserts','Assert_Only']
-    return myfile
+    return myfile,listofallfiles
 
-def info_extraction_XML(myfile):
+def info_extraction_XML(myfile,listofallfiles):
     #isolating methods and assertions
     counter = 0
     for file in listofallfiles:
-        myfile['Methods'][counter] = ''
-        myfile['Asserts'][counter] = ''
-        myfile['Methods_Asserts'][counter] = ''
+        #myfile['Methods'][counter] = ''
+        #myfile['Asserts'][counter] = ''
+        #myfile['Methods_Asserts'][counter] = ''
         stringstuff = ''
         assertstuff = ''
         expressionstuff = ''
@@ -708,7 +709,7 @@ def LSI(myfile):
     prune4 = lsiresults 
     return prune4
 
-def create_check_lists(myfile):
+def create_suitetype_lists(myfile):
     manuallist = []
     autolist = []
     for item in range(len(myfile['Type'])):
@@ -899,8 +900,7 @@ def prototypecheck(oracle,mpmoracle,unit):
     print('number of questions', questionnum)
     definemissingvalues(unit,oracle,mpmoracle)
 
-
-def prototype(myfile,pack24,pack23,prune1,pack21,pack15,pack9,pack10,pack3,pack2,prune1,prune4):
+def prototype(myfile,pack24,pack23,prune1,pack21,pack15,pack9,pack10,pack3,pack2,prune4):
     round1 = round1_computation(autolist,manuallist,pack24)
     round2 = round2_computation(autolist,manuallist,pack3)
     round3 = round3_computation(autolist,manuallist,pack9)
@@ -915,18 +915,7 @@ def prototype(myfile,pack24,pack23,prune1,pack21,pack15,pack9,pack10,pack3,pack2
     print(len(epic1))
     prototypecheck(oracle,mpmoracle,epic1)
 
-
-
-
-
-def main():
-    myfile = pd.read_csv(r"OptionBuilder.csv",header = 0)
-    oracle, mpmoracle, oraclecluster, mpmoraclecluster = defineoracle_optionbuilder
-    myfile,testlen,scenariocorpus,testcorpus,combinedcorpus = textpreprocessing(myfile)
-    cleanautotree,cleanautoroot,cleanmanualtree,cleanmanualroot = build_XML_trees
-    cleanautotree,cleanautoroot,cleanmanualtree,cleanmanualroot = cleantrees(cleanautotree,cleanautoroot,cleanmanualtree,cleanmanualroot)
-    myfile = processingXML(cleanautotree,cleanautoroot,cleanmanualtree,cleanmanualroot,myfile)
-    myfile = info_extraction_XML(myfile)
+def packs_n_prunes(myfile,testlen):
     pack2 = one2one_methods_plus_assertchecking_results(myfile,testlen)
     pack3 = one2one_asserts_results(myfile,testlen)
     pack9, pack10 = longestcommonsubsequence(myfile,testlen)
@@ -936,6 +925,22 @@ def main():
     pack23 = tfidf_nfc(scenariocorpus,testlen,myfile)
     pack24 = tfidf_bnn(scenariocorpus,testlen,myfile)
     prune4 = LSI(myfile)
-    manuallist,autolist = create_check_lists(myfile)
+    return(myfile,pack24,pack23,prune1,pack21,pack15,pack9,pack10,pack3,pack2,prune4)
 
-main
+def XML_and_preprocessing(myfile):
+    myfile,testlen,scenariocorpus,testcorpus,combinedcorpus = textpreprocessing(myfile)
+    cleanautotree,cleanautoroot,cleanmanualtree,cleanmanualroot = build_XML_trees()
+    cleanautotree,cleanautoroot,cleanmanualtree,cleanmanualroot = cleantrees(cleanautotree,cleanautoroot,cleanmanualtree,cleanmanualroot)
+    listofallfiles, myfile = processingXML(cleanautotree,cleanautoroot,cleanmanualtree,cleanmanualroot,myfile)
+    myfile = info_extraction_XML(myfile,listofallfiles)
+    return myfile,cleanautotree,cleanautoroot,cleanmanualtree,cleanmanualroot
+
+def main():
+    myfile = pd.read_csv(r"OptionBuilder.csv",header = 0)
+    oracle, mpmoracle, oraclecluster, mpmoraclecluster = defineoracle_optionbuilder()
+    myfile,cleanautotree,cleanautoroot,cleanmanualtree,cleanmanualroot = XML_and_preprocessing(myfile)
+    #myfile,pack24,pack23,prune1,pack21,pack15,pack9,pack10,pack3,pack2,prune4 = packs_n_prunes(myfile,testlen)
+    #manuallist,autolist = create_suitetype_lists(myfile)
+    #prototype(myfile,pack24,pack23,prune1,pack21,pack15,pack9,pack10,pack3,pack2,prune4)
+
+main()
