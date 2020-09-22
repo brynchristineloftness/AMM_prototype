@@ -41,15 +41,15 @@ def lsi_prune(myfile):
     lsi_scenario_PRUNE = lsiresults
     return lsi_scenario_PRUNE
 
-def setmetrics_combo(myfile,testlen,defaultgrid):
+def setmetrics_combo(myfile,testlen,defaultgrid,column,num):
     intersectiongrid = defaultgrid     
-    intersectiongrid = intersect('Combo',myfile,intersectiongrid)
+    intersectiongrid = intersect(column,myfile,intersectiongrid)
     official_list = []
     listsorted = []
     official_list, listsorted = createsortedlist(intersectiongrid)
     listsorted = sorted(listsorted, key=lambda x: x[0])
     listsorted = list(set(tuple(x) for x in listsorted))
-    official_list, listsorted = compute(official_list, listsorted,.51)
+    official_list, listsorted = compute(official_list, listsorted,num)
     setintersectionresults, index_list_methods = printresults(official_list,'Full Results for Methods (no args or suite name)')
     results = TPFPoutput(setintersectionresults,oracle,mpmoracle)
     setintersection_Combo_51_RESULTS = setintersectionresults #pack15
@@ -97,18 +97,19 @@ def scenariomodel(myfile,testlen):
     skipgram_scenario_PRUNE = index_list #len = 249
     return skipgram_scenario_PRUNE
 
-def tfidf_bnn(myfile,testlen):
+def tfidf_bnn(myfile,testlen,num):
     tfidfgrid = defaultgrid
     tfidfgrid = tfidfcorptogrid(scenariocorpus,testlen,tfidfgrid,'bnn')
     official_list_tfidf, mainlistsorted = createsortedlist(tfidfgrid)
     mainlistsorted = sorted(mainlistsorted, key=lambda x: x[0])
     mainlistsorted = list(set(tuple(x) for x in mainlistsorted))
-    official_list_tfidf, mainlistsorted = compute(official_list_tfidf, mainlistsorted,.88)
+    official_list_tfidf, mainlistsorted = compute(official_list_tfidf, mainlistsorted,num)
     tfidfresults, index_list = printresults(official_list_tfidf,'Full Results for TFIDF')
     results = TPFPoutput(tfidfresults,oracle,mpmoracle)
     index_list = convertindextoname(index_list)
     tfidf_bnn_scenario_RESULTS = index_list 
     return tfidf_bnn_scenario_RESULTS
+
 
 def one_2_one_asserts(myfile,testlen):
     testlist_set = myfile['Asserts']
@@ -205,7 +206,6 @@ def prototypecheck(pack1):
             question1 = item[0]
             questionnum+=1
     print('number of questions', questionnum)
-    definemissingvalues(pack1)
 
 def camel_case_split(str):
     words = [[str[0]]] 
@@ -289,40 +289,6 @@ def convertnametoindex(name_list):
         itemcount = 0
         itemcount2 = 0
     return name_list
-
-def definemissingvalues(finallist):
-    print()
-    print('Missing 1 to 1 pairs:') 
-    for pair in oracle:
-        if pair not in finallist:
-            print('MISSING in ORACLE one to one',pair)         
-    for pair in mpmoracle:
-        if pair not in finallist:
-            print('MISSING in mpmORACLE one to one',pair)   
-    print()
-    testcluster = []        
-    for file in finallist:
-            testcluster.append(file[0])
-            testcluster.append(file[1])
-    testcluster = list(dict.fromkeys(testcluster))
-    
-    print('testcluster',testcluster)
-    print()
-    print('oraclecluster',oraclecluster)
-    
-    print('len of oracle cluster list', len(oraclecluster))
-    print('len of mpmoracle cluster list', len(mpmoraclecluster))
-    print('len of test cluster list',len(testcluster))
-    print()
-    print('Missing tests:')
-    for file in oraclecluster:
-        if file not in testcluster:
-            print("MISSINGo", file) 
-        else: print('in_o',file)
-    for file in mpmoraclecluster:
-        if file not in testcluster:
-            print("MISSINGmpm", file)
-        else: print('in_mpm',file)
 
 def computelower(officiallist, sortedlist, breakpoint):
     valuelist = []
@@ -736,9 +702,6 @@ myfile.columns = ['Type','Scenario','Test','TestName','Combo','XML','Methods', '
 
 counter = 0
 for file in listofallfiles:
-    #myfile['Methods'][counter] = ''
-    #myfile['Asserts'][counter] = ''
-    #myfile['Methods_Asserts'][counter] = ''
     stringstuff = ''
     assertstuff = ''
     expressionstuff = ''
@@ -762,7 +725,6 @@ for file in listofallfiles:
                                                 for call in item:
                                                     if call.tag == 'name':
                                                         methods_notrycatch_noasserts = (ET.tostring(call,encoding = 'unicode'))
-                                                        #print('m',methods_notrycatch_noasserts)
                                                         stringstuff+=methods_notrycatch_noasserts
                                                         expressionstuff +=methods_notrycatch_noasserts
         elif(element.tag=='try'):
@@ -782,7 +744,6 @@ for file in listofallfiles:
                                                             trystuff = (ET.tostring(child,encoding = 'unicode'))
                                                             stringstuff += trystuff
                                                             expressionstuff += trystuff
-                                                            #print('t',trystuff)
         elif(element.tag == 'expr_stmt'):
             for element2 in element:
                 if element2.tag == 'expr':
@@ -795,7 +756,6 @@ for file in listofallfiles:
                                             for file in expr:
                                                 if file.tag == 'name':
                                                     assertname = (ET.tostring(file,encoding = 'unicode'))
-                                                    #print('a',assertname)
                                                     assertstuff += assertname
                                                     expressionstuff += assertname
                                                     finalassertname = assertname
@@ -811,7 +771,6 @@ for file in listofallfiles:
                                                                                     for name in children:
                                                                                         if name.tag =='name':
                                                                                             namespot = (ET.tostring(name,encoding = 'unicode'))
-                                                                                            #print('n',namespot)
                                                                                             assertstuff += namespot
                                                                                             expressionstuff+=namespot
 
@@ -828,13 +787,10 @@ clean('Assert_Only')
     
 for file in range(len(myfile['Asserts'])):
     myfile['Asserts'][file] = myfile['Asserts'][file].split()
-
 for file in range(len(myfile['Methods'])):
     myfile['Methods'][file] = myfile['Methods'][file].split()
-    
 for file in range(len(myfile['Methods_Asserts'])):
     myfile['Methods_Asserts'][file] = myfile['Methods_Asserts'][file].split()
-    
 for file in range(len(myfile['Assert_Only'])):
     myfile['Assert_Only'][file] = myfile['Assert_Only'][file].split()
     
@@ -842,9 +798,9 @@ for file in range(len(myfile['Assert_Only'])):
 
 pack3 = one_2_one_asserts(myfile,testlen)
 pack9 = longest_common_subsequence(myfile,testlen)
-pack15 = setmetrics_combo(myfile,testlen,defaultgrid)
+pack15 = setmetrics_combo(myfile,testlen,defaultgrid,"Combo",.51)
 prune1 = scenariomodel(myfile,testlen)
-pack24 = tfidf_bnn(myfile,testlen)
+pack24 = tfidf_bnn(myfile,testlen,.88)
 prune4 = lsi_prune(myfile)
 
 manuallist = []
@@ -870,6 +826,8 @@ for item in round1:
         round1.remove(item)
     elif item[0] in manuallist and item[1] in manuallist:
         round1.remove(item)
+prune_scenario = setmetrics_combo(myfile,testlen,defaultgrid,"Scenario",.925)
+round1 = [x for x in round1 if x not in prune_scenario]
 print('round1',len(round1), 4)  #4/51
 deletepack+= round1
 #prototypecheck(round1)
@@ -912,6 +870,8 @@ for item in round3:
         round3.remove(item)
     elif item[0] in autolist and item[1] in autolist:
         round3.remove(item)
+
+
 print('round3',len(round3),4)
 #prototypecheck(round3) 
 #['test08', 'testTwoCompleteOptions']
@@ -933,9 +893,14 @@ for item in round4:
     elif item[0] in autolist and item[1] in manuallist:
         round4real.append(item)
 round4 = round4real
+
+prune_scenario = setmetrics_combo(myfile,testlen,defaultgrid,"Scenario",.79)
+round4 = [x for x in round4 if x not in prune_scenario]
+
 round4 = [x for x in round4 if x not in deletepack]
-print('round7',len(round4),10) #3/60
-#prototypecheck(round7)
+
+print('round7',len(round4),8) #3/60
+#prototypecheck(round4)
 
 #-------------------
 epic1 = round1 + round2+ round3+ round4
