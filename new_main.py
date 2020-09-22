@@ -835,6 +835,8 @@ round1 = [x for x in round1 if x in prunepack]
 prunepack = []
 prunepack = setmetrics_combo(myfile,testlen,defaultgrid,"Test",.71)
 round1 = [x for x in round1 if x in prunepack]
+prunepack = setmetrics_combo(myfile,testlen,defaultgrid,"Assert_Only",.99)
+round1 = [x for x in round1 if x in prunepack]
 
 round1 = [x for x in round1 if x not in prune1]
 round1 = [x for x in round1 if x not in prune4]
@@ -857,9 +859,11 @@ for item in round2:
 
 deletepack +=round2
 
+
 round2 = [x for x in round2 if x not in prune1]
 round2 = [x for x in round2 if x not in prune4]
 print('round2',len(round2),2) #2/8
+#prototypecheck(round2)
 #--------------------------------
 
 
@@ -878,6 +882,9 @@ deletepack +=round3
 prune = setmetrics_combo(myfile,testlen,defaultgrid,"Methods_Asserts",.75)
 round3 = [x for x in round3 if x in prune]
 
+prunepack = setmetrics_combo(myfile,testlen,defaultgrid,"Assert_Only",.99)
+round3= [x for x in round3 if x in prunepack]
+
 
 
 round3 = [x for x in round3 if x not in prune1]
@@ -885,6 +892,7 @@ round3 = [x for x in round3 if x not in prune4]
 
 
 print('round3',len(round3),4)
+#prototypecheck(round3)
 #-------
 round4 = []
 round4 = pack15
@@ -901,15 +909,24 @@ round4 = round4real
 prune_scenario = setmetrics_combo(myfile,testlen,defaultgrid,"Scenario",.7889)
 round4 = [x for x in round4 if x not in prune_scenario]
 
-prune_asserts = setmetrics_combo(myfile,testlen,defaultgrid,"Asserts",.4)
+prune_asserts = setmetrics_combo(myfile,testlen,defaultgrid,"Asserts",.34)
 round4 = [x for x in round4 if x not in prune_asserts]
+
+
+prune_asserts = setmetrics_combo(myfile,testlen,defaultgrid,"Methods_Asserts",.60)
+round4_MA = [x for x in round4 if x not in prune_asserts]
+round4 = [x for x in round4 if x in prune_asserts]
+
+add_methods = setmetrics_combo(myfile,testlen,defaultgrid,"Methods",.9995)
+round4 = [x for x in round4 if x in add_methods]
+
 
 round4 = [x for x in round4 if x not in deletepack]
 deletepack+=round4
 round4 = [x for x in round4 if x not in prune1]
 round4 = [x for x in round4 if x not in prune4]
 
-print('round4',len(round4),8) #3/60
+print('round4',len(round4),5) #3/60
 #prototypecheck(round4)
 
 #-------------------
@@ -924,12 +941,22 @@ for item in round5:
         round5real.append(item)
 round5 = round5real
 
+
 round5 = [x for x in round5 if x not in prune1]
 round5 = [x for x in round5 if x not in prune4]
-print('round5',len(round5),1) #3/60
-#=========================
+print('round5',len(round5),1) 
+#----------------------------
+round6 = round4_MA
+round6 = sortstuff(round6)
+round6 = [x for x in round6 if x not in deletepack]
+round6 = [x for x in round6 if x not in prune1]
+round6 = [x for x in round6 if x not in prune4]
+print('round6',len(round6),3)
 
-epic1 =  round1+round2+ round3+ round4+round5
+
+#+++++++++++++++++++++++++
+
+epic1 =  round1+round2+ round3+ round4+round5+round6
 
 epic1 = [x for x in epic1 if x not in prune1]
 epic1 = [x for x in epic1 if x not in prune4]
