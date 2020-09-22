@@ -126,7 +126,7 @@ def one_2_one_asserts(myfile,testlen):
     one2one_asserts_RESULTS = matchlist #pack3
     return one2one_asserts_RESULTS
 
-def longest_common_subsequence(myfile,testlen):
+def longest_common_subsequence(myfile,testlen,num):
     testlist_set = myfile['Asserts']
     sublist = []
     sublist2 = []
@@ -139,7 +139,7 @@ def longest_common_subsequence(myfile,testlen):
                 minimum = min(len(testone),len(testtwo))
                 subsequencelen = lcs(testone,testtwo)
                 min_minus_lcs = minimum-subsequencelen
-                if subsequencelen>4:
+                if subsequencelen>num:
                     sublist.append([myfile['TestName'][test],myfile['TestName'][test2]])
     sublist = sortstuff(sublist)
     LCS_asserts_high = sublist
@@ -797,7 +797,7 @@ for file in range(len(myfile['Assert_Only'])):
     
 
 pack3 = one_2_one_asserts(myfile,testlen)
-pack9 = longest_common_subsequence(myfile,testlen)
+pack9 = longest_common_subsequence(myfile,testlen,4)
 pack15 = setmetrics_combo(myfile,testlen,defaultgrid,"Combo",.51)
 prune1 = scenariomodel(myfile,testlen)
 pack24 = tfidf_bnn(myfile,testlen,.88)
@@ -828,14 +828,12 @@ for item in round1:
         round1.remove(item)
 prune_scenario = setmetrics_combo(myfile,testlen,defaultgrid,"Scenario",.925)
 round1 = [x for x in round1 if x not in prune_scenario]
-print('round1',len(round1), 4)  #4/51
+  #4/51
 deletepack+= round1
-#prototypecheck(round1)
-#['test02', 'test05']
-#['test02', 'test08']
-#['test05', 'test08']
 
-
+round1 = [x for x in round1 if x not in prune1]
+round1 = [x for x in round1 if x not in prune4]
+print('round1',len(round1), 4)
 #---------------------------------
 
 #round2 = 3
@@ -851,12 +849,12 @@ for item in round2:
         round2.remove(item)
     elif item[0] in manuallist and item[1] in autolist:
         round2.remove(item)
-print('round2',len(round2),2) #2/8
-#prototypecheck(round2)
-#['test14', 'testIllegalOptions']
-#['test16', 'testCreateIncompleteOption']
+
 deletepack +=round2
 
+round2 = [x for x in round2 if x not in prune1]
+round2 = [x for x in round2 if x not in prune4]
+print('round2',len(round2),2) #2/8
 #--------------------------------
 
 
@@ -872,16 +870,12 @@ for item in round3:
         round3.remove(item)
 
 
-print('round3',len(round3),4)
-#prototypecheck(round3) 
-#['test08', 'testTwoCompleteOptions']
-#['testBaseOptionCharOpt', 'testCompleteOption']
-#['testBaseOptionCharOpt', 'testTwoCompleteOptions']
-#['testCompleteOption', 'testTwoCompleteOptions']
+
 deletepack +=round3
+round3 = [x for x in round3 if x not in prune1]
+round3 = [x for x in round3 if x not in prune4]
 
-
-
+print('round3',len(round3),4)
 #-------
 round4 = []
 round4 = pack15
@@ -894,13 +888,16 @@ for item in round4:
         round4real.append(item)
 round4 = round4real
 
-prune_scenario = setmetrics_combo(myfile,testlen,defaultgrid,"Scenario",.79)
+prune_scenario = setmetrics_combo(myfile,testlen,defaultgrid,"Scenario",.7889)
 round4 = [x for x in round4 if x not in prune_scenario]
 
 round4 = [x for x in round4 if x not in deletepack]
 
+round4 = [x for x in round4 if x not in prune1]
+round4 = [x for x in round4 if x not in prune4]
+
 print('round7',len(round4),8) #3/60
-#prototypecheck(round4)
+prototypecheck(round4)
 
 #-------------------
 epic1 = round1 + round2+ round3+ round4
@@ -910,4 +907,4 @@ epic1 = [x for x in epic1 if x not in prune4]
 epic1 = sortstuff(epic1)
 
 print(len(epic1))
-prototypecheck(epic1)
+#prototypecheck(epic1)
