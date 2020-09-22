@@ -872,21 +872,18 @@ round3 = (pack9)
 round3 = [x for x in round3 if x not in deletepack]
 
 round3 = sortstuff(round3)
+round3real = []
 for item in round3:
-    if item[0] in manuallist and item[1] in autolist:
-        round3.remove(item)
-    elif item[0] in autolist and item[1] in autolist:
-        round3.remove(item)
+    if item[0] in manuallist and item[1] in manuallist:
+        round3real.append(item)
+        
+round3 = round3real
 
 deletepack +=round3
 prune = setmetrics_combo(myfile,testlen,defaultgrid,"Methods_Asserts",.75)
 round3 = [x for x in round3 if x in prune]
-
 prunepack = setmetrics_combo(myfile,testlen,defaultgrid,"Assert_Only",.99)
 round3= [x for x in round3 if x in prunepack]
-
-
-
 round3 = [x for x in round3 if x not in prune1]
 round3 = [x for x in round3 if x not in prune4]
 
@@ -928,7 +925,6 @@ round4 = [x for x in round4 if x not in prune4]
 
 print('round4',len(round4),5) #3/60
 #prototypecheck(round4)
-
 #-------------------
 round5 = []
 round5 = tfidf_model(myfile,testlen,.52,'nfc')
@@ -952,7 +948,6 @@ round6 = [x for x in round6 if x not in deletepack]
 round6 = [x for x in round6 if x not in prune1]
 round6 = [x for x in round6 if x not in prune4]
 print('round6',len(round6),3)
-
 
 #+++++++++++++++++++++++++
 
