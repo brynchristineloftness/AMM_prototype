@@ -829,8 +829,12 @@ for item in round1:
 
 
 deletepack+= round1
-prune_scenario = []
-
+prunepack = []
+prunepack = setmetrics_combo(myfile,testlen,defaultgrid,"Methods",.98)
+round1 = [x for x in round1 if x in prunepack]
+prunepack = []
+prunepack = setmetrics_combo(myfile,testlen,defaultgrid,"Test",.71)
+round1 = [x for x in round1 if x in prunepack]
 
 round1 = [x for x in round1 if x not in prune1]
 round1 = [x for x in round1 if x not in prune4]
