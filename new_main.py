@@ -97,9 +97,9 @@ def scenariomodel(myfile,testlen):
     skipgram_scenario_PRUNE = index_list #len = 249
     return skipgram_scenario_PRUNE
 
-def tfidf_bnn(myfile,testlen,num):
+def tfidf_model(myfile,testlen,num,typetfidf):
     tfidfgrid = defaultgrid
-    tfidfgrid = tfidfcorptogrid(scenariocorpus,testlen,tfidfgrid,'bnn')
+    tfidfgrid = tfidfcorptogrid(scenariocorpus,testlen,tfidfgrid,typetfidf)
     official_list_tfidf, mainlistsorted = createsortedlist(tfidfgrid)
     mainlistsorted = sorted(mainlistsorted, key=lambda x: x[0])
     mainlistsorted = list(set(tuple(x) for x in mainlistsorted))
@@ -800,7 +800,7 @@ pack3 = one_2_one_asserts(myfile,testlen)
 pack9 = longest_common_subsequence(myfile,testlen,4)
 pack15 = setmetrics_combo(myfile,testlen,defaultgrid,"Combo",.51)
 prune1 = scenariomodel(myfile,testlen)
-pack24 = tfidf_bnn(myfile,testlen,.88)
+pack24 = tfidf_model(myfile,testlen,.88,'bnn')
 prune4 = lsi_prune(myfile)
 
 manuallist = []
@@ -826,14 +826,15 @@ for item in round1:
         round1.remove(item)
     elif item[0] in manuallist and item[1] in manuallist:
         round1.remove(item)
-prune_scenario = setmetrics_combo(myfile,testlen,defaultgrid,"Scenario",.925)
-round1 = [x for x in round1 if x not in prune_scenario]
-  #4/51
+
+
 deletepack+= round1
+prune_scenario = []
+
 
 round1 = [x for x in round1 if x not in prune1]
 round1 = [x for x in round1 if x not in prune4]
-print('round1',len(round1), 4)
+print('round1',len(round1), 3)
 #---------------------------------
 
 #round2 = 3
@@ -869,11 +870,15 @@ for item in round3:
     elif item[0] in autolist and item[1] in autolist:
         round3.remove(item)
 
-
-
 deletepack +=round3
+prune = setmetrics_combo(myfile,testlen,defaultgrid,"Methods_Asserts",.75)
+round3 = [x for x in round3 if x in prune]
+
+
+
 round3 = [x for x in round3 if x not in prune1]
 round3 = [x for x in round3 if x not in prune4]
+
 
 print('round3',len(round3),4)
 #-------
@@ -888,23 +893,43 @@ for item in round4:
         round4real.append(item)
 round4 = round4real
 
+
 prune_scenario = setmetrics_combo(myfile,testlen,defaultgrid,"Scenario",.7889)
 round4 = [x for x in round4 if x not in prune_scenario]
 
-round4 = [x for x in round4 if x not in deletepack]
+prune_asserts = setmetrics_combo(myfile,testlen,defaultgrid,"Asserts",.4)
+round4 = [x for x in round4 if x not in prune_asserts]
 
+round4 = [x for x in round4 if x not in deletepack]
+deletepack+=round4
 round4 = [x for x in round4 if x not in prune1]
 round4 = [x for x in round4 if x not in prune4]
 
-print('round7',len(round4),8) #3/60
-prototypecheck(round4)
+print('round4',len(round4),8) #3/60
+#prototypecheck(round4)
 
 #-------------------
-epic1 = round1 + round2+ round3+ round4
+round5 = []
+round5 = tfidf_model(myfile,testlen,.52,'nfc')
+round5 = sortstuff(round5)
+round5 = [x for x in round5 if x not in deletepack]
+
+round5real = []
+for item in round5:
+    if item[0] in autolist and item[1] in manuallist:
+        round5real.append(item)
+round5 = round5real
+
+round5 = [x for x in round5 if x not in prune1]
+round5 = [x for x in round5 if x not in prune4]
+print('round5',len(round5),1) #3/60
+#=========================
+
+epic1 =  round1+round2+ round3+ round4+round5
 
 epic1 = [x for x in epic1 if x not in prune1]
 epic1 = [x for x in epic1 if x not in prune4]
 epic1 = sortstuff(epic1)
 
 print(len(epic1))
-#prototypecheck(epic1)
+prototypecheck(epic1)
