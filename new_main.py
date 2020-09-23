@@ -944,9 +944,14 @@ print('round5',len(round5),1)
 #----------------------------
 round6 = round4_MA
 round6 = sortstuff(round6)
+
+for file in myfile['Methods']:
+    if file[]
+
 round6 = [x for x in round6 if x not in deletepack]
 round6 = [x for x in round6 if x not in prune1]
 round6 = [x for x in round6 if x not in prune4]
+prototypecheck(round6)
 print('round6',len(round6),3)
 
 #+++++++++++++++++++++++++
@@ -958,4 +963,33 @@ epic1 = [x for x in epic1 if x not in prune4]
 epic1 = sortstuff(epic1)
 
 print(len(epic1))
-prototypecheck(epic1)
+counter = 0
+count = 0
+question1 = sorted(epic1)[0][0]
+questionnum =1
+for item in sorted(epic1):
+    if question1 != item[0]:
+        question1 = item[0]
+        questionnum+=1
+        print()
+        count = 0
+    if item in oracle :
+        print('*o*',end='')
+        counter+=1
+    print (item,end = '')
+    if item in round1:
+        print('r1')
+    elif item in round2:
+        print('r2')
+    elif item in round3:
+        print('r3')
+    elif item in round4:
+        print('r4')
+    elif item in round5:
+        print('r5')
+    else :
+        print('r6')
+    count+=1
+print("found: ",counter)
+    
+print('number of questions', questionnum)
