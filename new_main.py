@@ -945,8 +945,7 @@ print('round5',len(round5),1)
 round6 = round4_MA
 round6 = sortstuff(round6)
 
-for file in myfile['Methods']:
-    if file[]
+
 
 round6 = [x for x in round6 if x not in deletepack]
 round6 = [x for x in round6 if x not in prune1]
