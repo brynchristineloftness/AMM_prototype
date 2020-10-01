@@ -198,14 +198,6 @@ def prototypecheck(pack1):
     for item in sorted(itemlist):
         print(item) 
     print()
-    question1 = sorted(pack1)[0][0]
-    questionnum =1
-    for item in sorted(pack1):
-        print(item)
-        if question1 != item[0]:
-            question1 = item[0]
-            questionnum+=1
-    print('number of questions', questionnum)
 
 def camel_case_split(str):
     words = [[str[0]]] 
@@ -333,66 +325,7 @@ def check(oracle, official,name):
         if item in oracle:
             print(oraclereplica,group[2])
 
-def output(full_list,oracle,mpmoracle,truepositivelist,falsepositivelist,truepositivelistmpm,falsepositivelistmpm,testcluster,truepositive,falsepositive,tporacle,fporacle):
-    print(len(testcluster),testlen)
-    print('total in MPMoracle;',len(mpmoracle),'total predictions',len(full_list))
-    print('true pos:',truepositive, '  ', 'false pos', falsepositive)
-    if len(full_list) !=0:
-        tprate = truepositive/len(full_list)
-        fprate = falsepositive/len(full_list)
-    else :
-        tprate = 0
-        fprate = 0
-    #print("-----------")
-    print('total in oracle',len(oracle),'total predictions',len(full_list))
-    print('true pos:',tporacle, '  ', 'false pos', fporacle)
-    if len(full_list) !=0:
-        tprate_o = tporacle/len(full_list)
-        fprate_o = fporacle/len(full_list)
-    else :
-        tprate_o = 0
-        fprate_o = 0
-    print('-----------')
-    print('ORACLE:')
-    print('tp rate:', tprate_o, '  ', 'fp rate:', fprate_o)
-    #print(tprate_o, ',', fprate_o,',', tprate, ',',fprate)
-    print('MPM ORACLE:')
-    print('tp rate:', tprate, '  ', 'fp rate:', fprate)
-    full_output_of_lists(full_list,oracle,mpmoracle,truepositivelist,falsepositivelist,truepositivelistmpm,falsepositivelistmpm,testcluster,truepositive,falsepositive,tporacle,fporacle)
-
-def full_output_of_lists(full_list,oracle,mpmoracle,truepositivelist,falsepositivelist,truepositivelistmpm,falsepositivelistmpm,testcluster,truepositive,falsepositive,tporacle,fporacle):
-    print('true positive list:')
-    for file in truepositivelist:
-        print(file)
-    print()
-    print("List of missed positives(false negatives) for merge-only oracle")
-    for file in oracle:
-        if file not in truepositivelist:
-            print(file)
-    print()   
-    print("List of true positives for merge-only oracle")
-    for file in oracle:
-        if file in truepositivelist:
-            print(file)
-    print()        
-    print("List of false positives for merge-only oracle")
-    for file in falsepositivelist:
-        print(file)
-    print()        
-    print("List of missed positives(false negatives) for merge/partial-merge oracle")
-    for file in mpmoracle:
-        if file not in truepositivelistmpm:
-            print(file)
-    print()
-    print("List of true positives for merge/partial-merge oracle")
-    for file in mpmoracle:
-        if file in truepositivelistmpm:
-            print(file) 
-    print()
-    print("List of false positives for merge/partial-merge oracle")
-    for file in falsepositivelistmpm:
-        print(file)
-    
+   
 
 def TPFPoutput(full_list,oracle,mpmoracle):
     testcluster = []
@@ -430,8 +363,6 @@ def TPFPoutput(full_list,oracle,mpmoracle):
     falsepositivelist = sortstuff(falsepositivelist)
     truepositivelistmpm = sortstuff(truepositivelistmpm)
     falsepositivelistmpm = sortstuff(falsepositivelistmpm)
-    
-    #output(full_list,oracle,mpmoracle,truepositivelist,falsepositivelist,truepositivelistmpm,falsepositivelistmpm,testcluster,truepositive,falsepositive,tporacle,fporacle)
     return full_list
 
 def createsortedlist(grid):
@@ -479,7 +410,6 @@ def intersect(name,myfile,intersectiongrid):
                 metric = intersection/minimum
             else:
                 metric = 0
-            #print(setcountertest,setcountertest2,test,test2,intersection,metric)
             intersectiongrid[test][test2] = metric
             if (test == test2):
                 intersectiongrid[test][test2] = 0
@@ -488,15 +418,11 @@ def intersect(name,myfile,intersectiongrid):
         setcountertest = 0
     return intersectiongrid
 
-#creating oracle
 oracle = [['testCompleteOption','test02'],['testCompleteOption','test05'],['testCompleteOption','test08'],
           ['testCompleteOption','test19'],['testCompleteOption','test22'], ['testTwoCompleteOptions','test08'],
           ['testTwoCompleteOptions','test19'],['testTwoCompleteOptions','test22'], ['testBaseOptionCharOpt','test08'],
           ['testIllegalOptions', 'test14'],['testSpecialOptChars','test15'],['testCreateIncompleteOption','test16'],
-          ['testOptionArgNumbers','test21'],['testCompleteOption','testTwoCompleteOptions'],['testCompleteOption','testBaseOptionCharOpt'],
-         ['testBaseOptionCharOpt','testTwoCompleteOptions'],['test02','test05'],['test02','test08'],['test02','test19'],
-          ['test02','test22'],['test05','test08'],['test05','test19'],['test05','test22'],['test08','test19'],
-          ['test08','test22']]
+          ['testOptionArgNumbers','test21']]
           
 #merges and partial merge oracle       
 mpmoracle = [['testCompleteOption','test02'],['testCompleteOption','test05'],['testCompleteOption','test08'],
@@ -504,13 +430,7 @@ mpmoracle = [['testCompleteOption','test02'],['testCompleteOption','test05'],['t
           ['testTwoCompleteOptions','test19'],['testTwoCompleteOptions','test22'], ['testBaseOptionCharOpt','test08'],
           ['testIllegalOptions', 'test14'],['testSpecialOptChars','test15'],['testCreateIncompleteOption','test16'],
           ['testOptionArgNumbers','test21'], ['testCompleteOption','test06'], ['testCompleteOption','test28'], 
-              ['testCompleteOption','test29'],['testTwoCompleteOptions','test28'],['testTwoCompleteOptions','test29'],
-              ['testCompleteOption','testTwoCompleteOptions'],['testCompleteOption','testBaseOptionCharOpt'],
-         ['testBaseOptionCharOpt','testTwoCompleteOptions'],['test02','test05'],['test02','test08'],['test02','test19'],
-          ['test02','test22'],['test05','test08'],['test05','test19'],['test05','test22'],
-              ['test08','test19'],['test08','test22'],['test02','test06'],['test02','test28'],['test02','test29'],
-              ['test05','test06'],['test05','test28'],['test05','test29'],['test08','test06'],['test08','test28'],['test08','test29'],
-              ['test19','test06'],['test19','test28'],['test18','test29'],['test22','test06'],['test22','test28'],['test22','test29']]          
+              ['testCompleteOption','test29'],['testTwoCompleteOptions','test28'],['testTwoCompleteOptions','test29']]          
 
 #sort and get rid of duplicates
 oracle = sortstuff(oracle)
@@ -819,15 +739,13 @@ deletepack = []
 round1 = []
 round1 = pack24
 round1 = sortstuff(round1)
+round1real = []
 for item in round1:
     if item[0] in manuallist and item[1] in autolist:
-        round1.remove(item)
+        round1real.append(item)
     elif item[0] in autolist and item[1] in manuallist:
-        round1.remove(item)
-    elif item[0] in manuallist and item[1] in manuallist:
-        round1.remove(item)
-
-
+        round1real.append(item)
+round1 = round1real
 deletepack+= round1
 prunepack = []
 prunepack = setmetrics_combo(myfile,testlen,defaultgrid,"Methods",.98)
@@ -841,6 +759,7 @@ round1 = [x for x in round1 if x in prunepack]
 round1 = [x for x in round1 if x not in prune1]
 round1 = [x for x in round1 if x not in prune4]
 print('round1',len(round1), 3)
+prototypecheck(round1)
 #---------------------------------
 
 #round2 = 3
@@ -863,7 +782,6 @@ deletepack +=round2
 round2 = [x for x in round2 if x not in prune1]
 round2 = [x for x in round2 if x not in prune4]
 print('round2',len(round2),2) #2/8
-#prototypecheck(round2)
 #--------------------------------
 
 
@@ -941,21 +859,40 @@ round5 = round5real
 round5 = [x for x in round5 if x not in prune1]
 round5 = [x for x in round5 if x not in prune4]
 print('round5',len(round5),1) 
+#prototypecheck(round5)
 #----------------------------
 round6 = round4_MA
 round6 = sortstuff(round6)
 
-
+add_methods = setmetrics_combo(myfile,testlen,defaultgrid,"Methods",.9995)
+round6a = [x for x in round6 if x in add_methods]
+round6 = [x for x in round6 if x not in add_methods]
 
 round6 = [x for x in round6 if x not in deletepack]
 round6 = [x for x in round6 if x not in prune1]
 round6 = [x for x in round6 if x not in prune4]
-prototypecheck(round6)
 print('round6',len(round6),3)
+#prototypecheck(round6)
+#---------------------------------
+
+round7 = round6a
+
+
+
+round7 = [x for x in round7 if x not in deletepack]
+round7 = [x for x in round7 if x not in prune1]
+round7 = [x for x in round7 if x not in prune4]
+print('round7',len(round7),1)
+#prototypecheck(round7)
 
 #+++++++++++++++++++++++++
 
-epic1 =  round1+round2+ round3+ round4+round5+round6
+#epic1 = round2 + round4 + round5+round6+round7
+epic1 = round2 + round4 + round5+round6
+epic1 = round2 + round5 + round6
+
+
+#epic1 =  round1+round2+ round3+ round4+round5+round6+round7
 
 epic1 = [x for x in epic1 if x not in prune1]
 epic1 = [x for x in epic1 if x not in prune4]
@@ -986,9 +923,11 @@ for item in sorted(epic1):
         print('r4')
     elif item in round5:
         print('r5')
-    else :
+    elif item in round6:
         print('r6')
+    else :
+        print('r7')
     count+=1
-print("found: ",counter)
-    
+print("found: ",counter,'out of',len(oracle))
+print('number of matches',len(epic1))
 print('number of questions', questionnum)
