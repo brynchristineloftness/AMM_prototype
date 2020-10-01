@@ -720,8 +720,10 @@ pack3 = one_2_one_asserts(myfile,testlen)
 pack9 = longest_common_subsequence(myfile,testlen,4)
 pack15 = setmetrics_combo(myfile,testlen,defaultgrid,"Combo",.51)
 prune1 = scenariomodel(myfile,testlen)
-pack24 = tfidf_model(myfile,testlen,.88,'bnn')
+prune3 = tfidf_model(myfile,testlen,.88,'bnn')
 prune4 = lsi_prune(myfile)
+prunepack = prune1 + prune3+prune4
+prunepack= sortstuff(prunepack)
 
 manuallist = []
 autolist = []
@@ -735,167 +737,147 @@ for item in range(len(myfile['Type'])):
 
 deletepack = []
 
-#round1 = 24
-round1 = []
-round1 = pack24
-round1 = sortstuff(round1)
-round1real = []
-for item in round1:
-    if item[0] in manuallist and item[1] in autolist:
-        round1real.append(item)
-    elif item[0] in autolist and item[1] in manuallist:
-        round1real.append(item)
-round1 = round1real
-deletepack+= round1
-prunepack = []
-prunepack = setmetrics_combo(myfile,testlen,defaultgrid,"Methods",.98)
-round1 = [x for x in round1 if x in prunepack]
-prunepack = []
-prunepack = setmetrics_combo(myfile,testlen,defaultgrid,"Test",.71)
-round1 = [x for x in round1 if x in prunepack]
-prunepack = setmetrics_combo(myfile,testlen,defaultgrid,"Assert_Only",.99)
-round1 = [x for x in round1 if x in prunepack]
 
-round1 = [x for x in round1 if x not in prune1]
-round1 = [x for x in round1 if x not in prune4]
-print('round1',len(round1), 3)
-prototypecheck(round1)
-#---------------------------------
-
-#round2 = 3
-round2 = []
-round2 = pack3
-round2 = [x for x in round2 if x not in deletepack]
-
-round2 = sortstuff(round2)
-for item in round2:
-    if item[0] in manuallist and item[1] in manuallist:
-        round2.remove(item)
-    elif item[0] in autolist and item[1] in autolist:
-        round2.remove(item)
-    elif item[0] in manuallist and item[1] in autolist:
-        round2.remove(item)
-
-deletepack +=round2
-
-
-round2 = [x for x in round2 if x not in prune1]
-round2 = [x for x in round2 if x not in prune4]
-print('round2',len(round2),2) #2/8
-#--------------------------------
-
-
-round3 = []
 round3 = (pack9)
-round3 = [x for x in round3 if x not in deletepack]
-
 round3 = sortstuff(round3)
 round3real = []
 for item in round3:
-    if item[0] in manuallist and item[1] in manuallist:
+    if item[0] in autolist and item[1] in manuallist:
         round3real.append(item)
-        
 round3 = round3real
-
-deletepack +=round3
-prune = setmetrics_combo(myfile,testlen,defaultgrid,"Methods_Asserts",.75)
-round3 = [x for x in round3 if x in prune]
-prunepack = setmetrics_combo(myfile,testlen,defaultgrid,"Assert_Only",.99)
-round3= [x for x in round3 if x in prunepack]
-round3 = [x for x in round3 if x not in prune1]
-round3 = [x for x in round3 if x not in prune4]
-
-
-print('round3',len(round3),4)
-#prototypecheck(round3)
+print('round3',len(round3),1)
+prototypecheck(round3)
 #-------
-round4 = []
 round4 = pack15
 round4 = sortstuff(round4)
 round4real = []
 for item in round4:
-    if item[0] in manuallist and item[1] in autolist:
-        round4.remove(item)
-    elif item[0] in autolist and item[1] in manuallist:
+    if item[0] in autolist and item[1] in manuallist:
         round4real.append(item)
 round4 = round4real
-
+round4 = [x for x in round4 if x not in round3]
 
 prune_scenario = setmetrics_combo(myfile,testlen,defaultgrid,"Scenario",.7889)
+#branch decision tree
+round1 = [x for x in round4 if x in prune_scenario]
 round4 = [x for x in round4 if x not in prune_scenario]
 
-prune_asserts = setmetrics_combo(myfile,testlen,defaultgrid,"Asserts",.34)
+prune_asserts = setmetrics_combo(myfile,testlen,defaultgrid,"Asserts",.35)
 round4 = [x for x in round4 if x not in prune_asserts]
 
-
-prune_asserts = setmetrics_combo(myfile,testlen,defaultgrid,"Methods_Asserts",.60)
-round4_MA = [x for x in round4 if x not in prune_asserts]
+prune_asserts = setmetrics_combo(myfile,testlen,defaultgrid,"Methods_Asserts",.68)
+#branch decision tree
+round6 = [x for x in round4 if x not in prune_asserts]
 round4 = [x for x in round4 if x in prune_asserts]
 
 add_methods = setmetrics_combo(myfile,testlen,defaultgrid,"Methods",.9995)
 round4 = [x for x in round4 if x in add_methods]
 
+print('round4',len(round4),2) 
+prototypecheck(round4)
 
-round4 = [x for x in round4 if x not in deletepack]
-deletepack+=round4
-round4 = [x for x in round4 if x not in prune1]
-round4 = [x for x in round4 if x not in prune4]
+#-------------
+round1 = sortstuff(round1)
+round1 = [x for x in round1 if x not in round3]
+round1 = [x for x in round1 if x not in prunepack]
+round1 = [x for x in round1 if x not in round4]
 
-print('round4',len(round4),5) #3/60
-#prototypecheck(round4)
-#-------------------
-round5 = []
-round5 = tfidf_model(myfile,testlen,.52,'nfc')
-round5 = sortstuff(round5)
-round5 = [x for x in round5 if x not in deletepack]
+prune_asserts = setmetrics_combo(myfile,testlen,defaultgrid,"Methods_Asserts",.9999)
+round1 = [x for x in round1 if x in prune_asserts]
 
-round5real = []
-for item in round5:
-    if item[0] in autolist and item[1] in manuallist:
-        round5real.append(item)
-round5 = round5real
+print('round1',len(round1),2) 
+prototypecheck(round1)
 
-
-round5 = [x for x in round5 if x not in prune1]
-round5 = [x for x in round5 if x not in prune4]
-print('round5',len(round5),1) 
-#prototypecheck(round5)
 #----------------------------
-round6 = round4_MA
+
 round6 = sortstuff(round6)
 
 add_methods = setmetrics_combo(myfile,testlen,defaultgrid,"Methods",.9995)
-round6a = [x for x in round6 if x in add_methods]
+round7 = [x for x in round6 if x in add_methods]
 round6 = [x for x in round6 if x not in add_methods]
 
-round6 = [x for x in round6 if x not in deletepack]
-round6 = [x for x in round6 if x not in prune1]
-round6 = [x for x in round6 if x not in prune4]
-print('round6',len(round6),3)
-#prototypecheck(round6)
-#---------------------------------
+prune_scenario = setmetrics_combo(myfile,testlen,defaultgrid,"Scenario",.7)
+round6 = [x for x in round6 if x not in prune_scenario]
 
-round7 = round6a
+round6 = [x for x in round6 if x not in round1]
+round6 = [x for x in round6 if x not in prunepack]
+round6 = [x for x in round6 if x not in round3]
+round6 = [x for x in round6 if x not in round4]
+print('round6',len(round6),2)
+prototypecheck(round6)
+
+#-----------
+round7 = sortstuff(round7)
+
+add_methods = setmetrics_combo(myfile,testlen,defaultgrid,"Methods_Asserts",.65)
+round8 = [x for x in round7 if x in add_methods]
+round7 = [x for x in round7 if x not in add_methods]
+
+prune_scenario = setmetrics_combo(myfile,testlen,defaultgrid,"Scenario",.69)
+round7 = [x for x in round7 if x not in prune_scenario]
+
+prune_scenario = setmetrics_combo(myfile,testlen,defaultgrid,"Combo",.59)
+round7 = [x for x in round7 if x not in prune_scenario]
+
+round7 = [x for x in round7 if x not in prunepack]
+round7 = [x for x in round7 if x not in round6]
+round7 = [x for x in round7 if x not in round4]
+round7 = [x for x in round7 if x not in round3]
+round7 = [x for x in round7 if x not in round1]
 
 
 
-round7 = [x for x in round7 if x not in deletepack]
-round7 = [x for x in round7 if x not in prune1]
-round7 = [x for x in round7 if x not in prune4]
 print('round7',len(round7),1)
-#prototypecheck(round7)
+prototypecheck(round7)
+
+#----------------------------
+
+round8 = sortstuff(round8)
+
+prune_scenario = setmetrics_combo(myfile,testlen,defaultgrid,"Combo",.4)
+round8 = [x for x in round8 if x in prune_scenario]
+
+split = tfidf_model(myfile,testlen,.6,'bnn')
+round9 = [x for x in round8 if x not in split]
+round8 = [x for x in round8 if x in split]
+
+round8 = [x for x in round8 if x not in prunepack]
+round8 = [x for x in round8 if x not in round6]
+round8 = [x for x in round8 if x not in round7]
+round8 = [x for x in round8 if x not in round4]
+round8 = [x for x in round8 if x not in round3]
+round8 = [x for x in round8 if x not in round1]
+print('round8',len(round8),2)
+prototypecheck(round8)
+
+
+#----------------------------
+round9 = sortstuff(round9)
+
+split = tfidf_model(myfile,testlen,.3,'bfc')
+round9 = [x for x in round9 if x not in split]
+
+round9 = [x for x in round9 if x not in prunepack]
+round9 = [x for x in round9 if x not in round8]
+round9 = [x for x in round9 if x not in round6]
+round9 = [x for x in round9 if x not in round7]
+round9 = [x for x in round9 if x not in round4]
+round9 = [x for x in round9 if x not in round3]
+round9 = [x for x in round9 if x not in round1]
+print('round9',len(round9),2)
+prototypecheck(round9)
+
+
 
 #+++++++++++++++++++++++++
 
 #epic1 = round2 + round4 + round5+round6+round7
-epic1 = round2 + round4 + round5+round6
-epic1 = round2 + round5 + round6
-
+#epic1 = round2 + round4 + round5+round6
+#epic1 = round2 + round5 + round6
+epic1 = round3+round4+round1+round6+round7+round8+round9
 
 #epic1 =  round1+round2+ round3+ round4+round5+round6+round7
 
-epic1 = [x for x in epic1 if x not in prune1]
-epic1 = [x for x in epic1 if x not in prune4]
 epic1 = sortstuff(epic1)
 
 print(len(epic1))
@@ -915,19 +897,17 @@ for item in sorted(epic1):
     print (item,end = '')
     if item in round1:
         print('r1')
-    elif item in round2:
-        print('r2')
     elif item in round3:
         print('r3')
     elif item in round4:
         print('r4')
-    elif item in round5:
-        print('r5')
     elif item in round6:
         print('r6')
-    else :
+    elif item in round7 :
         print('r7')
+    elif item in round8 :
+        print('r8')
+
     count+=1
 print("found: ",counter,'out of',len(oracle))
 print('number of matches',len(epic1))
-print('number of questions', questionnum)
