@@ -717,8 +717,6 @@ for file in range(len(myfile['Assert_Only'])):
     
 
 pack3 = one_2_one_asserts(myfile,testlen)
-pack9 = longest_common_subsequence(myfile,testlen,4)
-pack15 = setmetrics_combo(myfile,testlen,defaultgrid,"Combo",.51)
 prune1 = scenariomodel(myfile,testlen)
 prune3 = tfidf_model(myfile,testlen,.84,'bnn')
 prune4 = lsi_prune(myfile)
@@ -738,7 +736,7 @@ for item in range(len(myfile['Type'])):
 keep_pack = []
 
 #---------------
-round3 = (pack9)
+round3 = longest_common_subsequence(myfile,testlen,4)
 round3 = sortstuff(round3)
 round3real = []
 for item in round3:
@@ -750,7 +748,7 @@ print('three',len(round3),1)
 prototypecheck(round3)
 keep_pack += round3
 #-------
-round4 = pack15
+round4 = setmetrics_combo(myfile,testlen,defaultgrid,"Combo",.51)
 round4 = sortstuff(round4)
 round4real = []
 for item in round4:
@@ -772,12 +770,9 @@ prune_asserts = setmetrics_combo(myfile,testlen,defaultgrid,"Methods_Asserts",.6
 round6 = [x for x in round4 if x not in prune_asserts]
 round4 = [x for x in round4 if x in prune_asserts]
 
-add_methods = setmetrics_combo(myfile,testlen,defaultgrid,"Methods",.9995)
-round4 = [x for x in round4 if x in add_methods]
 
-
-split = tfidf_model(myfile,testlen,.75,'bnn')
-round4 = [x for x in round4 if x not in split]
+split = tfidf_model(myfile,testlen,.65,'bnn')
+round4 = [x for x in round4 if x in split]
 
 print('four',len(round4),2) 
 prototypecheck(round4)
@@ -840,10 +835,8 @@ round8 = [x for x in round7 if x in add_methods]
 prune_scenario = setmetrics_combo(myfile,testlen,defaultgrid,"Combo",.4)
 round8 = [x for x in round8 if x in prune_scenario]
 
-
 split = tfidf_model(myfile,testlen,.58,'bnn')
 round8 = [x for x in round8 if x not in split]
-
 
 round8 = [x for x in round8 if x not in prunepack]
 print('eight',len(round8),2)
@@ -859,12 +852,12 @@ count = 0
 counter2 = 0
 for item in sorted(epic1):
     if item in oracle :
-        print('*o*',item,end='')
+        print('*o*',end='')
         counter+=1
     if item in mpmoracle:
-        print("*mpm*", end = '')
+        print("*mpm*",end = '')
         counter2+=1
-    #print (item,end = '')
+    print (item,end = '')
     if item in round1:
         print('r1')
     elif item in round3:
