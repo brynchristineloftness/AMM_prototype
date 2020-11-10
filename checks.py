@@ -1,4 +1,5 @@
 #round3 = round1, round4 = round2, round1 = round3,round6 = round4, round7 = round5, round8 = round6
+from imports import *
 
 
 def defineAutoandManual(myfile):

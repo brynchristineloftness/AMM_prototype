@@ -1,3 +1,5 @@
+from imports import *
+
 def cleanoracles(oracle, mpmoracle):
     #sort and get rid of duplicates
     oracle = sortstuff(oracle)
@@ -66,7 +68,7 @@ def cleanfile(myfile):
     return myfile,mybackupfile
 
 
-    def preprocess(myfile):
+def preprocess(myfile):
     #Tokenizes using NLTK the Scenario column
     myfile['Scenario'] = myfile.apply(lambda column: nltk.word_tokenize(column['Scenario']),axis = 1)
     #tokenizes using NLTK the Test column
@@ -89,8 +91,8 @@ def cleanfile(myfile):
     return myfile, scenariocorpus,testcorpus,combinedcorpus
 
 
-    def cleanparsefiles(cleanautoroot,cleanmanualroot):
-        #gets rid of wonky formatting that includes link to srcml for auto and manual trees
+def cleanparsefiles(cleanautoroot,cleanmanualroot):
+    #gets rid of wonky formatting that includes link to srcml for auto and manual trees
     for child in cleanautoroot:
         child.tag = child.tag.replace('{http://www.srcML.org/srcML/src}','')
         child.tag = child.tag.replace('class','startclass')
@@ -187,6 +189,16 @@ def cleancolumns(myfile):
     myfile = clean('Asserts')
     myfile = clean('Methods_Asserts')
     myfile = clean('Assert_Only')
+  
+    for file in range(len(myfile['Asserts'])):
+        myfile['Asserts'][file] = myfile['Asserts'][file].split()
+    for file in range(len(myfile['Methods'])):
+        myfile['Methods'][file] = myfile['Methods'][file].split()
+    for file in range(len(myfile['Methods_Asserts'])):
+        myfile['Methods_Asserts'][file] = myfile['Methods_Asserts'][file].split()
+    for file in range(len(myfile['Assert_Only'])):
+        myfile['Assert_Only'][file] = myfile['Assert_Only'][file].split()
+        
     return myfile
 
     

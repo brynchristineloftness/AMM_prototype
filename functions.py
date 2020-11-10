@@ -1,30 +1,7 @@
-def lsi_prune(myfile):
-    entries = myfile['Scenario'].tolist()
-    entries = [[ele for ele in sub if not ele.isdigit()] for sub in entries] 
-    dict_for_lsi = Dictionary(entries)
-    corp = [dict_for_lsi.doc2bow(line) for line in entries]
-    lsi = models.LsiModel(corp,num_topics = 3)
-    corp_lsi = lsi[corp]
-    #transforms corpus to lsi space and indexes it
-    index_lsi = similarities.MatrixSimilarity(corp_lsi) 
-    sims= index_lsi[corp_lsi]
-    lsi_grid = defaultgrid
-    for i,s in enumerate(sims):
-        for counter in range(testlen):
-            lsi_grid[i][counter] = s[counter]
-            if (i == counter):
-                lsi_grid[i][counter] = 0
-    official_lsi_list, lsi_listsorted = createsortedlist(lsi_grid)
-    listsorted = sorted(lsi_listsorted, key=lambda x: x[0])
-    listsorted = list(set(tuple(x) for x in listsorted))
-    official_lsi_list, lsi_listsorted = computelower(official_lsi_list, lsi_listsorted,.69)
-    lsiresults, index_list = printresults(official_lsi_list,'Full Results for LSI')
-    results = TPFPoutput(lsiresults,oracle,mpmoracle)
-    lsi_scenario_PRUNE = lsiresults
-    return lsi_scenario_PRUNE
+from imports import *
 
-    def setmetrics_combo(myfile,testlen,defaultgrid,column,num):
-        intersectiongrid = defaultgrid     
+def setmetrics_combo(myfile,testlen,defaultgrid,column,num):
+    intersectiongrid = defaultgrid     
     intersectiongrid = intersect(column,myfile,intersectiongrid)
     official_list = []
     listsorted = []
@@ -53,10 +30,6 @@ def intersectasserts_withassertadditive(myfile,testlen):
     results = TPFPoutput(setintersectionresults,oracle,mpmoracle)
     intersect_withassertadditive_99_RESULTS =setintersectionresults #pack21 
     return intersect_withassertadditive_99_RESULTS
-
-
-
-
 
 
 def longest_common_subsequence(myfile,testlen,num):

@@ -1,3 +1,5 @@
+from imports import *
+
 def isolatemethods_asserts(myfile,listofallfiles):
     #isolating methods and assertions
 

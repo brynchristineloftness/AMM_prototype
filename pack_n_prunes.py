@@ -1,3 +1,5 @@
+from imports import *
+
 def makepacksandprunes(myfile,testlen):
     
     pack3 = one_2_one_asserts(myfile,testlen)

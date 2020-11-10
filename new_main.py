@@ -1,27 +1,8 @@
-import pandas as pd
-import string
-import gensim
-from gensim.models import Word2Vec 
-from gensim.models import TfidfModel
-from gensim.corpora import Dictionary
-from nltk.tokenize import word_tokenize 
-import nltk
-import xml.etree.ElementTree as ET
-import re
-import collections
-from gensim import models
-from gensim import similarities 
-from IPython.display import display, HTML
-import functions
-import setfile
-import clean
-import parse
-import pack_n_prunes
-import checks
+from imports import *
 
 
 
-main():
+def main():
     oracle, mpmoracle = defineoracles()
     myfile = definefile()
     oraclecluster, mpmoraclecluster = cleanoracles(oracle,mpmoracle)
@@ -42,3 +23,5 @@ main():
     round5, keep_pack = round5func(myfile,testlen,defaultgrid,autolist,manuallist,keep_pack,round5)
     round6, keep_pack = round6func(myfile,testlen,defaultgrid,autolist,manuallist,keep_pack)
     defineTest(keep_pack,oracle,mpmoracle)
+
+main()
