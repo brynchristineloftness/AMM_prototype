@@ -54,59 +54,10 @@ def intersectasserts_withassertadditive(myfile,testlen):
     intersect_withassertadditive_99_RESULTS =setintersectionresults #pack21 
     return intersect_withassertadditive_99_RESULTS
 
-def scenariomodel(myfile,testlen):
-    scenariomodel_skipgram = Word2Vec(scenariocorpus,window=5,min_count=1,iter = 15,alpha=.2,sg=1,size = 75,seed = 0)
-    scenariomodelskipgram_grid = defaultgrid
-
-    #finding similarity for all manual against all auto, placed results in grid
-    for test in range(testlen):
-        for test2 in range(testlen):
-            num = scenariomodel_skipgram.wv.n_similarity(myfile['Scenario'][test],myfile['Scenario'][test2])
-            scenariomodelskipgram_grid[test][test2] = num
-    #finding minimum similarity value
-    minimum = 1.0
-    for i,row in enumerate(scenariomodelskipgram_grid):
-        for j, cell in enumerate(row):
-            if (cell < minimum):
-                minimum = scenariomodelskipgram_grid[i][j] 
-    official_list_skipgram, mainlistsorted = createsortedlist(scenariomodelskipgram_grid)
-    mainlistsorted = sorted(mainlistsorted, key=lambda x: x[0])
-    mainlistsorted = list(set(tuple(x) for x in mainlistsorted))
-    official_list_skipgram, mainlistsorted = computelower(official_list_skipgram, mainlistsorted,.86)
-    skipgramresults, index_list = printresults(official_list_skipgram,'Full Results for Skipgram')
-    results = TPFPoutput(skipgramresults,oracle,mpmoracle)
-    index_list = convertindextoname(index_list)
-    skipgram_scenario_PRUNE = index_list #len = 249
-    return skipgram_scenario_PRUNE
-
-def tfidf_model(myfile,testlen,num,typetfidf):
-    tfidfgrid = defaultgrid
-    tfidfgrid = tfidfcorptogrid(scenariocorpus,testlen,tfidfgrid,typetfidf)
-    official_list_tfidf, mainlistsorted = createsortedlist(tfidfgrid)
-    mainlistsorted = sorted(mainlistsorted, key=lambda x: x[0])
-    mainlistsorted = list(set(tuple(x) for x in mainlistsorted))
-    official_list_tfidf, mainlistsorted = compute(official_list_tfidf, mainlistsorted,num)
-    tfidfresults, index_list = printresults(official_list_tfidf,'Full Results for TFIDF')
-    results = TPFPoutput(tfidfresults,oracle,mpmoracle)
-    index_list = convertindextoname(index_list)
-    tfidf_bnn_scenario_RESULTS = index_list 
-    return tfidf_bnn_scenario_RESULTS
 
 
-def one_2_one_asserts(myfile,testlen):
-    testlist_set = myfile['Asserts']
 
-    matchlist = []
-    for test in range(testlen):
-        for test2 in range(testlen):
-            if test !=test2:
-                testone = testlist_set[test]
-                testtwo = testlist_set[test2]
-                if testone == testtwo and testone == []:
-                    matchlist.append([myfile['TestName'][test],myfile['TestName'][test2]])
-    matchlist = sortstuff(matchlist)
-    one2one_asserts_RESULTS = matchlist #pack3
-    return one2one_asserts_RESULTS
+
 
 def longest_common_subsequence(myfile,testlen,num):
     testlist_set = myfile['Asserts']
@@ -128,14 +79,6 @@ def longest_common_subsequence(myfile,testlen,num):
     return LCS_asserts_high
 
 
-def sortstuff(name):
-    name = sorted(name)
-    for item in range(len(name)):
-        name[item] = sorted(name[item])
-    name = sorted(name)
-    name_set = set(tuple(x) for x in name)
-    name = [ list(x) for x in name_set ]
-    return name
 
 def intersectwithasserts(name,intersectiongrid):
     setcountertest = 0
@@ -220,14 +163,7 @@ def lcs(X, Y):
     # L[m][n] contains the length of LCS of X[0..n-1] & Y[0..m-1] 
     return L[m][n] 
 
-def compute(officiallist, sortedlist, breakpoint):
-    valuelist = []
-    for group in sortedlist:
-        if(group[2] > breakpoint):
-            if (group[0]!=officiallist[-1][1] and group[1] != officiallist[-1][0]):
-                officiallist.append(group)
-    officiallist.remove(officiallist[0])
-    return officiallist,sortedlist
+
 
 def prune(index_list,keeplist):
     x = 0
@@ -264,32 +200,12 @@ def convertnametoindex(name_list):
         itemcount2 = 0
     return name_list
 
-def computelower(officiallist, sortedlist, breakpoint):
-    valuelist = []
-    for group in sortedlist:
-        if(group[2] < breakpoint):
-            if (group[0]!=officiallist[-1][1] and group[1] != officiallist[-1][0]):
-                officiallist.append(group)
-    officiallist.remove(officiallist[0])
-    return officiallist,sortedlist
 
 def showfigure(grid):
     figure = plt.pcolormesh(grid,vmax = 1.0,cmap=cmap,edgecolors='k', linewidths=.5)
     plt.colorbar(figure)
     plt.show(figure)
     
-def printresults(officiallist,stringstuff):
-    full_list = []
-    index_list = []
-    info = ''   
-    for thing in officiallist:
-        info = [myfile['TestName'][thing[0]], myfile['TestName'][thing[1]]]
-        indexinfo = [thing[0], thing[1]]
-        index_list.append(indexinfo)
-        full_list.append(info)
-    results = sortstuff(full_list)
-    index_list = sortstuff(index_list)
-    return results, index_list
 
 
 def check(oracle, official,name):
@@ -309,58 +225,7 @@ def check(oracle, official,name):
 
    
 
-def TPFPoutput(full_list,oracle,mpmoracle):
-    testcluster = []
-    full_list = sorted(full_list)
-    fl_set = set(tuple(x) for x in full_list)
-    full_list = [ list(x) for x in fl_set ]
-    for item in full_list:
-        item = sorted(item)
-    truepositive = 0
-    falsepositive = 0
-    tporacle = 0
-    fporacle = 0
-    truepositivelist = []
-    falsepositivelist= []
-    truepositivelistmpm= []
-    falsepositivelistmpm = []
-    for file in full_list:
-        testcluster.append(file[0])
-        testcluster.append(file[1])
-        if file in mpmoracle:
-            truepositive+=1
-            truepositivelistmpm.append(file)
-        else:
-            falsepositive+=1
-            falsepositivelistmpm.append(file)
-        if file in oracle:
-            tporacle += 1
-            truepositivelist.append(file)
-        else:
-            fporacle +=1   
-            falsepositivelist.append(file)
-    testcluster = list(dict.fromkeys(testcluster))
-    
-    truepositivelist = sortstuff(truepositivelist)
-    falsepositivelist = sortstuff(falsepositivelist)
-    truepositivelistmpm = sortstuff(truepositivelistmpm)
-    falsepositivelistmpm = sortstuff(falsepositivelistmpm)
-    return full_list
 
-def createsortedlist(grid):
-    main_list = []
-    counter = 0
-    official_list = []
-    stuff = ['','','']
-    official_list.append(stuff)
-    for i,row in enumerate(grid):
-        for j, cell in enumerate(row):
-            if (i!=j):
-                stuff = [i, j, grid[i][j]]
-                main_list.append(stuff)
-    mainlistsorted = sortstuff(main_list)
-    mainlistsorted = sorted(main_list, key=lambda x: x[-1], reverse=True)
-    return official_list, mainlistsorted
 
     
 def intersect(name,myfile,intersectiongrid):

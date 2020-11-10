@@ -166,6 +166,29 @@ def addxmltofile(myfile,cleanmanualroot,cleanautoroot):
     myfile.columns = ['Type','Scenario','Test','TestName','Combo','XML','Methods', 'Asserts','Methods_Asserts','Assert_Only','Index']
     return myfile,listofallfiles
 
+def clean(column):
+    myfile[column] = [entry.replace('/','') for entry in myfile[column]]      
+    myfile[column] = [entry.replace('<call>',' ') for entry in myfile[column]]
+    myfile[column] = [entry.replace('<operator>',' ') for entry in myfile[column]]
+    myfile[column] = [entry.replace('<name>',' ') for entry in myfile[column]]
+    myfile[column] = [entry.replace('<argument>',' ') for entry in myfile[column]]
+    myfile[column] = [entry.replace('<list>',' ') for entry in myfile[column]]
+    myfile[column] = [entry.replace('<argument_list>',' ') for entry in myfile[column]]
+    myfile[column] = [entry.replace('<expr>',' ') for entry in myfile[column]]
+    myfile[column] = [entry.replace('<literal>',' ') for entry in myfile[column]]
+    myfile[column] = [entry.replace('<char>',' ') for entry in myfile[column]]
+    myfile[column] = [entry.replace('<type>',' ') for entry in myfile[column]]
+    myfile[column] = myfile[column].apply(lambda x:''.join([i for i in x if i not in string.punctuation]))
+    return myfile
+
+
+def cleancolumns(myfile):
+    myfile = clean('Methods')
+    myfile = clean('Asserts')
+    myfile = clean('Methods_Asserts')
+    myfile = clean('Assert_Only')
+    return myfile
+
     
 
     
