@@ -1,4 +1,5 @@
 from imports import *
+from pack_n_prunes import sortstuff
 
 def cleanoracles(oracle, mpmoracle):
     #sort and get rid of duplicates
@@ -88,7 +89,7 @@ def preprocess(myfile):
     #declaring testlen variable (how many tests)
     testlen = len(myfile['Test'])
 
-    return myfile, scenariocorpus,testcorpus,combinedcorpus
+    return myfile, scenariocorpus,testcorpus,combinedcorpus, testlen
 
 
 def cleanparsefiles(cleanautoroot,cleanmanualroot):
@@ -108,8 +109,9 @@ def cleanparsefiles(cleanautoroot,cleanmanualroot):
 
     for tags in cleanmanualroot.iter():
         tags.tag = tags.tag.replace('{http://www.srcML.org/srcML/src}','')
+    return cleanautoroot, cleanmanualroot
 
-def addxmltofile(myfile,cleanmanualroot,cleanautoroot):
+def addxmltofile(myfile,cleanmanualroot,cleanautoroot,testlen):
     listofmanualfiles = []
     startclassElement = cleanmanualroot.find('startclass/block')
     for element in startclassElement: #isolates comment, function, comment, function for all 
@@ -168,7 +170,7 @@ def addxmltofile(myfile,cleanmanualroot,cleanautoroot):
     myfile.columns = ['Type','Scenario','Test','TestName','Combo','XML','Methods', 'Asserts','Methods_Asserts','Assert_Only','Index']
     return myfile,listofallfiles
 
-def clean(column):
+def clean(column,myfile):
     myfile[column] = [entry.replace('/','') for entry in myfile[column]]      
     myfile[column] = [entry.replace('<call>',' ') for entry in myfile[column]]
     myfile[column] = [entry.replace('<operator>',' ') for entry in myfile[column]]
@@ -185,10 +187,10 @@ def clean(column):
 
 
 def cleancolumns(myfile):
-    myfile = clean('Methods')
-    myfile = clean('Asserts')
-    myfile = clean('Methods_Asserts')
-    myfile = clean('Assert_Only')
+    myfile = clean('Methods',myfile)
+    myfile = clean('Asserts',myfile)
+    myfile = clean('Methods_Asserts',myfile)
+    myfile = clean('Assert_Only',myfile)
   
     for file in range(len(myfile['Asserts'])):
         myfile['Asserts'][file] = myfile['Asserts'][file].split()

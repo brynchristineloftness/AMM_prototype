@@ -1,11 +1,11 @@
 from imports import *
 
-def makepacksandprunes(myfile,testlen):
+def makepacksandprunes(myfile,testlen,scenariocorpus,defaultgrid,oracle,mpmoracle):
     
     pack3 = one_2_one_asserts(myfile,testlen)
-    prune1 = scenariomodel(myfile,testlen)
-    prune3 = tfidf_model(myfile,testlen,.84,'bnn')
-    prune4 = lsi_prune(myfile)
+    prune1 = scenariomodel(myfile,testlen,scenariocorpus,defaultgrid,oracle,mpmoracle)
+    prune3 = tfidf_model(myfile,testlen,.84,'bnn',defaultgrid,scenariocorpus,oracle,mpmoracle)
+    prune4 = lsi_prune(myfile,defaultgrid,testlen,oracle,mpmoracle)
     prunepack = prune1 + prune3+prune4
     prunepack= sortstuff(prunepack)
     return pack3, prune1,prune3,prune4,prunepack
@@ -18,6 +18,52 @@ def sortstuff(name):
     name_set = set(tuple(x) for x in name)
     name = [ list(x) for x in name_set ]
     return name
+
+
+def longest_common_subsequence(myfile,testlen,num):
+    testlist_set = myfile['Asserts']
+    sublist = []
+    sublist2 = []
+    for test in range(testlen):
+        for test2 in range(testlen):
+            if test !=test2:
+                testone = testlist_set[test]
+                testtwo = testlist_set[test2]
+                subsequencelen = lcs(testone,testtwo)
+                minimum = min(len(testone),len(testtwo))
+                subsequencelen = lcs(testone,testtwo)
+                min_minus_lcs = minimum-subsequencelen
+                if subsequencelen>num:
+                    sublist.append([myfile['TestName'][test],myfile['TestName'][test2]])
+    sublist = sortstuff(sublist)
+    LCS_asserts_high = sublist
+    return LCS_asserts_high
+
+def prototypecheck(pack1):
+    pack1 = sortstuff(pack1)
+    counter = 0
+    counter2 = 0
+    itemlist = []
+    for item in pack1:  
+        if item in oracle:
+            itemlist.append(item)
+            counter +=1
+        else: 
+            counter2+=1
+    print("Number of found combos", counter)
+    print('printing items found in matchlist that are in oracle:')
+    for item in sorted(itemlist):
+        print(item) 
+    print()
+
+def convertindextoname(index_list,myfile):
+    for pair in range(len(index_list)):
+        firstnumber = index_list[pair][0]
+        secondnumber = index_list[pair][1]
+        index_list[pair][0]= myfile['TestName'][firstnumber] 
+        index_list[pair][1]= myfile['TestName'][secondnumber] 
+    index_list = sortstuff(index_list)
+    return index_list
 
 def one_2_one_asserts(myfile,testlen):
     testlist_set = myfile['Asserts']
@@ -35,7 +81,7 @@ def one_2_one_asserts(myfile,testlen):
     return one2one_asserts_RESULTS
 
 
-def scenariomodel(myfile,testlen):
+def scenariomodel(myfile,testlen,scenariocorpus,defaultgrid,oracle,mpmoracle):
     scenariomodel_skipgram = Word2Vec(scenariocorpus,window=5,min_count=1,iter = 15,alpha=.2,sg=1,size = 75,seed = 0)
     scenariomodelskipgram_grid = defaultgrid
 
@@ -54,13 +100,13 @@ def scenariomodel(myfile,testlen):
     mainlistsorted = sorted(mainlistsorted, key=lambda x: x[0])
     mainlistsorted = list(set(tuple(x) for x in mainlistsorted))
     official_list_skipgram, mainlistsorted = computelower(official_list_skipgram, mainlistsorted,.86)
-    skipgramresults, index_list = printresults(official_list_skipgram,'Full Results for Skipgram')
+    skipgramresults, index_list = printresults(official_list_skipgram,'Full Results for Skipgram',myfile)
     results = TPFPoutput(skipgramresults,oracle,mpmoracle)
-    index_list = convertindextoname(index_list)
+    index_list = convertindextoname(index_list,myfile)
     skipgram_scenario_PRUNE = index_list #len = 249
     return skipgram_scenario_PRUNE
 
-def printresults(officiallist,stringstuff):
+def printresults(officiallist,stringstuff,myfile):
     full_list = []
     index_list = []
     info = ''   
@@ -137,16 +183,16 @@ def computelower(officiallist, sortedlist, breakpoint):
     return officiallist,sortedlist
 
 
-def tfidf_model(myfile,testlen,num,typetfidf):
+def tfidf_model(myfile,testlen,num,typetfidf,defaultgrid,scenariocorpus,oracle,mpmoracle):
     tfidfgrid = defaultgrid
     tfidfgrid = tfidfcorptogrid(scenariocorpus,testlen,tfidfgrid,typetfidf)
     official_list_tfidf, mainlistsorted = createsortedlist(tfidfgrid)
     mainlistsorted = sorted(mainlistsorted, key=lambda x: x[0])
     mainlistsorted = list(set(tuple(x) for x in mainlistsorted))
     official_list_tfidf, mainlistsorted = compute(official_list_tfidf, mainlistsorted,num)
-    tfidfresults, index_list = printresults(official_list_tfidf,'Full Results for TFIDF')
+    tfidfresults, index_list = printresults(official_list_tfidf,'Full Results for TFIDF',myfile)
     results = TPFPoutput(tfidfresults,oracle,mpmoracle)
-    index_list = convertindextoname(index_list)
+    index_list = convertindextoname(index_list,myfile)
     tfidf_bnn_scenario_RESULTS = index_list 
     return tfidf_bnn_scenario_RESULTS
 
@@ -160,7 +206,7 @@ def compute(officiallist, sortedlist, breakpoint):
     return officiallist,sortedlist
 
 
-def lsi_prune(myfile):
+def lsi_prune(myfile,defaultgrid,testlen,oracle,mpmoracle):
     entries = myfile['Scenario'].tolist()
     entries = [[ele for ele in sub if not ele.isdigit()] for sub in entries] 
     dict_for_lsi = Dictionary(entries)
@@ -180,7 +226,7 @@ def lsi_prune(myfile):
     listsorted = sorted(lsi_listsorted, key=lambda x: x[0])
     listsorted = list(set(tuple(x) for x in listsorted))
     official_lsi_list, lsi_listsorted = computelower(official_lsi_list, lsi_listsorted,.69)
-    lsiresults, index_list = printresults(official_lsi_list,'Full Results for LSI')
+    lsiresults, index_list = printresults(official_lsi_list,'Full Results for LSI',myfile)
     results = TPFPoutput(lsiresults,oracle,mpmoracle)
     lsi_scenario_PRUNE = lsiresults
     return lsi_scenario_PRUNE

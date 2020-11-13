@@ -32,24 +32,7 @@ def intersectasserts_withassertadditive(myfile,testlen):
     return intersect_withassertadditive_99_RESULTS
 
 
-def longest_common_subsequence(myfile,testlen,num):
-    testlist_set = myfile['Asserts']
-    sublist = []
-    sublist2 = []
-    for test in range(testlen):
-        for test2 in range(testlen):
-            if test !=test2:
-                testone = testlist_set[test]
-                testtwo = testlist_set[test2]
-                subsequencelen = lcs(testone,testtwo)
-                minimum = min(len(testone),len(testtwo))
-                subsequencelen = lcs(testone,testtwo)
-                min_minus_lcs = minimum-subsequencelen
-                if subsequencelen>num:
-                    sublist.append([myfile['TestName'][test],myfile['TestName'][test2]])
-    sublist = sortstuff(sublist)
-    LCS_asserts_high = sublist
-    return LCS_asserts_high
+
 
 
 
@@ -80,22 +63,6 @@ def intersectwithasserts(name,intersectiongrid):
         setcountertest = 0
     return intersectiongrid
 
-def prototypecheck(pack1):
-    pack1 = sortstuff(pack1)
-    counter = 0
-    counter2 = 0
-    itemlist = []
-    for item in pack1:  
-        if item in oracle:
-            itemlist.append(item)
-            counter +=1
-        else: 
-            counter2+=1
-    print("Number of found combos", counter)
-    print('printing items found in matchlist that are in oracle:')
-    for item in sorted(itemlist):
-        print(item) 
-    print()
 
 def camel_case_split(str):
     words = [[str[0]]] 
@@ -147,16 +114,8 @@ def prune(index_list,keeplist):
     print('Count of Pruned:',x)
     return keeplist
 
-def convertindextoname(index_list):
-    for pair in range(len(index_list)):
-        firstnumber = index_list[pair][0]
-        secondnumber = index_list[pair][1]
-        index_list[pair][0]= myfile['TestName'][firstnumber] 
-        index_list[pair][1]= myfile['TestName'][secondnumber] 
-    index_list = sortstuff(index_list)
-    return index_list
 
-def convertnametoindex(name_list):
+def convertnametoindex(name_list,myfile):
     for pair in range(len(name_list)):
         firstname = name_list[pair][0]
         secondname = name_list[pair][1]

@@ -14,7 +14,7 @@ from gensim import similarities
 from IPython.display import display, HTML
 from functions import *
 from setfile import *
-import clean
-import parse
-import pack_n_prunes
-import checks
+from clean import *
+from parse import *
+from pack_n_prunes import *
+from checks import *

@@ -11,10 +11,10 @@ def main():
     defaultgrid = [[0 for i in range(testlen)] for j in range(testlen)]
     autotree, autoroot, manualtree, manualroot,cleanautotree,cleanautoroot,cleanmanualtree,cleanmanualroot = setparsefile()
     cleanautoroot,cleanmanualroot = cleanparsefiles(cleanautoroot,cleanmanualroot)
-    myfile,listofallfiles = addxmltofile(myfile,cleanmanualroot,cleanautoroot)
+    myfile,listofallfiles = addxmltofile(myfile,cleanmanualroot,cleanautoroot,testlen)
     myfile = isolatemethods_asserts(myfile,listofallfiles)
     myfile = cleancolumns(myfile)
-    pack3, prune1,prune3,prune4,prunepack= makepacksandprunes(myfile,testlen)
+    pack3, prune1,prune3,prune4,prunepack= makepacksandprunes(myfile,testlen,scenariocorpus,defaultgrid,oracle,mpmoracle)
     manuallist,autolist = defineAutoandManual(myfile)
     round1,keep_pack = round1func(myfile,testlen,autolist,manuallist)
     round2,round3,round4, keep_pack = round2func(myfile,testlen,defaultgrid,autolist,manuallist,keep_pack)
