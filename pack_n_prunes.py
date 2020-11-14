@@ -39,7 +39,45 @@ def longest_common_subsequence(myfile,testlen,num):
     LCS_asserts_high = sublist
     return LCS_asserts_high
 
-def prototypecheck(pack1):
+def intersect(name,myfile,intersectiongrid,testlen):
+    setcountertest = 0
+    setcountertest2 = 0
+    for test in range(testlen):
+        for item in set((myfile[name][test])):
+                setcountertest += 1
+        for test2 in range(testlen):
+            for item in set((myfile[name][test2])):
+                setcountertest2 += 1
+            intersection = set((myfile[name][test])).intersection(set((myfile[name][test2])))
+            intersection = len(intersection)
+            minimum = min(setcountertest,setcountertest2)
+            if minimum != 0:
+                metric = intersection/minimum
+            else:
+                metric = 0
+            intersectiongrid[test][test2] = metric
+            if (test == test2):
+                intersectiongrid[test][test2] = 0
+            setcountertest2 = 0
+            intersection = 0
+        setcountertest = 0
+    return intersectiongrid
+
+def setmetrics_combo(myfile,testlen,defaultgrid,column,num,oracle,mpmoracle):
+    intersectiongrid = defaultgrid     
+    intersectiongrid = intersect(column,myfile,intersectiongrid,testlen)
+    official_list = []
+    listsorted = []
+    official_list, listsorted = createsortedlist(intersectiongrid)
+    listsorted = sorted(listsorted, key=lambda x: x[0])
+    listsorted = list(set(tuple(x) for x in listsorted))
+    official_list, listsorted = compute(official_list, listsorted,num)
+    setintersectionresults, index_list_methods = printresults(official_list,'Full Results for Methods (no args or suite name)',myfile)
+    results = TPFPoutput(setintersectionresults,oracle,mpmoracle)
+    setintersection_Combo_51_RESULTS = setintersectionresults #pack15
+    return setintersection_Combo_51_RESULTS
+
+def prototypecheck(pack1,oracle,mpmoracle):
     pack1 = sortstuff(pack1)
     counter = 0
     counter2 = 0
