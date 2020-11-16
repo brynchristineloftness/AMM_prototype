@@ -1,2 +1,4 @@
 # AMM_prototype
-https://github.com/brynchristineloftness/AMM_prototype/master/Explanation_SlideShow.pdf
+
+**Description Slide Show For Research Project**
+https://github.com/brynchristineloftness/AMM_prototype/blob/master/Explanation_SlideShow.pdf
