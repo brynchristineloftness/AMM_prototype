@@ -13,7 +13,7 @@ def intersectasserts_withassertadditive(myfile,testlen):
     listsorted = sorted(listsorted, key=lambda x: x[0])
     listsorted = list(set(tuple(x) for x in listsorted))
 
-    officiallist, listsorted = compute(officiallist, listsorted, 1.74)
+    officiallist, listsorted = compute(officiallist, listsorted, .74)
     setintersectionresults, index_list = printresults(officiallist,'Full Results for Asserts')
     results = TPFPoutput(setintersectionresults,oracle,mpmoracle)
     intersect_withassertadditive_99_RESULTS =setintersectionresults #pack21 
