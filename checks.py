@@ -51,7 +51,6 @@ def round2func(myfile,testlen,defaultgrid,autolist,manuallist,keep_pack,oracle,m
     round6 = [x for x in round4 if x not in prune_asserts]
     round4 = [x for x in round4 if x in prune_asserts]
 
-
     split = tfidf_model(myfile,testlen,.65,'bnn',defaultgrid,scenariocorpus,oracle,mpmoracle)
     round4 = [x for x in round4 if x in split]
 
@@ -117,28 +116,29 @@ def round5func(myfile,testlen,defaultgrid,autolist,manuallist,keep_pack,round7,o
 
     return round7, keep_pack
 
-def round6func(myfile,testlen,defaultgrid,autolist,manuallist,keep_pack,oracle,mpmoracle,prunepack,scenariocorpus):
+def round6func(myfile,testlen,defaultgrid,autolist,manuallist,keep_pack,oracle,mpmoracle,prunepack,scenariocorpus,round5):
     add_methods = setmetrics_combo(myfile,testlen,defaultgrid,"Methods_Asserts",.65,oracle,mpmoracle)
-    round8 = [x for x in round7 if x in add_methods]
+    round6 = [x for x in round5 if x in add_methods]
 
     prune_scenario = setmetrics_combo(myfile,testlen,defaultgrid,"Combo",.4,oracle,mpmoracle)
-    round8 = [x for x in round8 if x in prune_scenario]
+    round6 = [x for x in round6 if x in prune_scenario]
 
-    split = tfidf_model(myfile,testlen,.58,'bnn')
-    round8 = [x for x in round8 if x not in split]
+    split = tfidf_model(myfile,testlen,.58,'bnn',defaultgrid,scenariocorpus,oracle,mpmoracle)
+    round6 = [x for x in round6 if x not in split]
 
-    round8 = [x for x in round8 if x not in prunepack]
-    print('eight',len(round8),2)
-    prototypecheck(round8,oracle,mpmoracle)
-    keep_pack+=round8
+    round6 = [x for x in round6 if x not in prunepack]
+    print('eight',len(round6),2)
+    prototypecheck(round6,oracle,mpmoracle)
+    keep_pack+=round6
 
-    return round8,keep_pack
+    return round6,keep_pack
 
 
 def defineTest(keep_pack,oracle,mpmoracle):
     epic1 = keep_pack
     counter = 0
     counter2 = 0
+    epic1 = sortstuff(epic1)
     for item in sorted(epic1):
         if item in oracle :
             print('*o*',end='')
@@ -146,7 +146,10 @@ def defineTest(keep_pack,oracle,mpmoracle):
         if item in mpmoracle:
             print("*mpm*",end = '')
             counter2+=1
+        if item not in oracle and item not in mpmoracle:
+            print("bad",end = '')
         print (item)
+    print()
     print("found in oracle: ",counter,'out of',len(oracle))
     print("found in mpm: ",counter2,'out of',len(mpmoracle))
     print('number of matches',len(epic1))

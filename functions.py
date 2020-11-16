@@ -4,7 +4,7 @@ from imports import *
 
 def intersectasserts_withassertadditive(myfile,testlen):
     assertgrid = defaultgrid
-    assertgrid = intersectwithasserts('Asserts',assertgrid)
+    assertgrid = intersectwithasserts('Asserts',assertgrid,testlen)
     officiallist, listsorted = createsortedlist(assertgrid)
     for item in listsorted:
         if [item[1],item[0],item[2]] in listsorted:
@@ -24,7 +24,7 @@ def intersectasserts_withassertadditive(myfile,testlen):
 
 
 
-def intersectwithasserts(name,intersectiongrid):
+def intersectwithasserts(name,intersectiongrid,testlen):
     setcountertest = 0
     setcountertest2 = 0
     for test in range(testlen):

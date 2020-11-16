@@ -13,7 +13,7 @@ def makepacksandprunes(myfile,testlen,scenariocorpus,defaultgrid,oracle,mpmoracl
 def sortstuff(name):
     name = sorted(name)
     for item in range(len(name)):
-        name[item] = sorted(name[item])
+        name[item] = sorted(name[item],reverse=False)
     name = sorted(name)
     name_set = set(tuple(x) for x in name)
     name = [ list(x) for x in name_set ]

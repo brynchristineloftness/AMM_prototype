@@ -14,7 +14,13 @@ def defineoracles():
             ['testIllegalOptions', 'test14'],['testSpecialOptChars','test15'],['testCreateIncompleteOption','test16'],
             ['testOptionArgNumbers','test21'], ['testCompleteOption','test06'], ['testCompleteOption','test28'], 
                 ['testCompleteOption','test29'],['testTwoCompleteOptions','test28'],['testTwoCompleteOptions','test29']]          
-    
+
+    for item in oracle:
+        item = item.sort()
+
+    for item in mpmoracle:
+        item = item.sort()
+
     return oracle, mpmoracle
 
 def setparsefile():
