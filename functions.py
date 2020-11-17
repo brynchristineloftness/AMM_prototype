@@ -42,7 +42,6 @@ def intersectwithasserts(name,intersectiongrid,testlen):
                 metric = 0
             if 'assertNotNull' in myfile[name][test] and 'assertEquals' in myfile[name][test2]:
                 metric += 1
-            #print(setcountertest,setcountertest2,test,test2,intersection,metric)
             intersectiongrid[test][test2] = metric
             if (test == test2):
                 intersectiongrid[test][test2] = 0
