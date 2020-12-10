@@ -21,7 +21,6 @@ def main():
     round3, keep_pack = round3func(myfile,testlen,defaultgrid,autolist,manuallist,keep_pack,round3,oracle,mpmoracle,prunepack,scenariocorpus)
     round4, round5, keep_pack = round4func(myfile,testlen,defaultgrid,autolist,manuallist,keep_pack,round4,oracle,mpmoracle,prunepack,scenariocorpus)
     round5, keep_pack = round5func(myfile,testlen,defaultgrid,autolist,manuallist,keep_pack,round5,oracle,mpmoracle,prunepack,scenariocorpus)
-    round6, keep_pack = round6func(myfile,testlen,defaultgrid,autolist,manuallist,keep_pack,oracle,mpmoracle,prunepack,scenariocorpus,round5)
     defineTest(keep_pack,oracle,mpmoracle)
 
 main()

@@ -21,6 +21,7 @@ def sortstuff(name):
 
 
 def longest_common_subsequence(myfile,testlen,num):
+    #minimum length of tests compared less longest common subsequence with asserts, returns list of LCS valid tests
     testlist_set = myfile['Asserts']
     sublist = []
     sublist2 = []

@@ -15,7 +15,6 @@ def defineAutoandManual(myfile):
 def round1func(myfile,testlen,autolist,manuallist,oracle,mpmoracle):
     keep_pack = []
     round3 = longest_common_subsequence(myfile,testlen,4)
-    round3 = sortstuff(round3)
     round3real = []
     for item in round3:
         if item[0] in autolist and item[1] in manuallist:
@@ -25,40 +24,40 @@ def round1func(myfile,testlen,autolist,manuallist,oracle,mpmoracle):
     print('three',len(round3),1)
     prototypecheck(round3,oracle,mpmoracle)
     keep_pack += round3
-
+    #returns list of pairs with assert common subsequences > 4 that are auto versus manual, accounting for assert lengths
     return round3,keep_pack
 
 def round2func(myfile,testlen,defaultgrid,autolist,manuallist,keep_pack,oracle,mpmoracle,scenariocorpus,prunepack):
-    round4 = setmetrics_combo(myfile,testlen,defaultgrid,"Combo",.51,oracle,mpmoracle)
-    round4 = sortstuff(round4)
-    round4real = []
-    for item in round4:
+    round2 = setmetrics_combo(myfile,testlen,defaultgrid,"Combo",.51,oracle,mpmoracle)
+    round2 = sortstuff(round2)
+    round2real = []
+    for item in round2:
         if item[0] in autolist and item[1] in manuallist:
-            round4real.append(item)
-    round4 = round4real
+            round2real.append(item)
+    round2 = round2real
 
     prune_scenario = setmetrics_combo(myfile,testlen,defaultgrid,"Scenario",.7889,oracle,mpmoracle)
     #branch decision tree
-    round1 = [x for x in round4 if x in prune_scenario]
-    round4 = [x for x in round4 if x not in prune_scenario]
+    round1 = [x for x in round2 if x in prune_scenario]
+    round2 = [x for x in round2 if x not in prune_scenario]
 
     prune_asserts = setmetrics_combo(myfile,testlen,defaultgrid,"Asserts",.35,oracle,mpmoracle)
-    round4 = [x for x in round4 if x not in prune_asserts]
+    round2 = [x for x in round2 if x not in prune_asserts]
 
     prune_asserts = setmetrics_combo(myfile,testlen,defaultgrid,"Methods_Asserts",.68,oracle,mpmoracle)
     
     #branch decision tree
-    round6 = [x for x in round4 if x not in prune_asserts]
-    round4 = [x for x in round4 if x in prune_asserts]
+    round6 = [x for x in round2 if x not in prune_asserts]
+    round2 = [x for x in round2 if x in prune_asserts]
 
     split = tfidf_model(myfile,testlen,.65,'bnn',defaultgrid,scenariocorpus,oracle,mpmoracle)
-    round4 = [x for x in round4 if x in split]
+    round2 = [x for x in round2 if x in split]
 
-    print('four',len(round4),2) 
-    prototypecheck(round4,oracle,mpmoracle)
-    keep_pack+=round4
+    print('four',len(round2),2) 
+    prototypecheck(round2,oracle,mpmoracle)
+    keep_pack+=round2
 
-    return round4,round1,round6,keep_pack
+    return round2,round1,round6,keep_pack
 
 def round3func(myfile,testlen,defaultgrid,autolist,manuallist,keep_pack,round1,oracle,mpmoracle,prunepack,scenariocorpus):
     round1 = sortstuff(round1)
@@ -113,25 +112,10 @@ def round5func(myfile,testlen,defaultgrid,autolist,manuallist,keep_pack,round7,o
     print('seven',len(round7),3)
     prototypecheck(round7,oracle,mpmoracle)
     keep_pack+=round7
+    print('HEREBRYN')
+    prototypecheck(prunepack,oracle,mpmoracle)
 
     return round7, keep_pack
-
-def round6func(myfile,testlen,defaultgrid,autolist,manuallist,keep_pack,oracle,mpmoracle,prunepack,scenariocorpus,round5):
-    add_methods = setmetrics_combo(myfile,testlen,defaultgrid,"Methods_Asserts",.65,oracle,mpmoracle)
-    round6 = [x for x in round5 if x in add_methods]
-
-    prune_scenario = setmetrics_combo(myfile,testlen,defaultgrid,"Combo",.4,oracle,mpmoracle)
-    round6 = [x for x in round6 if x in prune_scenario]
-
-    split = tfidf_model(myfile,testlen,.58,'bnn',defaultgrid,scenariocorpus,oracle,mpmoracle)
-    round6 = [x for x in round6 if x not in split]
-
-    round6 = [x for x in round6 if x not in prunepack]
-    print('eight',len(round6),2)
-    prototypecheck(round6,oracle,mpmoracle)
-    keep_pack+=round6
-
-    return round6,keep_pack
 
 
 def defineTest(keep_pack,oracle,mpmoracle):
@@ -153,3 +137,6 @@ def defineTest(keep_pack,oracle,mpmoracle):
     print("found in oracle: ",counter,'out of',len(oracle))
     print("found in mpm: ",counter2,'out of',len(mpmoracle))
     print('number of matches',len(epic1))
+    print('accuracy:')
+    print('precision:')
+    print('f1:')
