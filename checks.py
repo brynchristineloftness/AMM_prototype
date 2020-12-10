@@ -72,10 +72,10 @@ def layer3(myfile,testlen,defaultgrid,autolist,manuallist,keep_pack,group3,oracl
 
 def layer4(myfile,testlen,defaultgrid,autolist,manuallist,keep_pack,group4,oracle,mpmoracle,scenariocorpus):
     group4 = sortstuff(group4)
+
     add_methods = setmetrics_combo(myfile,testlen,defaultgrid,"Methods",.9995,oracle,mpmoracle)
     group5 = [x for x in group4 if x in add_methods]
     group4 = [x for x in group4 if x not in add_methods]
-
     prune_scenario = setmetrics_combo(myfile,testlen,defaultgrid,"Scenario",.7,oracle,mpmoracle)
     group4 = [x for x in group4 if x not in prune_scenario]
 
@@ -157,7 +157,6 @@ def checklayers(group1,group2,group3,group4,group5,oracle,mpmoracle,prunepack):
 
 def defineTest(keep_pack,oracle,mpmoracle,manuallist,autolist,group1,group2,group3,group4,group5):
     epic1 = keep_pack
-    epic1 = [x for x in epic1 if x not in group4]
     counter = 0
     counter2 = 0
     epic1 = sortstuff(epic1)
