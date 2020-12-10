@@ -78,23 +78,6 @@ def setmetrics_combo(myfile,testlen,defaultgrid,column,num,oracle,mpmoracle):
     setintersection_Combo_51_RESULTS = setintersectionresults #pack15
     return setintersection_Combo_51_RESULTS
 
-def prototypecheck(pack1,oracle,mpmoracle):
-    pack1 = sortstuff(pack1)
-    counter = 0
-    counter2 = 0
-    itemlist = []
-    for item in pack1:  
-        if item in oracle:
-            itemlist.append(item)
-            counter +=1
-        else: 
-            counter2+=1
-    print("Number of found combos", counter)
-    print('printing items found in matchlist that are in oracle:')
-    for item in sorted(itemlist):
-        print(item) 
-    print()
-
 def convertindextoname(index_list,myfile):
     for pair in range(len(index_list)):
         firstnumber = index_list[pair][0]

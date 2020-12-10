@@ -16,12 +16,13 @@ def main():
     myfile = cleancolumns(myfile)
     pack3, prune1,prune3,prune4,prunepack= makepacksandprunes(myfile,testlen,scenariocorpus,defaultgrid,oracle,mpmoracle)
     manuallist,autolist = defineAutoandManual(myfile)
-    round1,keep_pack = round1func(myfile,testlen,autolist,manuallist,oracle,mpmoracle)
-    round2,round3,round4, keep_pack = round2func(myfile,testlen,defaultgrid,autolist,manuallist,keep_pack,oracle,mpmoracle,scenariocorpus,prunepack)
-    round3, keep_pack = round3func(myfile,testlen,defaultgrid,autolist,manuallist,keep_pack,round3,oracle,mpmoracle,prunepack,scenariocorpus)
-    round4, round5, keep_pack = round4func(myfile,testlen,defaultgrid,autolist,manuallist,keep_pack,round4,oracle,mpmoracle,prunepack,scenariocorpus)
-    round5, keep_pack = round5func(myfile,testlen,defaultgrid,autolist,manuallist,keep_pack,round5,oracle,mpmoracle,prunepack,scenariocorpus)
-    defineTest(keep_pack,oracle,mpmoracle)
+    round1,keep_pack = layer1(myfile,testlen,autolist,manuallist,oracle,mpmoracle)
+    round2,round3,round4, keep_pack = layer2(myfile,testlen,defaultgrid,autolist,manuallist,keep_pack,oracle,mpmoracle,scenariocorpus)
+    round3, keep_pack = layer3(myfile,testlen,defaultgrid,autolist,manuallist,keep_pack,round3,oracle,mpmoracle,scenariocorpus)
+    round4, round5, keep_pack = layer4(myfile,testlen,defaultgrid,autolist,manuallist,keep_pack,round4,oracle,mpmoracle,scenariocorpus)
+    round5, keep_pack = layer5(myfile,testlen,defaultgrid,autolist,manuallist,keep_pack,round5,oracle,mpmoracle,scenariocorpus)
+    keep_pack = [x for x in keep_pack if x not in prunepack]
+    defineTest(keep_pack,oracle,mpmoracle,manuallist,autolist)
 
 main()
 
