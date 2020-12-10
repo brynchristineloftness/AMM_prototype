@@ -13,100 +13,151 @@ def defineAutoandManual(myfile):
     
 def layer1(myfile,testlen,autolist,manuallist,oracle,mpmoracle):
     keep_pack = []
-    round3 = longest_common_subsequence(myfile,testlen,4)
-    round3real = []
-    for item in round3:
+    group1 = longest_common_subsequence(myfile,testlen,4)
+    group1real = []
+    for item in group1:
         if item[0] in autolist and item[1] in manuallist:
-            round3real.append(item)
-    round3 = round3real
+            group1real.append(item)
+    group1 = group1real
 
-    print('three',len(round3),1)
-    keep_pack += round3
+    print('layer1',len(group1),1)
+    keep_pack += group1
     #returns list of pairs with assert common subsequences > 4 that are auto versus manual, accounting for assert lengths
-    return round3,keep_pack
+    return group1,keep_pack
 
 def layer2(myfile,testlen,defaultgrid,autolist,manuallist,keep_pack,oracle,mpmoracle,scenariocorpus):
-    round2 = setmetrics_combo(myfile,testlen,defaultgrid,"Combo",.51,oracle,mpmoracle)
-    round2 = sortstuff(round2)
-    round2real = []
-    for item in round2:
+    group2 = setmetrics_combo(myfile,testlen,defaultgrid,"Combo",.51,oracle,mpmoracle)
+    group2 = sortstuff(group2)
+    group2real = []
+    for item in group2:
         if item[0] in autolist and item[1] in manuallist:
-            round2real.append(item)
-    round2 = round2real
+            group2real.append(item)
+    group2 = group2real
 
     prune_scenario = setmetrics_combo(myfile,testlen,defaultgrid,"Scenario",.7889,oracle,mpmoracle)
     #branch decision tree
-    round1 = [x for x in round2 if x in prune_scenario]
-    round2 = [x for x in round2 if x not in prune_scenario]
+    group3 = [x for x in group2 if x in prune_scenario]
+    group2 = [x for x in group2 if x not in prune_scenario]
 
     prune_asserts = setmetrics_combo(myfile,testlen,defaultgrid,"Asserts",.35,oracle,mpmoracle)
-    round2 = [x for x in round2 if x not in prune_asserts]
+    group2 = [x for x in group2 if x not in prune_asserts]
 
     prune_asserts = setmetrics_combo(myfile,testlen,defaultgrid,"Methods_Asserts",.68,oracle,mpmoracle)
     
     #branch decision tree
-    round6 = [x for x in round2 if x not in prune_asserts]
-    round2 = [x for x in round2 if x in prune_asserts]
+    group4 = [x for x in group2 if x not in prune_asserts]
+    group2 = [x for x in group2 if x in prune_asserts]
 
     split = tfidf_model(myfile,testlen,.65,'bnn',defaultgrid,scenariocorpus,oracle,mpmoracle)
-    round2 = [x for x in round2 if x in split]
+    group2 = [x for x in group2 if x in split]
 
-    print('four',len(round2),2) 
-    keep_pack+=round2
+    print('layer2',len(group2),2) 
+    keep_pack+=group2
 
-    return round2,round1,round6,keep_pack
+    return group2,group3,group4,keep_pack
 
-def layer3(myfile,testlen,defaultgrid,autolist,manuallist,keep_pack,round1,oracle,mpmoracle,scenariocorpus):
-    round1 = sortstuff(round1)
+def layer3(myfile,testlen,defaultgrid,autolist,manuallist,keep_pack,group3,oracle,mpmoracle,scenariocorpus):
+    group3 = sortstuff(group3)
 
     prune_asserts = setmetrics_combo(myfile,testlen,defaultgrid,"Methods_Asserts",.9999,oracle,mpmoracle)
-    round1 = [x for x in round1 if x in prune_asserts]
+    group3 = [x for x in group3 if x in prune_asserts]
 
     split = tfidf_model(myfile,testlen,.785,'bnn',defaultgrid,scenariocorpus,oracle,mpmoracle)
-    round1 = [x for x in round1 if x in split]
+    group3 = [x for x in group3 if x in split]
 
-    print('one',len(round1),2) 
-    keep_pack+=round1
-    return round1, keep_pack
+    print('layer3',len(group3),2) 
+    keep_pack+=group3
+    return group3, keep_pack
 
 
-def layer4(myfile,testlen,defaultgrid,autolist,manuallist,keep_pack,round6,oracle,mpmoracle,scenariocorpus):
-    round6 = sortstuff(round6)
+def layer4(myfile,testlen,defaultgrid,autolist,manuallist,keep_pack,group4,oracle,mpmoracle,scenariocorpus):
+    group4 = sortstuff(group4)
     add_methods = setmetrics_combo(myfile,testlen,defaultgrid,"Methods",.9995,oracle,mpmoracle)
-    round7 = [x for x in round6 if x in add_methods]
-    round6 = [x for x in round6 if x not in add_methods]
+    group5 = [x for x in group4 if x in add_methods]
+    group4 = [x for x in group4 if x not in add_methods]
 
     prune_scenario = setmetrics_combo(myfile,testlen,defaultgrid,"Scenario",.7,oracle,mpmoracle)
-    round6 = [x for x in round6 if x not in prune_scenario]
+    group4 = [x for x in group4 if x not in prune_scenario]
 
     split = tfidf_model(myfile,testlen,.605,'bnn',defaultgrid,scenariocorpus,oracle,mpmoracle)
-    round6 = [x for x in round6 if x not in split]
-    print('six',len(round6),2)
-    keep_pack+=round6
-    return round6, round7, keep_pack
+    group4 = [x for x in group4 if x not in split]
+    print('layer4',len(group4),2)
+    keep_pack+=group4
+    return group4, group5, keep_pack
 
-def layer5(myfile,testlen,defaultgrid,autolist,manuallist,keep_pack,round7,oracle,mpmoracle,scenariocorpus):
-    round7 = sortstuff(round7)
-
+def layer5(myfile,testlen,defaultgrid,autolist,manuallist,keep_pack,group5,oracle,mpmoracle,scenariocorpus):
     prune_scenario = setmetrics_combo(myfile,testlen,defaultgrid,"Scenario",.69,oracle,mpmoracle)
-    round7 = [x for x in round7 if x not in prune_scenario]
+    group5 = [x for x in group5 if x not in prune_scenario]
 
     prune_scenario = setmetrics_combo(myfile,testlen,defaultgrid,"Combo",.59,oracle,mpmoracle)
-    round7 = [x for x in round7 if x not in prune_scenario]
+    group5 = [x for x in group5 if x not in prune_scenario]
 
 
     split = tfidf_model(myfile,testlen,.58,'bnn',defaultgrid,scenariocorpus,oracle,mpmoracle)
-    round7 = [x for x in round7 if x not in split]
+    group5 = [x for x in group5 if x not in split]
 
 
-    print('seven',len(round7),3)
-    keep_pack+=round7
+    print('layer5',len(group5),3)
+    keep_pack+=group5
 
-    return round7, keep_pack
+    return group5, keep_pack
+
+def checklayers(group1,group2,group3,group4,group5,oracle,mpmoracle,prunepack):
+    group1count=0
+    group2count=0
+    group3count=0
+    group4count=0
+    group5count = 0
+    for item in group4:
+        if item in prunepack:
+            group4 = [x for x in group4 if x != item]
+    for item in group5:
+        if item in prunepack:
+            group5 = [x for x in group5 if x != item]
+    for item in oracle:
+        if item in group1:
+            group1count+=1
+        if item in group2 and item not in group1:
+            group2count+=1
+        if item in group3 and item not in group2 and item not in group1:
+            group3count+=1
+        if item in group4 and item not in group3 and item not in group2 and item not in group1:
+            group4count+=1
+        if item in group5 and item not in group4 and item not in group3 and item not in group2 and item not in group1:
+            group5count+=1
+    print("oracle:")
+    print(len(group1),group1count)
+    print(len(group2),group2count)
+    print(len(group3),group3count)
+    print(len(group4),group4count)
+    print(len(group5),group5count)
+    group1count=0
+    group2count=0
+    group3count=0
+    group4count=0
+    group5count = 0
+    for item in mpmoracle:
+        if item in group1:
+            group1count+=1
+        if item in group2 and item not in group1:
+            group2count+=1
+        if item in group3 and item not in group2 and item not in group1:
+            group3count+=1
+        if item in group4 and item not in group3 and item not in group2 and item not in group1:
+            group4count+=1
+        if item in group5 and item not in group4 and item not in group3 and item not in group2 and item not in group1:
+            group5count+=1
+    print("mpmoracle:")
+    print(len(group1),group1count)
+    print(len(group2),group2count)
+    print(len(group3),group3count)
+    print(len(group4),group4count)
+    print(len(group5),group5count)
 
 
-def defineTest(keep_pack,oracle,mpmoracle,manuallist,autolist):
+def defineTest(keep_pack,oracle,mpmoracle,manuallist,autolist,group1,group2,group3,group4,group5):
     epic1 = keep_pack
+    epic1 = [x for x in epic1 if x not in group4]
     counter = 0
     counter2 = 0
     epic1 = sortstuff(epic1)

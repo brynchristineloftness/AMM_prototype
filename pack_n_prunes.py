@@ -1,14 +1,12 @@
 from imports import *
 
 def makepacksandprunes(myfile,testlen,scenariocorpus,defaultgrid,oracle,mpmoracle):
-    
-    pack3 = one_2_one_asserts(myfile,testlen)
     prune1 = scenariomodel(myfile,testlen,scenariocorpus,defaultgrid,oracle,mpmoracle)
     prune3 = tfidf_model(myfile,testlen,.84,'bnn',defaultgrid,scenariocorpus,oracle,mpmoracle)
     prune4 = lsi_prune(myfile,defaultgrid,testlen,oracle,mpmoracle)
     prunepack = prune1 + prune3+prune4
     prunepack= sortstuff(prunepack)
-    return pack3, prune1,prune3,prune4,prunepack
+    return prune1,prune3,prune4,prunepack
 
 def sortstuff(name):
     name = sorted(name)
@@ -74,7 +72,6 @@ def setmetrics_combo(myfile,testlen,defaultgrid,column,num,oracle,mpmoracle):
     listsorted = list(set(tuple(x) for x in listsorted))
     official_list, listsorted = compute(official_list, listsorted,num)
     setintersectionresults, index_list_methods = printresults(official_list,'Full Results for Methods (no args or suite name)',myfile)
-    results = TPFPoutput(setintersectionresults,oracle,mpmoracle)
     setintersection_Combo_51_RESULTS = setintersectionresults #pack15
     return setintersection_Combo_51_RESULTS
 
@@ -123,7 +120,6 @@ def scenariomodel(myfile,testlen,scenariocorpus,defaultgrid,oracle,mpmoracle):
     mainlistsorted = list(set(tuple(x) for x in mainlistsorted))
     official_list_skipgram, mainlistsorted = computelower(official_list_skipgram, mainlistsorted,.86)
     skipgramresults, index_list = printresults(official_list_skipgram,'Full Results for Skipgram',myfile)
-    results = TPFPoutput(skipgramresults,oracle,mpmoracle)
     index_list = convertindextoname(index_list,myfile)
     skipgram_scenario_PRUNE = index_list #len = 249
     return skipgram_scenario_PRUNE
@@ -140,44 +136,6 @@ def printresults(officiallist,stringstuff,myfile):
     results = sortstuff(full_list)
     index_list = sortstuff(index_list)
     return results, index_list
-
-def TPFPoutput(full_list,oracle,mpmoracle):
-    testcluster = []
-    full_list = sorted(full_list)
-    fl_set = set(tuple(x) for x in full_list)
-    full_list = [ list(x) for x in fl_set ]
-    for item in full_list:
-        item = sorted(item)
-    truepositive = 0
-    falsepositive = 0
-    tporacle = 0
-    fporacle = 0
-    truepositivelist = []
-    falsepositivelist= []
-    truepositivelistmpm= []
-    falsepositivelistmpm = []
-    for file in full_list:
-        testcluster.append(file[0])
-        testcluster.append(file[1])
-        if file in mpmoracle:
-            truepositive+=1
-            truepositivelistmpm.append(file)
-        else:
-            falsepositive+=1
-            falsepositivelistmpm.append(file)
-        if file in oracle:
-            tporacle += 1
-            truepositivelist.append(file)
-        else:
-            fporacle +=1   
-            falsepositivelist.append(file)
-    testcluster = list(dict.fromkeys(testcluster))
-
-    truepositivelist = sortstuff(truepositivelist)
-    falsepositivelist = sortstuff(falsepositivelist)
-    truepositivelistmpm = sortstuff(truepositivelistmpm)
-    falsepositivelistmpm = sortstuff(falsepositivelistmpm)
-    return full_list
 
 def createsortedlist(grid):
     main_list = []
@@ -213,7 +171,6 @@ def tfidf_model(myfile,testlen,num,typetfidf,defaultgrid,scenariocorpus,oracle,m
     mainlistsorted = list(set(tuple(x) for x in mainlistsorted))
     official_list_tfidf, mainlistsorted = compute(official_list_tfidf, mainlistsorted,num)
     tfidfresults, index_list = printresults(official_list_tfidf,'Full Results for TFIDF',myfile)
-    results = TPFPoutput(tfidfresults,oracle,mpmoracle)
     index_list = convertindextoname(index_list,myfile)
     tfidf_bnn_scenario_RESULTS = index_list 
     return tfidf_bnn_scenario_RESULTS
@@ -249,6 +206,5 @@ def lsi_prune(myfile,defaultgrid,testlen,oracle,mpmoracle):
     listsorted = list(set(tuple(x) for x in listsorted))
     official_lsi_list, lsi_listsorted = computelower(official_lsi_list, lsi_listsorted,.69)
     lsiresults, index_list = printresults(official_lsi_list,'Full Results for LSI',myfile)
-    results = TPFPoutput(lsiresults,oracle,mpmoracle)
     lsi_scenario_PRUNE = lsiresults
     return lsi_scenario_PRUNE

@@ -14,15 +14,16 @@ def main():
     myfile,listofallfiles = addxmltofile(myfile,cleanmanualroot,cleanautoroot,testlen)
     myfile = isolatemethods_asserts(myfile,listofallfiles)
     myfile = cleancolumns(myfile)
-    pack3, prune1,prune3,prune4,prunepack= makepacksandprunes(myfile,testlen,scenariocorpus,defaultgrid,oracle,mpmoracle)
+    prune1,prune3,prune4,prunepack= makepacksandprunes(myfile,testlen,scenariocorpus,defaultgrid,oracle,mpmoracle)
     manuallist,autolist = defineAutoandManual(myfile)
-    round1,keep_pack = layer1(myfile,testlen,autolist,manuallist,oracle,mpmoracle)
-    round2,round3,round4, keep_pack = layer2(myfile,testlen,defaultgrid,autolist,manuallist,keep_pack,oracle,mpmoracle,scenariocorpus)
-    round3, keep_pack = layer3(myfile,testlen,defaultgrid,autolist,manuallist,keep_pack,round3,oracle,mpmoracle,scenariocorpus)
-    round4, round5, keep_pack = layer4(myfile,testlen,defaultgrid,autolist,manuallist,keep_pack,round4,oracle,mpmoracle,scenariocorpus)
-    round5, keep_pack = layer5(myfile,testlen,defaultgrid,autolist,manuallist,keep_pack,round5,oracle,mpmoracle,scenariocorpus)
+    group1,keep_pack = layer1(myfile,testlen,autolist,manuallist,oracle,mpmoracle)
+    group2,group3,group4, keep_pack = layer2(myfile,testlen,defaultgrid,autolist,manuallist,keep_pack,oracle,mpmoracle,scenariocorpus)
+    group3, keep_pack = layer3(myfile,testlen,defaultgrid,autolist,manuallist,keep_pack,group3,oracle,mpmoracle,scenariocorpus)
+    group4, group5, keep_pack = layer4(myfile,testlen,defaultgrid,autolist,manuallist,keep_pack,group4,oracle,mpmoracle,scenariocorpus)
+    group5, keep_pack = layer5(myfile,testlen,defaultgrid,autolist,manuallist,keep_pack,group5,oracle,mpmoracle,scenariocorpus)
+    checklayers(group1,group2,group3,group4,group5,oracle,mpmoracle,prunepack)
     keep_pack = [x for x in keep_pack if x not in prunepack]
-    defineTest(keep_pack,oracle,mpmoracle,manuallist,autolist)
+    defineTest(keep_pack,oracle,mpmoracle,manuallist,autolist,group1,group2,group3,group4,group5)
 
 main()
 
