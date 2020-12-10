@@ -112,8 +112,6 @@ def round5func(myfile,testlen,defaultgrid,autolist,manuallist,keep_pack,round7,o
     print('seven',len(round7),3)
     prototypecheck(round7,oracle,mpmoracle)
     keep_pack+=round7
-    print('HEREBRYN')
-    prototypecheck(prunepack,oracle,mpmoracle)
 
     return round7, keep_pack
 
