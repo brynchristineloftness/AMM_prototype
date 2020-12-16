@@ -13,22 +13,22 @@ def defineoracles():
     optionbuilder_mpmoracle = [['testCompleteOption','test02'],['testCompleteOption','test05'],['testCompleteOption','test08'],
             ['testCompleteOption','test19'],['testCompleteOption','test22'], ['testTwoCompleteOptions','test08'],
             ['testTwoCompleteOptions','test19'],['testTwoCompleteOptions','test22'], ['testBaseOptionCharOpt','test08'],
-            ['testIllegalOptions', 'test14'],['testSpecialOptChars','test15'],['testCreateIncompleteOption','test16'],
+            ['testIllegalOptions', 'test14'],['testSpecialOptChars','test15'],['testSpecialOptChars','test20'],['testCreateIncompleteOption','test16'],
             ['testOptionArgNumbers','test21'], ['testCompleteOption','test06'], ['testCompleteOption','test28'], 
                 ['testCompleteOption','test29'],['testTwoCompleteOptions','test28'],['testTwoCompleteOptions','test29']]          
 
     commandline_oracle = [['testGetOptions','test00'],['testBuilder','test01'],['testBuider','test08'],
-    ['testBuilder','test09'],['testGetOptions','test10'],['testGetParsedOptionValue','test27'],
-    ['testGetParsedOptionValue','test28'],['testGetParsedOptionValue','test29'],
-    ['testGetOptionProperties','test33'],['testGetOptionProperties','test32'],
-    ['testBuilder','test40']]
+        ['testBuilder','test09'],['testGetOptions','test10'],['testGetParsedOptionValue','test27'],
+        ['testGetParsedOptionValue','test28'],['testGetParsedOptionValue','test29'],
+        ['testGetOptionProperties','test33'],['testGetOptionProperties','test32'],
+        ['testBuilder','test40']]
 
-    commandline_mpmoracle = [['testGetParsedOptionValue','test26'],['testGetOptionProperties','test30'],
-    ['testGetOptions','test00'],['testBuilder','test01'],['testBuider','test08'],
-    ['testBuilder','test09'],['testGetOptions','test10'],['testGetParsedOptionValue','test27'],
-    ['testGetParsedOptionValue','test28'],['testGetParsedOptionValue','test29'],
+    commandline_mpmoracle = [['testGetOptions','test00'],['testBuilder','test01'],['testBuider','test08'],
+    ['testBuilder','test09'],['testGetOptions','test10'],['testGetParsedOptionValue','test26'],
+    ['testGetOptionProperties','test30'],['testGetParsedOptionValue','test27']
+    ,['testGetParsedOptionValue','test28'],['testGetParsedOptionValue','test29'],
     ['testGetOptionProperties','test33'],['testGetOptionProperties','test32'],['testBuilder','test40']]
-        
+
     util_oracle = [['testStripLeadingHyphens','test06'],['testStripLeadingHyphens','test07'],
     ['testStripLeadingHyphens','test08'],['testStripLeadingAndTrailingQuotes','test00'],
     ['testStripLeadingAndTrailingQuotes','test02'],['testStripLeadingAndTrailingQuotes','test03'],
@@ -59,16 +59,23 @@ def defineoracles():
     ['testHasArgName','test72'],['testHasArgName','test73'],
     ['testBuilderMethods','test79'],['testHasArgs','test83'],['testBuilderMethods','test96']]
 
-    helpformatter_oracle = [['testFindWrapPos','test07'],['testRtrim','test02'],
-    ['testPrintOptions,test30'],[testRtrim,test47]]
+    helpformatter_oracle = [[]]
 
-    for item in optionbuilder_oracle:
+    helpformatter_mpmoracle = [['testFindWrapPos','test07'],['testRtrim','test02'],
+    ['testPrintOptions,test30'],['testRtrim','test47'],['testRenderWrappedTextSingleLine','test48'],
+    ['testRenderWrappedTextWordCut','test48'],['testPrintOptions','test50'],['testPrintOptionGroupUsage','test52'],
+    ['testHelpWithLongOptSeparator','test68']]
+
+    selectedoracle = optionbuilder_oracle
+    selectedmpmoracle = optionbuilder_mpmoracle
+
+    for item in selectedoracle:
         item = item.sort()
 
-    for item in optionbuilder_mpmoracle:
+    for item in selectedmpmoracle:
         item = item.sort()
 
-    return optionbuilder_oracle, optionbuilder_mpmoracle
+    return selectedoracle, selectedmpmoracle
 
 def setparsefile():
     #using srcml for code analysis....
@@ -87,5 +94,8 @@ def setparsefile():
 
 
 def definefile():
-    myfile = pd.read_csv(r"OptionBuilder.csv",header = 0)
+    optionbuilder_file = pd.read_csv(r"OptionBuilder.csv",header = 0)
+
+
+    myfile = optionbuilder_file
     return myfile
