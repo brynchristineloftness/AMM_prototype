@@ -1,7 +1,5 @@
 from imports import *
 
-
-
 def main():
     oracle, mpmoracle = defineoracles()
     myfile = definefile()
