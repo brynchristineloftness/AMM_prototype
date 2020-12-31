@@ -11,11 +11,11 @@ def defineoracles():
 
         #merges and partial merge oracle       
     optionbuilder_mpmoracle = [['testCompleteOption','test02'],['testCompleteOption','test05'],['testCompleteOption','test08'],
-            ['testCompleteOption','test19'],['testCompleteOption','test22'], ['testTwoCompleteOptions','test08'],
-            ['testTwoCompleteOptions','test19'],['testTwoCompleteOptions','test22'], ['testBaseOptionCharOpt','test08'],
-            ['testIllegalOptions', 'test14'],['testSpecialOptChars','test15'],['testSpecialOptChars','test20'],['testCreateIncompleteOption','test16'],
-            ['testOptionArgNumbers','test21'], ['testCompleteOption','test06'], ['testCompleteOption','test28'], 
-                ['testCompleteOption','test29'],['testTwoCompleteOptions','test28'],['testTwoCompleteOptions','test29']]          
+        ['testCompleteOption','test19'],['testCompleteOption','test22'], ['testTwoCompleteOptions','test08'],
+        ['testTwoCompleteOptions','test19'],['testTwoCompleteOptions','test22'], ['testBaseOptionCharOpt','test08'],
+        ['testIllegalOptions', 'test14'],['testSpecialOptChars','test15'],['testSpecialOptChars','test20'],['testCreateIncompleteOption','test16'],
+        ['testOptionArgNumbers','test21'], ['testCompleteOption','test06'], ['testCompleteOption','test28'], 
+            ['testCompleteOption','test29'],['testTwoCompleteOptions','test28'],['testTwoCompleteOptions','test29']]          
 
     commandline_oracle = [['testGetOptions','test00'],['testBuilder','test01'],['testBuider','test08'],
         ['testBuilder','test09'],['testGetOptions','test10'],['testGetParsedOptionValue','test27'],
@@ -24,25 +24,24 @@ def defineoracles():
         ['testBuilder','test40']]
 
     commandline_mpmoracle = [['testGetOptions','test00'],['testBuilder','test01'],['testBuider','test08'],
-    ['testBuilder','test09'],['testGetOptions','test10'],['testGetParsedOptionValue','test26'],
-    ['testGetOptionProperties','test30'],['testGetParsedOptionValue','test27']
-    ,['testGetParsedOptionValue','test28'],['testGetParsedOptionValue','test29'],
-    ['testGetOptionProperties','test33'],['testGetOptionProperties','test32'],['testBuilder','test40']]
+        ['testBuilder','test09'],['testGetOptions','test10'],['testGetParsedOptionValue','test26'],
+        ['testGetOptionProperties','test30'],['testGetParsedOptionValue','test27']
+        ,['testGetParsedOptionValue','test28'],['testGetParsedOptionValue','test29'],
+        ['testGetOptionProperties','test33'],['testGetOptionProperties','test32'],['testBuilder','test40']]
 
     util_oracle = [['testStripLeadingHyphens','test06'],['testStripLeadingHyphens','test07'],
-    ['testStripLeadingHyphens','test08'],['testStripLeadingAndTrailingQuotes','test00'],
-    ['testStripLeadingAndTrailingQuotes','test02'],['testStripLeadingAndTrailingQuotes','test03'],
-    ['testStripLeadingAndTrailingQuotes','test04'],['testStripLeadingAndTrailingQuotes','test05']]
+        ['testStripLeadingHyphens','test08'],['testStripLeadingAndTrailingQuotes','test00'],
+        ['testStripLeadingAndTrailingQuotes','test02'],['testStripLeadingAndTrailingQuotes','test03'],
+        ['testStripLeadingAndTrailingQuotes','test04'],['testStripLeadingAndTrailingQuotes','test05']]
 
     util_mpmoracle = [['testStripLeadingHyphens','test06'],['testStripLeadingHyphens','test07'],
-    ['testStripLeadingHyphens','test08'],['testStripLeadingAndTrailingQuotes','test00'],
-    ['testStripLeadingAndTrailingQuotes','test02'],['testStripLeadingAndTrailingQuotes','test03'],
-    ['testStripLeadingAndTrailingQuotes','test04'],['testStripLeadingAndTrailingQuotes','test05']]
+        ['testStripLeadingHyphens','test08'],['testStripLeadingAndTrailingQuotes','test00'],
+        ['testStripLeadingAndTrailingQuotes','test02'],['testStripLeadingAndTrailingQuotes','test03'],
+        ['testStripLeadingAndTrailingQuotes','test04'],['testStripLeadingAndTrailingQuotes','test05']]
 
     options_oracle = [[]]
 
-    options_mpmoracle = [['testDuplicateSimple','test05'],['testLong','test18'],
-    ['testLong','test19'],['testGetOptionsGroups','test28']]
+    options_mpmoracle = [['testDuplicateSimple','test05'],['testLong','test18'], ['testLong','test19'],['testGetOptionsGroups','test28']]
 
     optiongroup_oracle = [[]]
 

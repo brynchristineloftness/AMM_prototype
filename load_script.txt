@@ -1,0 +1,8 @@
+pip install pandas
+pip install gensim
+pip install nltk
+python3
+import nltk
+nltk.download('punkt')
+exit()
+

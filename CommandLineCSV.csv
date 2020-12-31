@@ -1,0 +1,405 @@
+Type,Scenario,Test
+Automatic,"
+   * 1. Creates a new OptionBuilder using method withType of OptionBuilder
+        and checks if it is not null.
+   ","  
+  "
+Automatic,"
+   * 1. Calls method ""isRequired"" of OptionBuilder.
+   * 2. Creates a new OptionBuilder and checks if it is
+        required and if its args are equal to -1. 
+   ","
+  @Test(timeout = 4000)
+  public void test00()  throws Throwable  {
+      Class<Object> class0 = Object.class;
+      OptionBuilder optionBuilder0 = OptionBuilder.withType((Object) class0);
+      assertNotNull(optionBuilder0);
+  }
+
+  "
+Automatic,"
+   * 1. Calls method withLongOpt of OptionBuilder with argument ""org.apache.commons.cli.OptionBuilder""
+   * 2. Creates a new OptionBuilder using method create of OptionBuilder and checks if its args equals -1.
+   ","
+  @Test(timeout = 4000)
+  public void test01()  throws Throwable  {
+      OptionBuilder.isRequired();
+      Option option0 = OptionBuilder.create(""SQT$h"");
+      assertTrue(option0.isRequired());
+      assertEquals((-1), option0.getArgs());
+  }
+
+  "
+Automatic,"
+   * 1. Calls method withArgName of OptionBuilder with argument ""SQT$h""
+   * 2. Creates a new OptionBuilder using method create of OptionBuilder and checks if its args equals -1.
+   ","
+  @Test(timeout = 4000)
+  public void test02()  throws Throwable  {
+      OptionBuilder.withLongOpt(""org.apache.commons.cli.OptionBuilder"");
+      Option option0 = OptionBuilder.create("""");
+      assertEquals((-1), option0.getArgs());
+  }
+
+  "
+Automatic,"
+   * 1. Calls method hasOptionalArgs of OptionBuilder with argument 0
+   * 2. Creates a new OptionBuilder using method create of OptionBuilder and checks if it has optional arg
+        and if its args equals 0.
+   ","
+  @Test(timeout = 4000)
+  public void test03()  throws Throwable  {
+      OptionBuilder.withArgName(""SQT$h"");
+      Option option0 = OptionBuilder.create(""SQT$h"");
+      assertEquals((-1), option0.getArgs());
+  }
+
+  "
+Automatic,"
+   * 1. Calls method hasArgs of OptionBuilder with argument 61
+   * 2. Creates a new OptionBuilder using method create of OptionBuilder and checks if its args equals 61.
+   ","
+  @Test(timeout = 4000)
+  public void test04()  throws Throwable  {
+      OptionBuilder.hasOptionalArgs(0);
+      Option option0 = OptionBuilder.create("""");
+      assertTrue(option0.hasOptionalArg());
+      assertEquals(0, option0.getArgs());
+  }
+
+  "
+Automatic,"
+   * 1. Calls method isRequired of OptionBuilder
+   * 2. Creates a new OptionBuilder using method create of OptionBuilder and checks if it is required,
+        its args equals -1 and if its id equals 63.
+   ","
+  @Test(timeout = 4000)
+  public void test05()  throws Throwable  {
+      OptionBuilder.hasArgs(61);
+      Option option0 = OptionBuilder.create("""");
+      assertEquals(61, option0.getArgs());
+  }
+
+  "
+Automatic,"
+   * 1. Calls method withValueSeparator of OptionBuilder with argument 61
+   * 2. Creates a new OptionBuilder using method create of OptionBuilder and checks if its args equals -1,
+   *    its value separator equals ""b"" and if its id equals 98.
+   ","
+  @Test(timeout = 4000)
+  public void test06()  throws Throwable  {
+      OptionBuilder.isRequired();
+      Option option0 = OptionBuilder.create('?');
+      assertTrue(option0.isRequired());
+      assertEquals((-1), option0.getArgs());
+      assertEquals(63, option0.getId());
+  }
+
+  "
+Automatic,"
+   * 1. Calls method withLongOpt of OptionBuilder with argument ""n-?Fl'0v""
+   * 2. Creates a new OptionBuilder using method create of OptionBuilder and checks if its opt equals ""A""
+   *     and if its args equals -1.
+   ","
+  @Test(timeout = 4000)
+  public void test07()  throws Throwable  {
+      OptionBuilder.withValueSeparator('b');
+      Option option0 = OptionBuilder.create('b');
+      assertEquals((-1), option0.getArgs());
+      assertEquals('b', option0.getValueSeparator());
+      assertEquals(98, option0.getId());
+  }
+
+  "
+Automatic,"
+   * 1. Creates a new OptionBuilder using method create of OptionBuilder and checks if its args equals -1
+   *    and if its id equals 0.
+   ","
+  @Test(timeout = 4000)
+  public void test08()  throws Throwable  {
+      OptionBuilder.withLongOpt(""n-?Fl'0v"");
+      Option option0 = OptionBuilder.create('A');
+      assertEquals(""A"", option0.getOpt());
+      assertEquals((-1), option0.getArgs());
+  }
+
+  "
+Automatic,"
+   * 1. Calls method hasOptionalArgs of OptionBuilder with argument 0
+   * 2. Creates a new OptionBuilder using method create of OptionBuilder and checks if its args equals0,
+   *    its id equals 83 and if it has optional arg.
+   ","
+  @Test(timeout = 4000)
+  public void test09()  throws Throwable  {
+      Option option0 = OptionBuilder.create('\u0000');
+      assertEquals((-1), option0.getArgs());
+      assertEquals(0, option0.getId());
+  }
+
+  "
+Automatic,"
+   * 1. Calls methods withLongOpt of OptionBuilder with argument ""&piHS55Lo"" and withValueSeparator of
+   *    OptionBuilder.
+   * 2. Creates a new OptionBuilder using method create of OptionBuilder and checks if its value separator
+   *    equals ""="" and if its args equals -1.
+   ","
+  @Test(timeout = 4000)
+  public void test10()  throws Throwable  {
+      OptionBuilder.hasOptionalArgs(0);
+      Option option0 = OptionBuilder.create('S');
+      assertEquals(0, option0.getArgs());
+      assertEquals(83, option0.getId());
+      assertTrue(option0.hasOptionalArg());
+  }
+
+  "
+Automatic,"
+   * 1. Calls methods withArgName of OptionBuilder with argument ""Nf("" and withLongOpt of OptionBuilder with argument empty string.
+   * 2. Creates a new OptionBuilder using method create of OptionBuilder and checks if its args equals -1.
+   ","
+  @Test(timeout = 4000)
+  public void test11()  throws Throwable  {
+      OptionBuilder.withLongOpt(""&piHS55Lo"");
+      OptionBuilder.withValueSeparator();
+      Option option0 = OptionBuilder.create();
+      assertEquals('=', option0.getValueSeparator());
+      assertEquals((-1), option0.getArgs());
+  }
+
+  "
+Automatic,"
+   * 1. Calls methods withLongOpt of OptionBuilder with argument ""A CloneNotSupportedException was thrown: "" and hasOptionalArgs of OptionBuilder with argument "")"".
+   * 2. Creates a new OptionBuilder using method create of OptionBuilder and checks if its args equals 41 and if it has optional arg.
+   ","
+  @Test(timeout = 4000)
+  public void test12()  throws Throwable  {
+      OptionBuilder.withArgName(""Nf("");
+      OptionBuilder.withLongOpt("""");
+      Option option0 = OptionBuilder.create();
+      assertEquals((-1), option0.getArgs());
+  } 
+
+  "
+Automatic,"
+   * 1. Expects an IllegalArgumentException when calling method create of OptionBuilder with argument ""%m?gIO1Om}"".
+   ","
+  @Test(timeout = 4000)
+  public void test13()  throws Throwable  {
+      OptionBuilder.withLongOpt(""A CloneNotSupportedException was thrown: "");
+      OptionBuilder.hasOptionalArgs((int) ')');
+      Option option0 = OptionBuilder.create();
+      assertEquals(41, option0.getArgs());
+      assertTrue(option0.hasOptionalArg());
+  }
+
+  "
+Automatic,"
+   * 1. Expects an IllegalArgumentException when calling method create of OptionBuilder with argument ""."".
+   ","
+  @Test(timeout = 4000)
+  public void test14()  throws Throwable  {
+      try { 
+        OptionBuilder.create(""%m?gIO1Om}"");
+        fail(""Expecting exception: IllegalArgumentException"");
+      
+      } catch(IllegalArgumentException e) {
+         //
+         // The option '%m?gIO1Om}' contains an illegal character : '%'
+         //
+         verifyException(""org.apache.commons.cli.OptionValidator"", e);
+      }
+  }
+
+  "
+Automatic,"
+   * 1. Expects an IllegalArgumentException when calling method create of OptionBuilders.
+   ","
+  @Test(timeout = 4000)
+  public void test15()  throws Throwable  {
+      try { 
+        OptionBuilder.create('.');
+        fail(""Expecting exception: IllegalArgumentException"");
+      
+      } catch(IllegalArgumentException e) {
+         //
+         // Illegal option name '.'
+         //
+         verifyException(""org.apache.commons.cli.OptionValidator"", e);
+      }
+  }
+
+  "
+Automatic,"
+   * 1. Creates a new OptionBuilder using hasArg of OptionBuilder with argument true and checks if it is
+        not null.
+   ","
+  @Test(timeout = 4000)
+  public void test16()  throws Throwable  {
+      try { 
+        OptionBuilder.create();
+        fail(""Expecting exception: IllegalArgumentException"");
+      
+      } catch(IllegalArgumentException e) {
+         //
+         // must specify longopt
+         //
+         verifyException(""org.apache.commons.cli.OptionBuilder"", e);
+      }
+  }
+
+  "
+Automatic,"
+   * 1. Creates a new OptionBuilder using hasArg of OptionBuilder with argument false and checks if it is
+        not null.
+   ","
+  @Test(timeout = 4000)
+  public void test17()  throws Throwable  {
+      OptionBuilder optionBuilder0 = OptionBuilder.hasArg(true);
+      assertNotNull(optionBuilder0);
+  }
+
+  "
+Automatic,"
+   * 1. Creates a new OptionBuilder using withDescription of OptionBuilder with argument ""PCFM:tG3'MhR;]Z"" and checks if it is
+        not null.
+   ","
+  @Test(timeout = 4000)
+  public void test18()  throws Throwable  {
+      OptionBuilder optionBuilder0 = OptionBuilder.hasArg(false);
+      assertNotNull(optionBuilder0);
+  }
+
+  "
+Automatic,"
+   * 1. Creates a new OptionBuilder using hasArgs of OptionBuilder and checks if it is
+        not null.
+   ","
+  @Test(timeout = 4000)
+  public void test19()  throws Throwable  {
+      OptionBuilder optionBuilder0 = OptionBuilder.withDescription(""PCFM:tG3'MhR;]Z"");
+      assertNotNull(optionBuilder0);
+  }
+
+  @Test(timeout = 4000)
+  public void test20()  throws Throwable  {
+      OptionBuilder.hasOptionalArgs();
+      Option option0 = OptionBuilder.create('?');
+      assertEquals((-2), option0.getArgs());
+      assertEquals(""?"", option0.getOpt());
+      assertTrue(option0.hasOptionalArg());
+  }
+
+  "
+Automatic,"
+   * 1. Creates a new OptionBuilder using withType of OptionBuilder with argument String.class and checks if it is
+        not null.
+   ","
+  @Test(timeout = 4000)
+  public void test21()  throws Throwable  {
+      OptionBuilder optionBuilder0 = OptionBuilder.hasArgs();
+      assertNotNull(optionBuilder0);
+  }
+
+  "
+Automatic,"
+   * 1. Creates a new OptionBuilder using hasOptionalArg of OptionBuilder and checks if it is
+        not null.
+   ","
+  @Test(timeout = 4000)
+  public void test22()  throws Throwable  {
+      Class<String> class0 = String.class;
+      OptionBuilder optionBuilder0 = OptionBuilder.withType(class0);
+      assertNotNull(optionBuilder0);
+  }
+
+  "
+Automatic,"
+   * 1. Calls method withValueSeparator of OptionBuilder
+   * 2. Creates a new OptionBuilder using method create of OptionBuilder and checks if its args equals -1 and if its value
+   *    separator equals ""="".
+   ","
+  @Test(timeout = 4000)
+  public void test23()  throws Throwable  {
+      OptionBuilder optionBuilder0 = OptionBuilder.hasOptionalArg();
+      assertNotNull(optionBuilder0);
+  }
+  
+  "
+Automatic,"
+   * 1. Calls method withArgName of OptionBuilder with argument ""S;/}>!^zq{A^"".
+   * 2. Creates a new OptionBuilder using method create of OptionBuilder and checks if its args equals -1 and if its id
+   *    separator equals 97.
+   ","
+  @Test(timeout = 4000)
+  public void test24()  throws Throwable  {
+      OptionBuilder.withValueSeparator();
+      Option option0 = OptionBuilder.create(""SQT$h"");
+      assertEquals((-1), option0.getArgs());
+      assertEquals('=', option0.getValueSeparator());
+  }
+
+  "
+Automatic,"
+   * 1. Creates a new OptionBuilder using method isRequired of OptionBuilder and checks if it is not null.
+   ","
+  @Test(timeout = 4000)
+  public void test25()  throws Throwable  {
+      OptionBuilder.withArgName(""S;/}>!^zq{A^"");
+      Option option0 = OptionBuilder.create('a');
+      assertEquals((-1), option0.getArgs());
+      assertEquals(97, option0.getId());
+  } 
+
+  "
+Automatic,"
+   * 1. Calls methods withLongOpt of OptionBuilder with argument ""&piHS55Lo"" and hasArgs of OptionBuilder with argument 0.
+   * 2. Creates a new OptionBuilder using method create of OptionBuilder and checks if its args equals 0.
+   ","
+  @Test(timeout = 4000)
+  public void test26()  throws Throwable  {
+      OptionBuilder optionBuilder0 = OptionBuilder.isRequired(false);
+      assertNotNull(optionBuilder0);
+  }
+
+   "
+Automatic,"
+   * 1. Calls methods hasArg of OptionBuilder.
+   * 2. Creates a new OptionBuilder using method create of OptionBuilder and checks if its args equals 1 and
+   *    if its opt equals ""k"".
+   ","
+  @Test(timeout = 4000)
+  public void test27()  throws Throwable  {
+      OptionBuilder.withLongOpt(""&piHS55Lo"");
+      OptionBuilder.hasArgs(0);
+      Option option0 = OptionBuilder.create();
+      assertEquals(0, option0.getArgs());
+  }
+
+  "
+Automatic,"
+   * 1. Calls methods isRequired of OptionBuilder and withLongOpt of OptionBuilder with argument ""A CloneNotSupportedException was thrown: "".
+   * 2. Creates a new OptionBuilder using method create of OptionBuilder and checks if it is required and if its args equals -1.
+   ","
+  @Test(timeout = 4000)
+  public void test28()  throws Throwable  {
+      OptionBuilder.hasArg();
+      Option option0 = OptionBuilder.create('k');
+      assertEquals(1, option0.getArgs());
+      assertEquals(""k"", option0.getOpt());
+  }
+
+  "
+Automatic,"
+   * 1. Expects a ClassCastException when calling method withType of OptionBuilder with argument
+   *    a new Option. 
+   ","
+  @Test(timeout = 4000)
+  public void test29()  throws Throwable  {
+      OptionBuilder.isRequired();
+      OptionBuilder.withLongOpt(""A CloneNotSupportedException was thrown: "");
+      Option option0 = OptionBuilder.create();
+      assertTrue(option0.isRequired());
+      assertEquals((-1), option0.getArgs());
+  }
+
+  "
