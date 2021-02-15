@@ -12,6 +12,7 @@ def main():
     myfile,listofallfiles = addxmltofile(myfile,cleanmanualroot,cleanautoroot,testlen)
     myfile = isolatemethods_asserts(myfile,listofallfiles)
     myfile = cleancolumns(myfile)
+    print(myfile)
     prune1,prune3,prune4,prunepack= makepacksandprunes(myfile,testlen,scenariocorpus,defaultgrid,oracle,mpmoracle)
     manuallist,autolist = defineAutoandManual(myfile)
     group1,keep_pack = layer1(myfile,testlen,autolist,manuallist,oracle,mpmoracle)

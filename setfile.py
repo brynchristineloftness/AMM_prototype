@@ -1,4 +1,5 @@
 from imports import *
+from convertjavafile import *
 
 
 
@@ -94,7 +95,5 @@ def setparsefile():
 
 def definefile():
     optionbuilder_file = pd.read_csv(r"OptionBuilder.csv",header = 0)
-
-
-    myfile = optionbuilder_file
-    return myfile
+    df = convert() #still not working to auto convert
+    return optionbuilder_file

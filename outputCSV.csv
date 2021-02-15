@@ -1,3 +1,4 @@
+Type,Scenario,Test
 Manual,"
      *  1. Creates a new Option using OptionBuilder and checks its opt, long opt,
      *     description, type, arg, if its required and its args.

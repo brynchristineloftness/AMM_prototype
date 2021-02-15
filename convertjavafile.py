@@ -1,9 +1,9 @@
 import re
 import string
 import csv
+from imports import *
 
-
-def main():
+def convert():
     final = []
     optionbuilderfiles = ["OptionBuilderTest.java", "OptionBuilder_ESTest.java"]
     for file in optionbuilderfiles:
@@ -36,7 +36,6 @@ def main():
                         tests.append(line)
                         comment = True
                 firstline = False
-        counter = 1
         for i in range(len(tests)):
             final.append([str(typetest),comments[i],tests[i]])
 
@@ -46,20 +45,16 @@ def main():
         tests = []
         fulltest = []
         comment = True
-        print()
 
   
     with open('outputCSV.csv','w',newline='') as output:
         writer = csv.writer(output)
+        writer.writerow(['Type','Scenario','Test'])
         writer.writerows(final)
 
     with open('outputCSV.csv',newline='') as output:
         reader = csv.reader(output)
-        for row in reader:
-            counter+=1
-            print(row)
-            print()
 
-        
-
-main()
+    import pandas as pd
+    df = pd.read_csv('outputCSV.csv')
+    return df
