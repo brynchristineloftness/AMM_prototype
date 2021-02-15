@@ -4,13 +4,13 @@ import csv
 
 
 def main():
+    final = []
     optionbuilderfiles = ["OptionBuilderTest.java", "OptionBuilder_ESTest.java"]
     for file in optionbuilderfiles:
         if "ESTest" in file:
             typetest = "Automatic"
         else: 
             typetest = "Manual"
-        print(typetest)
         javafile = open(file,"r")
         found = False
         done = []
@@ -36,25 +36,10 @@ def main():
                         tests.append(line)
                         comment = True
                 firstline = False
-        final = []
         counter = 1
         for i in range(len(tests)):
             final.append([str(typetest),comments[i],tests[i]])
-  
-        with open('outputCSV.csv','w',newline='') as output:
-            writer = csv.writer(output)
-            writer.writerow(["Type","Scenario","Test"])
-            writer.writerows(final)
 
-        with open('outputCSV.csv',newline='') as output:
-            reader = csv.reader(output)
-            for row in reader:
-                print(counter)
-                counter+=1
-                print(row)
-                print()
-
-        final = []
         found = False
         done = []
         comments = []
@@ -62,5 +47,19 @@ def main():
         fulltest = []
         comment = True
         print()
+
+  
+    with open('outputCSV.csv','w',newline='') as output:
+        writer = csv.writer(output)
+        writer.writerows(final)
+
+    with open('outputCSV.csv',newline='') as output:
+        reader = csv.reader(output)
+        for row in reader:
+            counter+=1
+            print(row)
+            print()
+
+        
 
 main()
