@@ -4,7 +4,7 @@ import csv
 
 
 def main():
-    optionbuilderfiles = ["OptionBuilder_ESTest.java"]
+    optionbuilderfiles = ["OptionBuilderTest.java", "OptionBuilder_ESTest.java"]
     for file in optionbuilderfiles:
         if "ESTest" in file:
             typetest = "Automatic"
@@ -18,6 +18,7 @@ def main():
         tests = []
         fulltest = []
         comment = True
+        firstline = True
         for x in javafile:
             if "public class " in x:
                 found = True
@@ -27,24 +28,29 @@ def main():
             output = output.replace("/**","*/")
             linesep = output.split("*/")
             for line in linesep:
-                if line.isspace() is not True and comment is True:
+                if line.isspace() is not True and comment is True and firstline is False:
                     comments.append(line)
                     comment = False
                 else:
-                    tests.append(line)
-                    comment = True
+                    if firstline is False:
+                        tests.append(line)
+                        comment = True
+                firstline = False
         final = []
-        for i in range(len(comments)):
+        counter = 1
+        for i in range(len(tests)):
             final.append([str(typetest),comments[i],tests[i]])
   
-        with open('CommandLineCSV.csv','w',newline='') as output:
+        with open('outputCSV.csv','w',newline='') as output:
             writer = csv.writer(output)
             writer.writerow(["Type","Scenario","Test"])
             writer.writerows(final)
 
-        with open('CommandLineCSV.csv',newline='') as output:
+        with open('outputCSV.csv',newline='') as output:
             reader = csv.reader(output)
             for row in reader:
+                print(counter)
+                counter+=1
                 print(row)
                 print()
 
@@ -55,5 +61,6 @@ def main():
         tests = []
         fulltest = []
         comment = True
+        print()
 
 main()
